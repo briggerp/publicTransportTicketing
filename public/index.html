@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBB Ticket Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SBB Ticket Calculator</h1>
+            <p class="subtitle">Find the best Swiss public transportation ticket for your needs</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <h2>Enter Your Travel Patterns</h2>
+
+                <div class="form-group">
+                    <label for="age-group">Age Group:</label>
+                    <select id="age-group">
+                        <option value="youth">Youth (under 25)</option>
+                        <option value="adult">Adult (25+)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tram-trips">Tram trips per week:</label>
+                    <input type="number" id="tram-trips" min="0" max="50" value="5" step="1">
+                    <span class="helper-text">Average number of tram trips you take weekly</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="train-trips">Train trips per month:</label>
+                    <input type="number" id="train-trips" min="0" max="50" value="4" step="1">
+                    <span class="helper-text">Average number of train trips you take monthly</span>
+                </div>
+
+                <details class="price-config">
+                    <summary>Customize Prices (optional)</summary>
+                    <div class="price-config-content">
+                        <p class="price-config-note">Defaults are pre-filled based on your age group. Edit to match your actual tariff zone.</p>
+
+                        <div class="price-grid">
+                            <div class="form-group">
+                                <label for="tram-trip-price">Tram trip price (CHF):</label>
+                                <input type="number" id="tram-trip-price" min="0" step="0.05" value="3.20">
+                                <span class="helper-text">Cost per single tram/bus trip</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="train-trip-price">Train trip price with Halbtax (CHF):</label>
+                                <input type="number" id="train-trip-price" min="0" step="0.50" value="20">
+                                <span class="helper-text">Cost per single train trip with Halbtax</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="zvv-tram">Yearly local transport pass (CHF):</label>
+                                <input type="number" id="zvv-tram" min="0" step="1" value="586">
+                                <span class="helper-text">Annual ZVV/local tram subscription</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="zvv-month">Monthly local transport pass (CHF):</label>
+                                <input type="number" id="zvv-month" min="0" step="1" value="63">
+                                <span class="helper-text">Monthly ZVV/local tram subscription</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ht-plus-1000-cost">Halbtax Plus 1000 abo cost (CHF):</label>
+                                <input type="number" id="ht-plus-1000-cost" min="0" step="1" value="600">
+                                <span class="helper-text">Purchase price of Halbtax Plus 1000</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ht-plus-2000-cost">Halbtax Plus 2000 abo cost (CHF):</label>
+                                <input type="number" id="ht-plus-2000-cost" min="0" step="1" value="1125">
+                                <span class="helper-text">Purchase price of Halbtax Plus 2000</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ht-plus-3000-cost">Halbtax Plus 3000 abo cost (CHF):</label>
+                                <input type="number" id="ht-plus-3000-cost" min="0" step="1" value="1575">
+                                <span class="helper-text">Purchase price of Halbtax Plus 3000</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ga-cost">GA (General Abonnement) cost (CHF):</label>
+                                <input type="number" id="ga-cost" min="0" step="1" value="2780">
+                                <span class="helper-text">Annual price of the GA</span>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <button id="calculate-btn" class="btn-primary">Calculate Best Option</button>
+            </section>
+
+            <section class="results-section" id="results-section" style="display: none;">
+                <h2>Your Results</h2>
+
+                <div class="recommendation" id="recommendation">
+                    <h3>Recommended Option</h3>
+                    <div class="recommendation-content">
+                        <p class="option-name" id="best-option"></p>
+                        <p class="option-cost">Annual Cost: <span id="best-cost"></span> CHF</p>
+                        <p class="option-bonus">Bonus Left: <span id="best-bonus"></span> CHF</p>
+                    </div>
+                </div>
+
+                <h3>All Options Comparison</h3>
+                <div class="table-container">
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket Option</th>
+                                <th>Annual Cost (CHF)</th>
+                                <th>Bonus Left (CHF)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="explanation">
+                    <h4>Understanding Your Options</h4>
+                    <ul>
+                        <li><strong>Tram Abo:</strong> Yearly tram subscription (586 CHF youth/809 CHF adult) - train trips paid at full price</li>
+                        <li><strong>Half-Tax (HT):</strong> Basic discount card (100 CHF youth/170 CHF adult) - 50% off train trips</li>
+                        <li><strong>GA Night:</strong> Night travel card for youth (100 CHF, under 25 only)</li>
+                        <li><strong>Tram Abo + HT Plus:</strong> Yearly tram subscription combined with train discount and bonus credit</li>
+                        <li><strong>HT Plus:</strong> Train and tram discount card with credit bonus</li>
+                        <li><strong>GA:</strong> General Abonnement - unlimited travel on all public transport</li>
+                        <li><strong>Bonus:</strong> Remaining credit from HT Plus cards that can be used for future trips</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Calculating your best option...</p>
+            </section>
+
+            <section class="error" id="error" style="display: none;">
+                <p id="error-message"></p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Prices based on SBB/ZVV tariffs. Results are estimates for planning purposes.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
