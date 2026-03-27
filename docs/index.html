@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swiss Transit Calculator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:   #007AFF;
+      --green:  #34C759;
+      --red:    #FF3B30;
+      --bg:     #F2F2F7;
+      --card:   #FFFFFF;
+      --text:   #1C1C1E;
+      --text2:  #3C3C43;
+      --muted:  #8E8E93;
+      --sep:    rgba(60,60,67,.12);
+      --shadow: 0 2px 8px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Hero ─────────────────────────────── */
+    .hero {
+      background: var(--card);
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid var(--sep);
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 460px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    /* ── Layout ───────────────────────────── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+    }
+
+    /* ── Card ─────────────────────────────── */
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .card-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    /* ── Segment control ──────────────────── */
+    .segment {
+      display: inline-flex;
+      background: #E5E5EA;
+      border-radius: 10px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .seg-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 22px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .seg-btn.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    }
+
+    /* ── Field rows ───────────────────────── */
+    .field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--sep);
+    }
+    .field:last-child { border-bottom: none; padding-bottom: 0; }
+    .field:first-of-type { padding-top: 0; }
+    .field-info { flex: 1; min-width: 0; }
+    .field-name {
+      font-size: 17px;
+      color: var(--text);
+      display: block;
+    }
+    .field-sub {
+      font-size: 13px;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .field-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    input[type="number"] {
+      width: 86px;
+      padding: 9px 11px;
+      border: 1.5px solid #D1D1D6;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      text-align: right;
+      outline: none;
+      transition: border-color .18s, background .18s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { opacity: 0; }
+    input[type="number"]:focus {
+      border-color: var(--blue);
+      background: #fff;
+    }
+    .unit {
+      font-size: 14px;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 44px;
+    }
+
+    /* ── Disclosure (collapsible) ─────────── */
+    .disclosure {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      padding: 0;
+    }
+    .disc-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .disc-chevron {
+      font-size: 20px;
+      color: var(--muted);
+      transition: transform .22s ease;
+      line-height: 1;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+    }
+    .disc-chevron.open { transform: rotate(90deg); }
+
+    .adv-body { display: none; margin-top: 20px; }
+    .adv-body.open { display: block; }
+    .adv-group-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin: 20px 0 4px;
+    }
+    .adv-group-label:first-child { margin-top: 0; }
+
+    .plus-sep {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1;
+    }
+    input.wide { width: 78px; }
+
+    /* ── Section header ───────────────────── */
+    .section-header {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 14px;
+    }
+
+    /* ── Results grid ─────────────────────── */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 500px) {
+      .results-grid { grid-template-columns: 1fr; }
+    }
+
+    .result-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 2px solid transparent;
+      transition: border-color .2s, background .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .result-card.best {
+      border-color: var(--blue);
+      background: rgba(0,122,255,.04);
+    }
+
+    .best-badge {
+      position: absolute;
+      top: 0; right: 0;
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    .res-name {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .result-card.best .res-name { color: var(--blue); }
+
+    .res-cost {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      color: var(--text);
+    }
+    .res-period {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 4px 0 12px;
+    }
+    .res-bonus {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+    .res-bonus.dim { color: var(--muted); }
+
+    /* ── Footer ───────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 0 24px 48px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Swiss Transit<br>Calculator</h1>
+  <p>Enter your travel habits to find the most cost-effective public transport subscription in Switzerland.</p>
+</header>
+
+<main class="container">
+
+  <!-- Age ──────────────────────────────────── -->
+  <div class="card">
+    <p class="card-label">Age Group</p>
+    <div class="segment">
+      <button class="seg-btn active" id="btn-youth" onclick="setAge(true)">Under 25</button>
+      <button class="seg-btn" id="btn-adult" onclick="setAge(false)">25 and older</button>
+    </div>
+  </div>
+
+  <!-- Travel ───────────────────────────────── -->
+  <div class="card">
+    <p class="card-label">Your Travel</p>
+
+    <div class="field">
+      <div class="field-info">
+        <span class="field-name">Local trips per week</span>
+        <span class="field-sub">Tram, bus, S-Bahn</span>
+      </div>
+      <div class="field-right">
+        <input type="number" id="tramTrips" value="5" min="0" max="99" />
+        <span class="unit">/ week</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-info">
+        <span class="field-name">Local trip price</span>
+        <span class="field-sub">Per trip with half-fare</span>
+      </div>
+      <div class="field-right">
+        <input type="number" id="tramPrice" value="3.20" min="0" step="0.10" />
+        <span class="unit">CHF</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-info">
+        <span class="field-name">Long-distance trips per month</span>
+        <span class="field-sub">SBB intercity trains</span>
+      </div>
+      <div class="field-right">
+        <input type="number" id="trainTrips" value="2" min="0" max="99" />
+        <span class="unit">/ month</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-info">
+        <span class="field-name">Long-distance trip price</span>
+        <span class="field-sub">Per trip with half-fare</span>
+      </div>
+      <div class="field-right">
+        <input type="number" id="trainPrice" value="20" min="0" step="1" />
+        <span class="unit">CHF</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription prices (collapsible) ───── -->
+  <div class="card">
+    <button class="disclosure" onclick="toggleAdv()">
+      <span class="disc-title">Subscription Prices</span>
+      <span class="disc-chevron" id="chevron">›</span>
+    </button>
+
+    <div class="adv-body" id="advBody">
+
+      <div class="adv-group-label">Local Pass</div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Annual local pass</span>
+          <span class="field-sub">Zone 1–2 yearly subscription</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="localPass" value="586" min="0" />
+          <span class="unit">CHF/yr</span>
+        </div>
+      </div>
+
+      <div class="adv-group-label">Base Subscriptions</div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Halbtax</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="htPrice" value="100" min="0" />
+          <span class="unit">CHF/yr</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">GA Night</span>
+          <span class="field-sub">Free night travel (youth only)</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="gaNightPrice" value="100" min="0" />
+          <span class="unit">CHF/yr</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">GA (Generalabonnement)</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="gaPrice" value="2780" min="0" />
+          <span class="unit">CHF/yr</span>
+        </div>
+      </div>
+
+      <div class="adv-group-label">Halbtax Plus Packages — Cost &amp; Bonus</div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">HT Plus 1000</span>
+          <span class="field-sub">Cost + bonus credit</span>
+        </div>
+        <div class="field-right">
+          <input class="wide" type="number" id="ht1cost" value="600" min="0" />
+          <span class="plus-sep">+</span>
+          <input class="wide" type="number" id="ht1bonus" value="400" min="0" />
+          <span class="unit">CHF</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">HT Plus 2000</span>
+          <span class="field-sub">Cost + bonus credit</span>
+        </div>
+        <div class="field-right">
+          <input class="wide" type="number" id="ht2cost" value="1125" min="0" />
+          <span class="plus-sep">+</span>
+          <input class="wide" type="number" id="ht2bonus" value="875" min="0" />
+          <span class="unit">CHF</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">HT Plus 3000</span>
+          <span class="field-sub">Cost + bonus credit</span>
+        </div>
+        <div class="field-right">
+          <input class="wide" type="number" id="ht3cost" value="1575" min="0" />
+          <span class="plus-sep">+</span>
+          <input class="wide" type="number" id="ht3bonus" value="1425" min="0" />
+          <span class="unit">CHF</span>
+        </div>
+      </div>
+
+    </div><!-- /advBody -->
+  </div>
+
+  <!-- Results ──────────────────────────────── -->
+  <h2 class="section-header">Annual Cost Comparison</h2>
+  <div class="results-grid" id="resultsGrid"></div>
+
+</main>
+
+<footer>
+  Prices are indicative and based on SBB / ZVV tariffs.<br>
+  Always verify current prices at <strong>sbb.ch</strong> before purchasing.
+</footer>
+
+<script>
+  // ── State ──────────────────────────────────────────────
+  let isYouth = true;
+
+  const PRESETS = {
+    youth: {
+      localPass: 586, ht: 100, gaNight: 100, ga: 2780,
+      ht1c: 600,  ht1b: 400,
+      ht2c: 1125, ht2b: 875,
+      ht3c: 1575, ht3b: 1425,
+    },
+    adult: {
+      localPass: 809, ht: 170, gaNight: 0, ga: 3995,
+      ht1c: 800,  ht1b: 200,
+      ht2c: 1500, ht2b: 500,
+      ht3c: 2100, ht3b: 900,
+    },
+  };
+
+  // ── Helpers ────────────────────────────────────────────
+  function g(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function s(id, v) { document.getElementById(id).value = v; }
+
+  function fmt(n) {
+    return n.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  // ── Calculation logic (mirrors Python notebook) ────────
+  function calcTramAboHTPlus(localPass, gaNight, ht, htCost, htBonus, trainTrips, trainPrice) {
+    const base       = localPass + gaNight + ht;
+    const yearlyTrain = trainTrips * 12 * trainPrice;
+    let money, bonusLeft;
+    if (yearlyTrain > htCost + htBonus) {
+      money     = base + yearlyTrain - htBonus;
+      bonusLeft = 0;
+    } else if (yearlyTrain < htCost) {
+      money     = base + yearlyTrain;
+      bonusLeft = htBonus;
+    } else {
+      money     = base + htCost;
+      bonusLeft = htCost + htBonus - yearlyTrain;
+    }
+    return [Math.round(money), Math.round(bonusLeft)];
+  }
+
+  function calcHTPlus(gaNight, ht, htCost, htBonus, tramTrips, tramPrice, trainTrips, trainPrice) {
+    const base        = gaNight + ht;
+    const yearlyTotal = tramTrips * 52 * tramPrice + trainTrips * 12 * trainPrice;
+    let money, bonusLeft;
+    if (yearlyTotal > htCost + htBonus) {
+      money     = base + yearlyTotal - htBonus;
+      bonusLeft = 0;
+    } else if (yearlyTotal < htCost) {
+      money     = base + yearlyTotal;
+      bonusLeft = htBonus;
+    } else {
+      money     = base + htCost;
+      bonusLeft = htCost + htBonus - yearlyTotal;
+    }
+    return [Math.round(money), Math.round(bonusLeft)];
+  }
+
+  // ── Main calculation ───────────────────────────────────
+  function calculate() {
+    const tramTrips  = g('tramTrips');
+    const tramPrice  = g('tramPrice');
+    const trainTrips = g('trainTrips');
+    const trainPrice = g('trainPrice');
+    const localPass  = g('localPass');
+    const ht         = g('htPrice');
+    const gaNight    = g('gaNightPrice');
+    const ga         = g('gaPrice');
+    const ht1c = g('ht1cost'), ht1b = g('ht1bonus');
+    const ht2c = g('ht2cost'), ht2b = g('ht2bonus');
+    const ht3c = g('ht3cost'), ht3b = g('ht3bonus');
+
+    const options = [
+      {
+        name: 'Local Pass + HT Plus 1000',
+        desc: 'Annual zone pass + Halbtax Plus 1000 for long-distance',
+        result: calcTramAboHTPlus(localPass, gaNight, ht, ht1c, ht1b, trainTrips, trainPrice),
+      },
+      {
+        name: 'Local Pass + HT Plus 2000',
+        desc: 'Annual zone pass + Halbtax Plus 2000 for long-distance',
+        result: calcTramAboHTPlus(localPass, gaNight, ht, ht2c, ht2b, trainTrips, trainPrice),
+      },
+      {
+        name: 'HT Plus 1000',
+        desc: 'Pay-per-trip locally + Halbtax Plus 1000',
+        result: calcHTPlus(gaNight, ht, ht1c, ht1b, tramTrips, tramPrice, trainTrips, trainPrice),
+      },
+      {
+        name: 'HT Plus 2000',
+        desc: 'Pay-per-trip locally + Halbtax Plus 2000',
+        result: calcHTPlus(gaNight, ht, ht2c, ht2b, tramTrips, tramPrice, trainTrips, trainPrice),
+      },
+      {
+        name: 'HT Plus 3000',
+        desc: 'Pay-per-trip locally + Halbtax Plus 3000',
+        result: calcHTPlus(gaNight, ht, ht3c, ht3b, tramTrips, tramPrice, trainTrips, trainPrice),
+      },
+      {
+        name: 'GA',
+        desc: 'Unlimited travel on all Swiss public transport',
+        result: [ga, Infinity],
+      },
+    ];
+
+    const minCost = Math.min(...options.map(o => o.result[0]));
+
+    const grid = document.getElementById('resultsGrid');
+    grid.innerHTML = options.map(({ name, desc, result }) => {
+      const [cost, bonusLeft] = result;
+      const isBest = cost === minCost;
+
+      let bonusText, bonusDim;
+      if (bonusLeft === Infinity) {
+        bonusText = 'Unlimited travel included';
+        bonusDim  = false;
+      } else if (bonusLeft === 0) {
+        bonusText = 'No unused credit';
+        bonusDim  = true;
+      } else {
+        bonusText = `CHF ${fmt(bonusLeft)} credit remaining`;
+        bonusDim  = false;
+      }
+
+      return `
+        <div class="result-card${isBest ? ' best' : ''}">
+          ${isBest ? '<div class="best-badge">Best Value</div>' : ''}
+          <div class="res-name">${name}</div>
+          <div class="res-cost">CHF ${fmt(cost)}</div>
+          <div class="res-period">per year &nbsp;·&nbsp; CHF ${fmt(cost / 12)} / month</div>
+          <div class="res-bonus${bonusDim ? ' dim' : ''}">${bonusText}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Age toggle ─────────────────────────────────────────
+  function setAge(youth) {
+    isYouth = youth;
+    document.getElementById('btn-youth').classList.toggle('active',  youth);
+    document.getElementById('btn-adult').classList.toggle('active', !youth);
+
+    const p = PRESETS[youth ? 'youth' : 'adult'];
+    s('localPass',   p.localPass);
+    s('htPrice',     p.ht);
+    s('gaNightPrice', p.gaNight);
+    s('gaPrice',     p.ga);
+    s('ht1cost', p.ht1c); s('ht1bonus', p.ht1b);
+    s('ht2cost', p.ht2c); s('ht2bonus', p.ht2b);
+    s('ht3cost', p.ht3c); s('ht3bonus', p.ht3b);
+
+    calculate();
+  }
+
+  // ── Advanced disclosure ────────────────────────────────
+  function toggleAdv() {
+    const body    = document.getElementById('advBody');
+    const chevron = document.getElementById('chevron');
+    const open    = body.classList.toggle('open');
+    chevron.classList.toggle('open', open);
+  }
+
+  // ── Wire up all inputs ─────────────────────────────────
+  document.querySelectorAll('input[type="number"]').forEach(el => {
+    el.addEventListener('input', calculate);
+  });
+
+  // ── Init ───────────────────────────────────────────────
+  calculate();
+</script>
+</body>
+</html>
