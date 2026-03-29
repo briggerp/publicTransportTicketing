@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swiss Transit Calculator</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#007AFF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Transit Calc" />
+  <link rel="apple-touch-icon" href="icon.svg" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -641,6 +649,44 @@
 
   // ── Init ───────────────────────────────────────────────
   calculate();
+
+  // ── Service worker ─────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+
+  // ── iOS install banner ─────────────────────────────────
+  const isIOS        = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone;
+  if (isIOS && !isStandalone) {
+    const banner = document.getElementById('ios-banner');
+    if (banner) banner.style.display = 'flex';
+  }
 </script>
+
+<!-- iOS "Add to Home Screen" nudge -->
+<div id="ios-banner" style="
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(60,60,67,.15);
+  padding: 14px 20px 28px;
+  align-items: center;
+  gap: 14px;
+  z-index: 999;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+">
+  <img src="icon.svg" width="44" height="44" style="border-radius:10px;flex-shrink:0;" alt="" />
+  <div style="flex:1;min-width:0;">
+    <div style="font-size:14px;font-weight:600;color:#1C1C1E;">Install as App</div>
+    <div style="font-size:13px;color:#8E8E93;margin-top:2px;">
+      Tap <strong>Share</strong> <span style="font-size:15px;">⬆</span> then <strong>Add to Home Screen</strong>
+    </div>
+  </div>
+  <button onclick="document.getElementById('ios-banner').style.display='none'"
+    style="border:none;background:none;font-size:18px;color:#8E8E93;cursor:pointer;padding:4px;flex-shrink:0;">✕</button>
+</div>
 </body>
 </html>
