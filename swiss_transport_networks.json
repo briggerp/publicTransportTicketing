@@ -1,0 +1,945 @@
+{
+  "metadata": {
+    "title": "Swiss Local Public Transport Networks (Tarifverbünde)",
+    "description": "Comprehensive list of all local/regional fare networks in Switzerland for product integration",
+    "last_updated": "2026-04-11",
+    "total_networks": 23,
+    "source": "Alliance SwissPass, SBB, Wikipedia, invia (öV Graubünden)"
+  },
+  "networks": [
+    {
+      "id": 1,
+      "abbreviation": "ZVV",
+      "name_de": "Zürcher Verkehrsverbund",
+      "name_en": "Zurich Transport Network",
+      "type": "verkehrsverbund",
+      "category": "major",
+      "website": "https://www.zvv.ch",
+      "transport_companies": 40,
+      "cantons": [
+        {
+          "code": "ZH",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Zurich"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Largest network; zone-based pricing. Key for commuter subscriptions."
+    },
+    {
+      "id": 2,
+      "abbreviation": "Libero",
+      "name_de": "Libero-Tarifverbund",
+      "name_en": "Libero Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.libero.ch",
+      "transport_companies": 28,
+      "cantons": [
+        {
+          "code": "BE",
+          "coverage": "full"
+        },
+        {
+          "code": "SO",
+          "coverage": "partial",
+          "districts": [
+            "Wasseramt",
+            "Thal",
+            "Bucheggberg",
+            "Lebern"
+          ]
+        }
+      ],
+      "regions": [
+        "Bern",
+        "Emmental",
+        "Oberaargau",
+        "Bernese Oberland",
+        "parts of Solothurn"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Second-largest city coverage. Zone system with monthly/annual passes."
+    },
+    {
+      "id": 3,
+      "abbreviation": "TNW",
+      "name_de": "Tarifverbund Nordwestschweiz",
+      "name_en": "Northwestern Switzerland Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.tnw.ch",
+      "transport_companies": 6,
+      "cantons": [
+        {
+          "code": "BS",
+          "coverage": "full"
+        },
+        {
+          "code": "BL",
+          "coverage": "full"
+        },
+        {
+          "code": "AG",
+          "coverage": "partial",
+          "districts": [
+            "Fricktal"
+          ]
+        },
+        {
+          "code": "SO",
+          "coverage": "partial",
+          "districts": [
+            "Schwarzbubenland"
+          ]
+        },
+        {
+          "code": "JU",
+          "coverage": "partial",
+          "districts": [
+            "Ederswiler"
+          ]
+        }
+      ],
+      "regions": [
+        "Basel-Stadt",
+        "Basel-Landschaft",
+        "Fricktal",
+        "Schwarzbubenland"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Oldest Swiss Tarifverbund (est. 1987). Covers Basel metro area."
+    },
+    {
+      "id": 4,
+      "abbreviation": "A-Welle",
+      "name_de": "A-Welle",
+      "name_en": "A-Welle",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.a-welle.ch",
+      "transport_companies": 9,
+      "cantons": [
+        {
+          "code": "AG",
+          "coverage": "partial",
+          "districts_excluded": [
+            "Rheinfelden",
+            "Laufenburg"
+          ]
+        },
+        {
+          "code": "SO",
+          "coverage": "partial",
+          "districts": [
+            "Olten-Gösgen-Gäu"
+          ]
+        }
+      ],
+      "regions": [
+        "Canton of Aargau (most)",
+        "Eastern Solothurn"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Est. 2004 (merger of TV Olten + TV Aargau). Zone-based system."
+    },
+    {
+      "id": 5,
+      "abbreviation": "OSTWIND",
+      "name_de": "Tarifverbund Ostwind",
+      "name_en": "Eastern Switzerland Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.ostwind.ch",
+      "transport_companies": 31,
+      "cantons": [
+        {
+          "code": "SG",
+          "coverage": "full"
+        },
+        {
+          "code": "TG",
+          "coverage": "full"
+        },
+        {
+          "code": "AR",
+          "coverage": "full"
+        },
+        {
+          "code": "AI",
+          "coverage": "full"
+        },
+        {
+          "code": "GL",
+          "coverage": "full"
+        },
+        {
+          "code": "SH",
+          "coverage": "full"
+        },
+        {
+          "code": "SZ",
+          "coverage": "partial",
+          "districts": [
+            "March"
+          ]
+        }
+      ],
+      "regions": [
+        "St. Gallen",
+        "Thurgau",
+        "Appenzell AR",
+        "Appenzell IR",
+        "Glarus",
+        "Schaffhausen",
+        "March (SZ)",
+        "Principality of Liechtenstein"
+      ],
+      "language": "de",
+      "includes_liechtenstein": true,
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Largest by area (~4,000 km network). Includes Liechtenstein."
+    },
+    {
+      "id": 6,
+      "abbreviation": "Passepartout",
+      "name_de": "Tarifverbund Passepartout",
+      "name_en": "Passepartout Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.passepartout.ch",
+      "transport_companies": 12,
+      "cantons": [
+        {
+          "code": "LU",
+          "coverage": "full"
+        },
+        {
+          "code": "OW",
+          "coverage": "full"
+        },
+        {
+          "code": "NW",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Lucerne",
+        "Obwalden",
+        "Nidwalden"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based",
+        "flexiabo"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "Central Switzerland coverage. Zone-based monthly/annual passes. FlexiAbo active."
+    },
+    {
+      "id": 7,
+      "abbreviation": "Mobilis",
+      "name_de": "Communauté tarifaire Mobilis",
+      "name_en": "Mobilis Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.mobilis-vaud.ch",
+      "transport_companies": 13,
+      "cantons": [
+        {
+          "code": "VD",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Vaud"
+      ],
+      "language": "fr",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based",
+        "flexiabo"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "Covers Lausanne metro and cantonal bus/train. French-speaking. FlexiAbo active."
+    },
+    {
+      "id": 8,
+      "abbreviation": "Unireso",
+      "name_de": "Communauté tarifaire Unireso",
+      "name_en": "Unireso Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.unireso.com",
+      "transport_companies": 3,
+      "cantons": [
+        {
+          "code": "GE",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Geneva (Zone 10)"
+      ],
+      "language": "fr",
+      "cross_border": {
+        "country": "FR",
+        "system": "Léman Pass"
+      },
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "single-zone"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Single-zone system for entire canton. Linked to Léman Pass (cross-border FR)."
+    },
+    {
+      "id": 9,
+      "abbreviation": "Frimobil",
+      "name_de": "Communauté tarifaire Frimobil",
+      "name_en": "Frimobil Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.frimobil.ch",
+      "transport_companies": 6,
+      "cantons": [
+        {
+          "code": "FR",
+          "coverage": "full"
+        },
+        {
+          "code": "VD",
+          "coverage": "partial",
+          "districts": [
+            "Broye"
+          ]
+        }
+      ],
+      "regions": [
+        "Canton of Fribourg",
+        "Broye (VD)"
+      ],
+      "language": "fr/de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based",
+        "flexiabo"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "Bilingual (FR/DE) canton. Zone-based system. FlexiAbo active."
+    },
+    {
+      "id": 10,
+      "abbreviation": "Onde Verte",
+      "name_de": "Communauté tarifaire Onde Verte",
+      "name_en": "Onde Verte Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.ondeverte.ch",
+      "transport_companies": 6,
+      "cantons": [
+        {
+          "code": "NE",
+          "coverage": "full"
+        },
+        {
+          "code": "BE",
+          "coverage": "partial",
+          "districts": [
+            "neighboring areas"
+          ]
+        },
+        {
+          "code": "JU",
+          "coverage": "partial",
+          "districts": [
+            "neighboring areas"
+          ]
+        }
+      ],
+      "regions": [
+        "Canton of Neuchâtel",
+        "neighboring areas of Bern and Jura"
+      ],
+      "language": "fr",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based",
+        "flexiabo"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "French-speaking. FlexiAbo active."
+    },
+    {
+      "id": 11,
+      "abbreviation": "Vagabond",
+      "name_de": "Communauté tarifaire Vagabond",
+      "name_en": "Vagabond Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.vagabond.ch",
+      "transport_companies": 3,
+      "cantons": [
+        {
+          "code": "JU",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Jura"
+      ],
+      "language": "fr",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based",
+        "flexiabo"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "Smallest major Tarifverbund. FlexiAbo active."
+    },
+    {
+      "id": 12,
+      "abbreviation": "Arcobaleno",
+      "name_de": "Comunità tariffale Arcobaleno",
+      "name_en": "Arcobaleno Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.arcobaleno.ch",
+      "transport_companies": 12,
+      "cantons": [
+        {
+          "code": "TI",
+          "coverage": "full"
+        },
+        {
+          "code": "GR",
+          "coverage": "partial",
+          "districts": [
+            "Misox",
+            "Calancatal/Moesano"
+          ]
+        }
+      ],
+      "regions": [
+        "Canton of Ticino",
+        "Misox",
+        "Calancatal (GR)"
+      ],
+      "language": "it",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Italian-speaking. Covers Ticino + parts of Graubünden."
+    },
+    {
+      "id": 13,
+      "abbreviation": "TV Schwyz",
+      "name_de": "Tarifverbund Schwyz",
+      "name_en": "Schwyz Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.tarifverbund-schwyz.ch",
+      "transport_companies": 5,
+      "cantons": [
+        {
+          "code": "SZ",
+          "coverage": "partial",
+          "districts_excluded": [
+            "March",
+            "Höfe"
+          ]
+        }
+      ],
+      "regions": [
+        "Canton of Schwyz (excl. March and Höfe districts)"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "March & Höfe districts covered by OSTWIND instead."
+    },
+    {
+      "id": 14,
+      "abbreviation": "TV Zug",
+      "name_de": "Tarifverbund Zug",
+      "name_en": "Zug Fare Network",
+      "type": "tarifverbund",
+      "category": "major",
+      "website": "https://www.tarifverbund-zug.ch",
+      "transport_companies": 6,
+      "cantons": [
+        {
+          "code": "ZG",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Zug"
+      ],
+      "language": "de",
+      "subscription_types": [
+        "monthly",
+        "annual",
+        "zone-based"
+      ],
+      "flexiabo_pilot": false,
+      "notes": "Zone-based. Part of Z-Pass integration network."
+    },
+    {
+      "id": 15,
+      "abbreviation": "Z-Pass",
+      "name_de": "Z-Pass",
+      "name_en": "Z-Pass",
+      "type": "cross_network_integration",
+      "category": "integration",
+      "website": "https://www.z-pass.ch",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "ZH",
+          "coverage": "full",
+          "via": "ZVV"
+        },
+        {
+          "code": "AG",
+          "coverage": "partial",
+          "via": "A-Welle"
+        },
+        {
+          "code": "SO",
+          "coverage": "partial",
+          "via": "A-Welle"
+        },
+        {
+          "code": "SG",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "TG",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "AR",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "AI",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "GL",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "SH",
+          "coverage": "full",
+          "via": "OSTWIND"
+        },
+        {
+          "code": "SZ",
+          "coverage": "partial",
+          "via": "TV Schwyz + OSTWIND"
+        },
+        {
+          "code": "ZG",
+          "coverage": "full",
+          "via": "TV Zug"
+        }
+      ],
+      "integrates": [
+        "ZVV",
+        "A-Welle",
+        "OSTWIND",
+        "TV Schwyz",
+        "TV Zug"
+      ],
+      "notes": "Not a standalone Tarifverbund. Cross-network pass enabling travel across 5 networks + SBB."
+    },
+    {
+      "id": 16,
+      "abbreviation": "Bodensee Ticket",
+      "name_de": "Bodensee Ticket",
+      "name_en": "Lake Constance Ticket",
+      "type": "cross_border",
+      "category": "integration",
+      "website": "https://www.bodensee-ticket.com",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "TG",
+          "coverage": "partial"
+        },
+        {
+          "code": "SG",
+          "coverage": "partial"
+        },
+        {
+          "code": "AR",
+          "coverage": "partial"
+        }
+      ],
+      "cross_border_countries": [
+        "DE",
+        "AT",
+        "LI"
+      ],
+      "notes": "International cross-border day passes. Tourist-oriented."
+    },
+    {
+      "id": 17,
+      "abbreviation": "BÜGA",
+      "name_de": "BÜGA",
+      "name_en": "BÜGA (all Graubünden)",
+      "type": "tarifverbund",
+      "category": "graubuenden",
+      "website": "https://www.büga.ch",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "GR",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Entire Canton of Graubünden"
+      ],
+      "language": "de",
+      "managed_by": "invia (öV Graubünden)",
+      "notes": "Canton-wide network. Managed by invia."
+    },
+    {
+      "id": 18,
+      "abbreviation": "Transreno",
+      "name_de": "Transreno",
+      "name_en": "Transreno (Rhine Valley GR)",
+      "type": "tarifverbund",
+      "category": "graubuenden",
+      "website": "https://invia.ch",
+      "transport_companies": 3,
+      "cantons": [
+        {
+          "code": "GR",
+          "coverage": "partial",
+          "districts": [
+            "Bündner Rheintal"
+          ]
+        }
+      ],
+      "regions": [
+        "Landquart/Mastrils to Rhäzüns",
+        "Chur"
+      ],
+      "language": "de",
+      "operators": [
+        "Chur Bus",
+        "PostBus",
+        "RhB"
+      ],
+      "notes": "Local commuter zone in the Rhine Valley."
+    },
+    {
+      "id": 19,
+      "abbreviation": "engadin mobil",
+      "name_de": "engadin mobil",
+      "name_en": "engadin mobil (Upper Engadin)",
+      "type": "tarifverbund",
+      "category": "graubuenden",
+      "website": "https://engadinbus.ch",
+      "transport_companies": 4,
+      "cantons": [
+        {
+          "code": "GR",
+          "coverage": "partial",
+          "districts": [
+            "Upper Engadin"
+          ]
+        }
+      ],
+      "regions": [
+        "Upper Engadin",
+        "St. Moritz"
+      ],
+      "language": "de",
+      "operators": [
+        "Engadin Bus",
+        "PostBus",
+        "RhB",
+        "St. Moritz local buses"
+      ],
+      "flexiabo_pilot": true,
+      "notes": "FlexiAbo pilot region. Tourist & commuter oriented."
+    },
+    {
+      "id": 20,
+      "abbreviation": "TV Davos",
+      "name_de": "Tarifverbund Davos",
+      "name_en": "Davos Fare Network",
+      "type": "tarifverbund",
+      "category": "graubuenden",
+      "website": "https://invia.ch",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "GR",
+          "coverage": "partial",
+          "districts": [
+            "Davos"
+          ]
+        }
+      ],
+      "regions": [
+        "Davos"
+      ],
+      "language": "de",
+      "notes": "Local Davos public transport integration."
+    },
+    {
+      "id": 21,
+      "abbreviation": "TV Klosters",
+      "name_de": "Tarifverbund Klosters",
+      "name_en": "Klosters Fare Network",
+      "type": "tarifverbund",
+      "category": "graubuenden",
+      "website": "https://invia.ch",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "GR",
+          "coverage": "partial",
+          "districts": [
+            "Klosters",
+            "upper Prättigau"
+          ]
+        }
+      ],
+      "regions": [
+        "Klosters",
+        "upper Prättigau"
+      ],
+      "language": "de",
+      "notes": "Local Klosters/Prättigau transport integration."
+    },
+    {
+      "id": 22,
+      "abbreviation": "PASS 13*",
+      "name_de": "PASS 13*",
+      "name_en": "PASS 13* (Valais credit system)",
+      "type": "credit_system",
+      "category": "no_tarifverbund",
+      "website": "https://www.vs.ch/web/sdm/pass13",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "VS",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Valais/Wallis"
+      ],
+      "language": "fr/de",
+      "pricing": {
+        "option_1": {
+          "price_chf": 160,
+          "credit_chf": 200,
+          "bonus_pct": 25
+        },
+        "option_2": {
+          "price_chf": 375,
+          "credit_chf": 500,
+          "bonus_pct": 33
+        },
+        "validity_months": 12,
+        "app": "FAIRTIQ"
+      },
+      "notes": "Not a Tarifverbund. Credit-based pass via FAIRTIQ app. No zone system."
+    },
+    {
+      "id": 23,
+      "abbreviation": "UriTicket",
+      "name_de": "UriTicket",
+      "name_en": "UriTicket (Uri guest card)",
+      "type": "guest_card",
+      "category": "no_tarifverbund",
+      "website": "https://www.uri.swiss",
+      "transport_companies": null,
+      "cantons": [
+        {
+          "code": "UR",
+          "coverage": "full"
+        }
+      ],
+      "regions": [
+        "Canton of Uri"
+      ],
+      "language": "de",
+      "notes": "Not a Tarifverbund. Tourist guest card for free/discounted local transport."
+    }
+  ],
+  "canton_network_lookup": {
+    "ZH": [
+      "ZVV"
+    ],
+    "BE": [
+      "Libero",
+      "Onde Verte (partial)"
+    ],
+    "LU": [
+      "Passepartout"
+    ],
+    "UR": [
+      "UriTicket (no formal Tarifverbund)"
+    ],
+    "SZ": [
+      "TV Schwyz (excl. March & Höfe)",
+      "OSTWIND (March district)"
+    ],
+    "OW": [
+      "Passepartout"
+    ],
+    "NW": [
+      "Passepartout"
+    ],
+    "GL": [
+      "OSTWIND"
+    ],
+    "ZG": [
+      "TV Zug"
+    ],
+    "FR": [
+      "Frimobil"
+    ],
+    "SO": [
+      "Libero (partial)",
+      "A-Welle (partial)",
+      "TNW (partial)"
+    ],
+    "BS": [
+      "TNW"
+    ],
+    "BL": [
+      "TNW"
+    ],
+    "SH": [
+      "OSTWIND"
+    ],
+    "AR": [
+      "OSTWIND"
+    ],
+    "AI": [
+      "OSTWIND"
+    ],
+    "SG": [
+      "OSTWIND"
+    ],
+    "GR": [
+      "BÜGA",
+      "Transreno",
+      "engadin mobil",
+      "TV Davos",
+      "TV Klosters",
+      "Arcobaleno (Misox/Calancatal)"
+    ],
+    "AG": [
+      "A-Welle",
+      "TNW (Fricktal)"
+    ],
+    "TG": [
+      "OSTWIND"
+    ],
+    "TI": [
+      "Arcobaleno"
+    ],
+    "VD": [
+      "Mobilis",
+      "Frimobil (Broye)"
+    ],
+    "VS": [
+      "PASS 13* (no formal Tarifverbund)"
+    ],
+    "NE": [
+      "Onde Verte"
+    ],
+    "GE": [
+      "Unireso"
+    ],
+    "JU": [
+      "Vagabond",
+      "TNW (Ederswiler)",
+      "Onde Verte (partial)"
+    ]
+  },
+  "integration_notes": {
+    "umbrella_organization": "Alliance SwissPass (~250 transport companies, ~20 fare associations)",
+    "national_passes_out_of_scope": [
+      "GA (Generalabonnement)",
+      "Halbtax (Half-Fare)",
+      "Streckenabo"
+    ],
+    "flexiabo_pilot_networks": [
+      "Passepartout",
+      "Frimobil",
+      "Mobilis",
+      "Onde Verte",
+      "Vagabond",
+      "ZVV (testing)",
+      "engadin mobil (testing)"
+    ],
+    "recommended_api": "SBB / Alliance SwissPass NOVA system for programmatic price fetching",
+    "special_cases": {
+      "solothurn_split": "Canton of Solothurn is split across 3 networks: Libero, A-Welle, TNW",
+      "schwyz_split": "Canton of Schwyz is split: TV Schwyz (most) vs. OSTWIND (March district)",
+      "graubuenden_layered": "Graubünden has canton-wide BÜGA plus 4 local sub-networks, plus Arcobaleno for Misox"
+    }
+  }
+}

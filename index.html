@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swiss Transit Calculator</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ccircle%20cx='50'%20cy='50'%20r='50'%20fill='black'/%3E%3Crect%20x='8'%20y='34'%20width='84'%20height='32'%20rx='16'%20fill='white'/%3E%3C/svg%3E">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -301,61 +302,94 @@
 
 <main class="container">
 
-  <!-- Age ──────────────────────────────────── -->
+  <!-- Personal Details ─────────────────────── -->
   <div class="card">
-    <p class="card-label">Age Group</p>
-    <div class="segment">
-      <button class="seg-btn active" id="btn-youth" onclick="setAge(true)">Under 25</button>
-      <button class="seg-btn" id="btn-adult" onclick="setAge(false)">25 and older</button>
+    <button class="disclosure" onclick="togglePersonal()">
+      <span class="disc-title">Personal Details</span>
+      <span class="disc-chevron open" id="chevronPersonal">›</span>
+    </button>
+
+    <div class="adv-body open" id="personalBody">
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Gender</span>
+        </div>
+        <div class="field-right">
+          <div class="segment">
+            <button class="seg-btn active" id="btn-male"   onclick="setGender('male')">Male</button>
+            <button class="seg-btn"        id="btn-female" onclick="setGender('female')">Female</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Age</span>
+          <span class="field-sub" id="ageSegLabel"></span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="ageInput" value="25" min="0" max="120" />
+          <span class="unit">years</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- Travel ───────────────────────────────── -->
   <div class="card">
-    <p class="card-label">Your Travel</p>
+    <button class="disclosure" onclick="toggleTravel()">
+      <span class="disc-title">Your Travel</span>
+      <span class="disc-chevron open" id="chevronTravel">›</span>
+    </button>
 
-    <div class="field">
-      <div class="field-info">
-        <span class="field-name">Local trips per week</span>
-        <span class="field-sub">Tram, bus, S-Bahn</span>
-      </div>
-      <div class="field-right">
-        <input type="number" id="tramTrips" value="5" min="0" max="99" />
-        <span class="unit">/ week</span>
-      </div>
-    </div>
+    <div class="adv-body open" id="travelBody">
 
-    <div class="field">
-      <div class="field-info">
-        <span class="field-name">Local trip price</span>
-        <span class="field-sub">Per trip with half-fare</span>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Local trips per week</span>
+          <span class="field-sub">Tram, bus, S-Bahn</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="tramTrips" value="5" min="0" max="99" />
+          <span class="unit">/ week</span>
+        </div>
       </div>
-      <div class="field-right">
-        <input type="number" id="tramPrice" value="3.20" min="0" step="0.10" />
-        <span class="unit">CHF</span>
-      </div>
-    </div>
 
-    <div class="field">
-      <div class="field-info">
-        <span class="field-name">Long-distance trips per month</span>
-        <span class="field-sub">SBB intercity trains</span>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Local trip price</span>
+          <span class="field-sub">Per trip with half-fare</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="tramPrice" value="3.20" min="0" step="0.10" />
+          <span class="unit">CHF</span>
+        </div>
       </div>
-      <div class="field-right">
-        <input type="number" id="trainTrips" value="2" min="0" max="99" />
-        <span class="unit">/ month</span>
-      </div>
-    </div>
 
-    <div class="field">
-      <div class="field-info">
-        <span class="field-name">Long-distance trip price</span>
-        <span class="field-sub">Per trip with half-fare</span>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Long-distance trips per month</span>
+          <span class="field-sub">SBB intercity trains</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="trainTrips" value="2" min="0" max="99" />
+          <span class="unit">/ month</span>
+        </div>
       </div>
-      <div class="field-right">
-        <input type="number" id="trainPrice" value="20" min="0" step="1" />
-        <span class="unit">CHF</span>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Long-distance trip price</span>
+          <span class="field-sub">Per trip with half-fare</span>
+        </div>
+        <div class="field-right">
+          <input type="number" id="trainPrice" value="20" min="0" step="1" />
+          <span class="unit">CHF</span>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -386,14 +420,15 @@
       <div class="field">
         <div class="field-info">
           <span class="field-name">Halbtax</span>
+          <span class="field-sub">New purchase</span>
         </div>
         <div class="field-right">
-          <input type="number" id="htPrice" value="100" min="0" />
+          <input type="number" id="htPrice" value="120" min="0" />
           <span class="unit">CHF/yr</span>
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" id="gaNightField">
         <div class="field-info">
           <span class="field-name">GA Night</span>
           <span class="field-sub">Free night travel (youth only)</span>
@@ -409,7 +444,7 @@
           <span class="field-name">GA (Generalabonnement)</span>
         </div>
         <div class="field-right">
-          <input type="number" id="gaPrice" value="2780" min="0" />
+          <input type="number" id="gaPrice" value="3495" min="0" />
           <span class="unit">CHF/yr</span>
         </div>
       </div>
@@ -455,6 +490,12 @@
         </div>
       </div>
 
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);font-size:12px;color:var(--muted);line-height:1.8;">
+        <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;">Sources</strong><br>
+        · Local pass pricing: <a href="https://www.zvv.ch/zvv/de/abos-und-tickets/abos/zonenabo.html" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">zvv.ch/zonenabo</a><br>
+        · SBB passes (Halbtax, GA, Halbtax Plus): <a href="https://www.sbb.ch/de/angebote/halbtax" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/halbtax</a>, <a href="https://www.sbb.ch/de/angebote/ga" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/ga</a>, <a href="https://www.sbb.ch/de/angebote/halbtax-plus" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/halbtax-plus</a>
+      </div>
+
     </div><!-- /advBody -->
   </div>
 
@@ -471,22 +512,31 @@
 
 <script>
   // ── State ──────────────────────────────────────────────
-  let isYouth = true;
+  let gender = 'male'; // 'male' | 'female'
 
-  const PRESETS = {
-    youth: {
-      localPass: 586, ht: 100, gaNight: 100, ga: 2780,
-      ht1c: 600,  ht1b: 400,
-      ht2c: 1125, ht2b: 875,
-      ht3c: 1575, ht3b: 1425,
-    },
-    adult: {
-      localPass: 809, ht: 170, gaNight: 0, ga: 3995,
-      ht1c: 800,  ht1b: 200,
-      ht2c: 1500, ht2b: 500,
-      ht3c: 2100, ht3b: 900,
-    },
-  };
+  // ── Age segment logic ──────────────────────────────────
+  function getAgeSegment(age, gen) {
+    if (age < 16)                                    return 'child';
+    if (age < 25)                                    return 'youth';
+    if (age === 25)                                  return 'age25';
+    if (gen === 'female' ? age >= 64 : age >= 65)    return 'senior';
+    return 'adult';
+  }
+
+  function getPreset(age, gen) {
+    const seg     = getAgeSegment(age, gen);
+    const isYoung = age < 25;
+    const htPlusYouth = { ht1c: 600, ht1b: 400, ht2c: 1125, ht2b: 875, ht3c: 1575, ht3b: 1425 };
+    const htPlusAdult = { ht1c: 800, ht1b: 200, ht2c: 1500, ht2b: 500, ht3c: 2100, ht3b: 900  };
+    const GA = { child: 1720, youth: 2780, age25: 3495, adult: 3995, senior: 3040 };
+    return {
+      localPass: isYoung ? 586 : 809,
+      ht:        isYoung ? 120 : 190,
+      gaNight:   isYoung ? 99  : 0,
+      ga:        GA[seg],
+      ...(isYoung ? htPlusYouth : htPlusAdult),
+    };
+  }
 
   // ── Helpers ────────────────────────────────────────────
   function g(id) { return parseFloat(document.getElementById(id).value) || 0; }
@@ -498,10 +548,11 @@
 
   // ── Calculation logic (mirrors Python notebook) ────────
   function calcTramAboHTPlus(localPass, gaNight, ht, htCost, htBonus, trainTrips, trainPrice) {
-    const base       = localPass + gaNight + ht;
+    const base        = localPass + gaNight + ht;
     const yearlyTrain = trainTrips * 12 * trainPrice;
+    const creditTotal = htCost + htBonus;
     let money, bonusLeft;
-    if (yearlyTrain > htCost + htBonus) {
+    if (yearlyTrain > creditTotal) {
       money     = base + yearlyTrain - htBonus;
       bonusLeft = 0;
     } else if (yearlyTrain < htCost) {
@@ -509,16 +560,17 @@
       bonusLeft = htBonus;
     } else {
       money     = base + htCost;
-      bonusLeft = htCost + htBonus - yearlyTrain;
+      bonusLeft = creditTotal - yearlyTrain;
     }
-    return [Math.round(money), Math.round(bonusLeft)];
+    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTrain), creditTotal, htBonus];
   }
 
   function calcHTPlus(gaNight, ht, htCost, htBonus, tramTrips, tramPrice, trainTrips, trainPrice) {
     const base        = gaNight + ht;
     const yearlyTotal = tramTrips * 52 * tramPrice + trainTrips * 12 * trainPrice;
+    const creditTotal = htCost + htBonus;
     let money, bonusLeft;
-    if (yearlyTotal > htCost + htBonus) {
+    if (yearlyTotal > creditTotal) {
       money     = base + yearlyTotal - htBonus;
       bonusLeft = 0;
     } else if (yearlyTotal < htCost) {
@@ -526,9 +578,9 @@
       bonusLeft = htBonus;
     } else {
       money     = base + htCost;
-      bonusLeft = htCost + htBonus - yearlyTotal;
+      bonusLeft = creditTotal - yearlyTotal;
     }
-    return [Math.round(money), Math.round(bonusLeft)];
+    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTotal), creditTotal, htBonus];
   }
 
   // ── Main calculation ───────────────────────────────────
@@ -548,32 +600,26 @@
     const options = [
       {
         name: 'Local Pass + HT Plus 1000',
-        desc: 'Annual zone pass + Halbtax Plus 1000 for long-distance',
         result: calcTramAboHTPlus(localPass, gaNight, ht, ht1c, ht1b, trainTrips, trainPrice),
       },
       {
         name: 'Local Pass + HT Plus 2000',
-        desc: 'Annual zone pass + Halbtax Plus 2000 for long-distance',
         result: calcTramAboHTPlus(localPass, gaNight, ht, ht2c, ht2b, trainTrips, trainPrice),
       },
       {
         name: 'HT Plus 1000',
-        desc: 'Pay-per-trip locally + Halbtax Plus 1000',
         result: calcHTPlus(gaNight, ht, ht1c, ht1b, tramTrips, tramPrice, trainTrips, trainPrice),
       },
       {
         name: 'HT Plus 2000',
-        desc: 'Pay-per-trip locally + Halbtax Plus 2000',
         result: calcHTPlus(gaNight, ht, ht2c, ht2b, tramTrips, tramPrice, trainTrips, trainPrice),
       },
       {
         name: 'HT Plus 3000',
-        desc: 'Pay-per-trip locally + Halbtax Plus 3000',
         result: calcHTPlus(gaNight, ht, ht3c, ht3b, tramTrips, tramPrice, trainTrips, trainPrice),
       },
       {
         name: 'GA',
-        desc: 'Unlimited travel on all Swiss public transport',
         result: [ga, Infinity],
       },
     ];
@@ -581,20 +627,26 @@
     const minCost = Math.min(...options.map(o => o.result[0]));
 
     const grid = document.getElementById('resultsGrid');
-    grid.innerHTML = options.map(({ name, desc, result }) => {
-      const [cost, bonusLeft] = result;
+    grid.innerHTML = options.map(({ name, result }) => {
+      const [cost, bonusLeft, creditUsed, creditTotal, htBonus] = result;
       const isBest = cost === minCost;
 
       let bonusText, bonusDim;
       if (bonusLeft === Infinity) {
         bonusText = 'Unlimited travel included';
         bonusDim  = false;
-      } else if (bonusLeft === 0) {
-        bonusText = 'No unused credit';
-        bonusDim  = true;
-      } else {
-        bonusText = `CHF ${fmt(bonusLeft)} credit remaining`;
+      } else if (bonusLeft === htBonus) {
+        // Full bonus untouched
+        bonusText = `CHF ${fmt(htBonus)} bonus available. CHF ${fmt(creditUsed)} of CHF ${fmt(creditTotal)} credit used.`;
         bonusDim  = false;
+      } else if (bonusLeft > 0) {
+        // Partial bonus remaining
+        bonusText = `CHF ${fmt(bonusLeft)} bonus still available.`;
+        bonusDim  = false;
+      } else {
+        // Bonus fully exhausted
+        bonusText = `No more bonus available. CHF ${fmt(creditUsed - creditTotal)} above total credit.`;
+        bonusDim  = true;
       }
 
       return `
@@ -608,25 +660,57 @@
     }).join('');
   }
 
-  // ── Age toggle ─────────────────────────────────────────
-  function setAge(youth) {
-    isYouth = youth;
-    document.getElementById('btn-youth').classList.toggle('active',  youth);
-    document.getElementById('btn-adult').classList.toggle('active', !youth);
+  // ── Personal details ───────────────────────────────────
+  function updateFromPersonalDetails() {
+    const age = parseInt(document.getElementById('ageInput').value) || 25;
+    const p   = getPreset(age, gender);
 
-    const p = PRESETS[youth ? 'youth' : 'adult'];
-    s('localPass',   p.localPass);
-    s('htPrice',     p.ht);
+    s('localPass',    p.localPass);
+    s('htPrice',      p.ht);
     s('gaNightPrice', p.gaNight);
-    s('gaPrice',     p.ga);
+    s('gaPrice',      p.ga);
     s('ht1cost', p.ht1c); s('ht1bonus', p.ht1b);
     s('ht2cost', p.ht2c); s('ht2bonus', p.ht2b);
     s('ht3cost', p.ht3c); s('ht3bonus', p.ht3b);
 
+    const showGaNight = age >= 16 && age < 25;
+    document.getElementById('gaNightField').style.display = showGaNight ? '' : 'none';
+
+    const seg    = getAgeSegment(age, gender);
+    const labels = {
+      child:  'Child (under 16)',
+      youth:  'Youth (16–24)',
+      age25:  'Age 25 – transition year',
+      adult:  'Adult (26+)',
+      senior: gender === 'female' ? 'Senior (64+)' : 'Senior (65+)',
+    };
+    document.getElementById('ageSegLabel').textContent = labels[seg];
+
     calculate();
   }
 
-  // ── Advanced disclosure ────────────────────────────────
+  function setGender(gen) {
+    gender = gen;
+    document.getElementById('btn-male').classList.toggle('active',   gen === 'male');
+    document.getElementById('btn-female').classList.toggle('active', gen === 'female');
+    updateFromPersonalDetails();
+  }
+
+  // ── Disclosure toggles ────────────────────────────────
+  function togglePersonal() {
+    const body    = document.getElementById('personalBody');
+    const chevron = document.getElementById('chevronPersonal');
+    const open    = body.classList.toggle('open');
+    chevron.classList.toggle('open', open);
+  }
+
+  function toggleTravel() {
+    const body    = document.getElementById('travelBody');
+    const chevron = document.getElementById('chevronTravel');
+    const open    = body.classList.toggle('open');
+    chevron.classList.toggle('open', open);
+  }
+
   function toggleAdv() {
     const body    = document.getElementById('advBody');
     const chevron = document.getElementById('chevron');
@@ -634,13 +718,14 @@
     chevron.classList.toggle('open', open);
   }
 
-  // ── Wire up all inputs ─────────────────────────────────
-  document.querySelectorAll('input[type="number"]').forEach(el => {
+  // ── Wire up inputs ─────────────────────────────────────
+  document.querySelectorAll('input[type="number"]:not(#ageInput)').forEach(el => {
     el.addEventListener('input', calculate);
   });
+  document.getElementById('ageInput').addEventListener('input', updateFromPersonalDetails);
 
   // ── Init ───────────────────────────────────────────────
-  calculate();
+  updateFromPersonalDetails();
 </script>
 </body>
 </html>
