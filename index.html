@@ -393,6 +393,82 @@
     </div>
   </div>
 
+  <!-- Postal Code Lookup ───────────────────── -->
+  <div class="card">
+    <button class="disclosure" onclick="togglePostalCodes()">
+      <span class="disc-title">Zone & Pricing Lookup</span>
+      <span class="disc-chevron" id="chevronPostal">›</span>
+    </button>
+
+    <div class="adv-body" id="postalBody">
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Postal Code</span>
+          <span class="field-sub">Enter your home PLZ (4 digits)</span>
+        </div>
+        <div class="field-right">
+          <input type="text" id="plzHome" placeholder="e.g., 8000" maxlength="4" />
+          <span class="unit">PLZ</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Location</span>
+        </div>
+        <div class="field-right">
+          <span id="homeLocation" class="unit" style="color: var(--muted);">—</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Destination Postal Code</span>
+          <span class="field-sub">Enter destination PLZ (4 digits)</span>
+        </div>
+        <div class="field-right">
+          <input type="text" id="plzDest" placeholder="e.g., 8050" maxlength="4" />
+          <span class="unit">PLZ</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Destination Location</span>
+        </div>
+        <div class="field-right">
+          <span id="destLocation" class="unit" style="color: var(--muted);">—</span>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);">
+        <div class="field" style="border-bottom: none; padding-bottom: 0;">
+          <div class="field-info">
+            <span class="field-name">Zones Traversed</span>
+          </div>
+          <div class="field-right">
+            <span id="zonesTraversed" style="font-weight: 600; color: var(--blue);">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="pricingResult" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;">
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;">Single Trip Prices</div>
+        <div class="field" style="border-bottom:1px solid var(--sep);padding-bottom:10px;">
+          <span style="font-size:13px;color:var(--text);">Full Price</span>
+          <span id="fullPrice" style="font-weight:600;color:var(--text);">—</span>
+        </div>
+        <div class="field" style="border-bottom:none;padding-top:10px;">
+          <span style="font-size:13px;color:var(--text);">Half-Tax Price</span>
+          <span id="halftaxPrice" style="font-weight:600;color:var(--green);">—</span>
+        </div>
+      </div>
+
+      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:var(--red);background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
+
+    </div>
+  </div>
+
   <!-- Subscription prices (collapsible) ───── -->
   <div class="card">
     <button class="disclosure" onclick="toggleAdv()">
@@ -695,6 +771,79 @@
     document.getElementById('btn-female').classList.toggle('active', gen === 'female');
     updateFromPersonalDetails();
   }
+  
+  // ── Postal Code Lookup ────────────────────────
+  let currentZonePricing = null;
+
+  async function lookupZonePricing() {
+    const plzHome = document.getElementById('plzHome').value.trim();
+    const plzDest = document.getElementById('plzDest').value.trim();
+    const errorDiv = document.getElementById('priceError');
+    const resultDiv = document.getElementById('pricingResult');
+    const age = parseInt(document.getElementById('ageInput').value) || 25;
+    const isYouth = age < 25;
+
+    errorDiv.style.display = 'none';
+    resultDiv.style.display = 'none';
+
+    if (!plzHome || !plzDest) {
+      document.getElementById('homeLocation').textContent = '—';
+      document.getElementById('destLocation').textContent = '—';
+      document.getElementById('zonesTraversed').textContent = '—';
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/zone-pricing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plzHome,
+          plzDestination: plzDest,
+          isYouth,
+          provider: 'zvv'
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        errorDiv.textContent = data.error || 'Failed to look up postal codes';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      // Update UI with results
+      document.getElementById('homeLocation').textContent = data.homeLocality;
+      document.getElementById('destLocation').textContent = data.destLocality;
+      document.getElementById('zonesTraversed').textContent = `${data.zonesTraversed} zone${data.zonesTraversed !== 1 ? 's' : ''}`;
+      document.getElementById('fullPrice').textContent = `CHF ${data.pricing.singleTrip.fullPrice.toFixed(2)}`;
+      document.getElementById('halftaxPrice').textContent = `CHF ${data.pricing.singleTrip.halftaxPrice.toFixed(2)}`;
+
+      resultDiv.style.display = 'block';
+      currentZonePricing = data;
+
+      // Auto-update tram price based on zone
+      document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
+      calculate();
+    } catch (error) {
+      console.error('Zone lookup error:', error);
+      errorDiv.textContent = 'Error looking up postal codes. Please try again.';
+      errorDiv.style.display = 'block';
+    }
+  }
+
+  function togglePostalCodes() {
+    const body = document.getElementById('postalBody');
+    const chevron = document.getElementById('chevronPostal');
+    const open = body.classList.toggle('open');
+    chevron.classList.toggle('open', open);
+  }
+
+  // Wire up postal code inputs
+  document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
+  document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
+  document.getElementById('ageInput').addEventListener('change', lookupZonePricing);
 
   // ── Disclosure toggles ────────────────────────────────
   function togglePersonal() {
