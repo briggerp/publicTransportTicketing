@@ -30,7 +30,7 @@
       min-height: 100vh;
     }
 
-    /* ── Hero ─────────────────────────────── */
+    /* ── Hero ────────────────────���────────── */
     .hero {
       background: var(--card);
       text-align: center;
@@ -76,7 +76,7 @@
       margin-bottom: 18px;
     }
 
-    /* ── Segment control ──────────────────── */
+    /* ── Segment control ─────────��────────── */
     .segment {
       display: inline-flex;
       background: #E5E5EA;
@@ -133,7 +133,8 @@
       flex-shrink: 0;
     }
 
-    input[type="number"] {
+    input[type="number"],
+    input[type="text"] {
       width: 86px;
       padding: 9px 11px;
       border: 1.5px solid #D1D1D6;
@@ -149,7 +150,8 @@
     }
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button { opacity: 0; }
-    input[type="number"]:focus {
+    input[type="number"]:focus,
+    input[type="text"]:focus {
       border-color: var(--blue);
       background: #fff;
     }
@@ -337,7 +339,7 @@
     </div>
   </div>
 
-  <!-- Travel ───────────────────────────────── -->
+  <!-- Travel ─────���─────────────────────────── -->
   <div class="card">
     <button class="disclosure" onclick="toggleTravel()">
       <span class="disc-title">Your Travel</span>
@@ -407,7 +409,7 @@
           <span class="field-sub">Enter your home PLZ (4 digits)</span>
         </div>
         <div class="field-right">
-          <input type="text" id="plzHome" placeholder="e.g., 8000" maxlength="4" />
+          <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
           <span class="unit">PLZ</span>
         </div>
       </div>
@@ -427,7 +429,7 @@
           <span class="field-sub">Enter destination PLZ (4 digits)</span>
         </div>
         <div class="field-right">
-          <input type="text" id="plzDest" placeholder="e.g., 8050" maxlength="4" />
+          <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
           <span class="unit">PLZ</span>
         </div>
       </div>
@@ -464,7 +466,7 @@
         </div>
       </div>
 
-      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:var(--red);background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
+      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
 
     </div>
   </div>
@@ -483,7 +485,7 @@
       <div class="field">
         <div class="field-info">
           <span class="field-name">Annual local pass</span>
-          <span class="field-sub">Zone 1–2 yearly subscription</span>
+          <span class="field-sub" id="localPassDesc">Zone 1–2 yearly subscription</span>
         </div>
         <div class="field-right">
           <input type="number" id="localPass" value="586" min="0" />
@@ -771,7 +773,7 @@
     document.getElementById('btn-female').classList.toggle('active', gen === 'female');
     updateFromPersonalDetails();
   }
-  
+
   // ── Postal Code Lookup ────────────────────────
   let currentZonePricing = null;
 
@@ -810,6 +812,7 @@
       if (!response.ok) {
         errorDiv.textContent = data.error || 'Failed to look up postal codes';
         errorDiv.style.display = 'block';
+        console.error('API Error:', data);
         return;
       }
 
@@ -823,6 +826,12 @@
       resultDiv.style.display = 'block';
       currentZonePricing = data;
 
+      // Update local pass price and description based on zones traversed
+      if (data.subscription) {
+        document.getElementById('localPass').value = data.subscription.annual;
+        document.getElementById('localPassDesc').textContent = `${data.zoneDescription} yearly subscription`;
+      }
+
       // Auto-update tram price based on zone
       document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
       calculate();
@@ -832,7 +841,6 @@
       errorDiv.style.display = 'block';
     }
   }
-
   function togglePostalCodes() {
     const body = document.getElementById('postalBody');
     const chevron = document.getElementById('chevronPostal');
@@ -841,9 +849,11 @@
   }
 
   // Wire up postal code inputs
-  document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
-  document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
-  document.getElementById('ageInput').addEventListener('change', lookupZonePricing);
+  if (document.getElementById('plzHome')) {
+    document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
+    document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
+    document.getElementById('ageInput').addEventListener('change', lookupZonePricing);
+  }
 
   // ── Disclosure toggles ────────────────────────────────
   function togglePersonal() {
@@ -876,5 +886,6 @@
   // ── Init ───────────────────────────────────────────────
   updateFromPersonalDetails();
 </script>
+
 </body>
 </html>

@@ -48,22 +48,26 @@
     "single_trip": {
       "adult": {
         "2nd_class": {
-          "local":     { "full": 2.80, "halbtax": 1.80 },
-          "1_2_zones": { "full": 4.60, "halbtax": 3.20 },
-          "3_zones":   { "full": 6.40, "halbtax": 4.40 },
-          "4_zones":   { "full": 8.60, "halbtax": 5.80 },
-          "5_zones":   { "full": 10.40, "halbtax": 7.00 },
-          "all_zones": { "full": 12.80, "halbtax": 8.60 }
+          "local":     { "full": 2.80, "halbtax": 2.40 },
+          "1_2_zones": { "full": 4.70, "halbtax": 3.30 },
+          "3_zones":   { "full": 7.20, "halbtax": 3.60 },
+          "4_zones":   { "full": 9.40, "halbtax": 4.70 },
+          "5_zones":   { "full": 11.40, "halbtax": 5.70 },
+          "6_zones": { "full": 13.60, "halbtax": 6.80 },
+          "7_zones": { "full": 15.80, "halbtax": 7.90 },
+          "all_zones": { "full": 18.00, "halbtax": 9.00 }
         }
       },
       "youth": {
         "2nd_class": {
-          "local":     { "full": 2.80, "halbtax": 1.80 },
-          "1_2_zones": { "full": 4.60, "halbtax": 3.20 },
-          "3_zones":   { "full": 6.40, "halbtax": 4.40 },
-          "4_zones":   { "full": 8.60, "halbtax": 5.80 },
-          "5_zones":   { "full": 10.40, "halbtax": 7.00 },
-          "all_zones": { "full": 12.80, "halbtax": 8.60 }
+          "local":     { "full": 2.80, "halbtax": 2.40 },
+          "1_2_zones": { "full": 4.70, "halbtax": 3.30 },
+          "3_zones":   { "full": 7.20, "halbtax": 3.60 },
+          "4_zones":   { "full": 9.40, "halbtax": 4.70 },
+          "5_zones":   { "full": 11.40, "halbtax": 5.70 },
+          "6_zones": { "full": 13.60, "halbtax": 6.80 },
+          "7_zones": { "full": 15.80, "halbtax": 7.90 },
+          "all_zones": { "full": 18.00, "halbtax": 9.00 }
         }
       }
     }

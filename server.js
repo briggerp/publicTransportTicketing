@@ -9,19 +9,33 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Load data files
-const plzZoneMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/plz-zone-map.json'), 'utf8'));
-const providerPrices = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/provider-prices.json'), 'utf8'));
+let plzZoneMap = {};
+let providerPrices = {};
+
+try {
+  plzZoneMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/plz-zone-map.json'), 'utf8'));
+  console.log('✓ Loaded plz-zone-map.json');
+} catch (err) {
+  console.error('✗ Error loading plz-zone-map.json:', err.message);
+}
+
+try {
+  providerPrices = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/provider-prices.json'), 'utf8'));
+  console.log('✓ Loaded provider-prices.json');
+} catch (err) {
+  console.error('✗ Error loading provider-prices.json:', err.message);
+}
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Serve root index.html BEFORE static middleware
+// Serve root index.html FIRST
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// API endpoints BEFORE static middleware
+// API endpoint to calculate ticket options
 app.post('/api/calculate', async (req, res) => {
   try {
     const { tramTrips, trainTrips, youth, prices } = req.body;
@@ -74,39 +88,71 @@ app.post('/api/calculate', async (req, res) => {
 });
 
 // API endpoint to get pricing based on postal codes
+// API endpoint to get pricing based on postal codes
 app.post('/api/zone-pricing', (req, res) => {
   try {
     const { plzHome, plzDestination, isYouth = true, provider = 'zvv' } = req.body;
 
+    console.log('\n=== Zone Pricing Request ===');
+    console.log('plzHome:', plzHome);
+    console.log('plzDestination:', plzDestination);
+    console.log('isYouth:', isYouth);
+    console.log('provider:', provider);
+
     // Validate input
     if (!plzHome || !plzDestination) {
+      console.log('ERROR: Missing postal codes');
       return res.status(400).json({
         error: 'Missing required parameters: plzHome and plzDestination'
       });
     }
+
+    // Pad postal codes
+    const plzHomePadded = String(plzHome).padStart(4, '0');
+    const plzDestPadded = String(plzDestination).padStart(4, '0');
+    console.log('Padded home:', plzHomePadded, '- in map?', plzHomePadded in plzZoneMap);
+    console.log('Padded dest:', plzDestPadded, '- in map?', plzDestPadded in plzZoneMap);
 
     // Create calculator instance with loaded data
     const calculator = new ZoneCalculator(plzZoneMap, providerPrices);
 
     // Get pricing
     const pricingData = calculator.getPricingForJourney(
-      String(plzHome).padStart(4, '0'),
-      String(plzDestination).padStart(4, '0'),
+      plzHomePadded,
+      plzDestPadded,
       isYouth,
       provider
     );
 
+    console.log('Pricing data result:', pricingData);
+
     if (!pricingData) {
+      console.log('ERROR: pricingData is null');
       return res.status(404).json({
         error: 'Postal code(s) not found in database'
       });
     }
 
     if (pricingData.error) {
+      console.log('ERROR in pricing data:', pricingData.error);
       return res.status(400).json(pricingData);
     }
 
-    res.json(pricingData);
+    // Get subscription pricing for the determined fare zone
+    const subscriptionPricing = calculator.getSubscriptionPricing(
+      pricingData.fareZone,
+      isYouth,
+      provider
+    );
+
+    const zoneDescription = calculator.getZoneDescription(pricingData.zonesTraversed);
+
+    console.log('SUCCESS: Returning pricing data');
+    res.json({
+      ...pricingData,
+      subscription: subscriptionPricing,
+      zoneDescription
+    });
   } catch (error) {
     console.error('Zone calculation error:', error);
     res.status(500).json({ error: 'Internal server error during zone calculation' });
@@ -142,10 +188,16 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'SBB Ticket Calculator API is running' });
 });
 
-// Static files AFTER explicit routes
+// Static files AFTER ALL API routes (this is key!)
 app.use(express.static('public'));
 
+// 404 handler for debugging
+app.use((req, res) => {
+  console.log('404 - Path not found:', req.method, req.path);
+  res.status(404).json({ error: 'Not found' });
+});
+
 app.listen(PORT, () => {
-  console.log(`SBB Ticket Calculator server running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT} to use the calculator`);
+  console.log(`\n✓ SBB Ticket Calculator server running on port ${PORT}`);
+  console.log(`✓ Visit http://localhost:${PORT} to use the calculator\n`);
 });
