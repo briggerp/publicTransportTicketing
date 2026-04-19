@@ -8,23 +8,42 @@ const ZoneCalculator = require('./services/zoneCalculator');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Load data files
+// Load data files from per-provider subdirectories under data/
 let plzZoneMap = {};
 let providerPrices = {};
 
-try {
-  plzZoneMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/plz-zone-map.json'), 'utf8'));
-  console.log('✓ Loaded plz-zone-map.json');
-} catch (err) {
-  console.error('✗ Error loading plz-zone-map.json:', err.message);
+const dataDir = path.join(__dirname, 'data');
+const providerDirs = fs.readdirSync(dataDir, { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => entry.name);
+
+for (const providerDir of providerDirs) {
+  const zoneMapPath = path.join(dataDir, providerDir, 'plz-zone-map.json');
+  const pricesPath = path.join(dataDir, providerDir, 'provider-prices.json');
+
+  try {
+    const zoneData = JSON.parse(fs.readFileSync(zoneMapPath, 'utf8'));
+    let entryCount = 0;
+    for (const [key, value] of Object.entries(zoneData)) {
+      if (key === '_meta') continue;
+      plzZoneMap[key] = value;
+      entryCount++;
+    }
+    console.log(`✓ Loaded ${entryCount} PLZ entries from data/${providerDir}/plz-zone-map.json`);
+  } catch (err) {
+    console.error(`✗ Error loading data/${providerDir}/plz-zone-map.json:`, err.message);
+  }
+
+  try {
+    const priceData = JSON.parse(fs.readFileSync(pricesPath, 'utf8'));
+    Object.assign(providerPrices, priceData);
+    console.log(`✓ Loaded prices from data/${providerDir}/provider-prices.json`);
+  } catch (err) {
+    console.error(`✗ Error loading data/${providerDir}/provider-prices.json:`, err.message);
+  }
 }
 
-try {
-  providerPrices = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/provider-prices.json'), 'utf8'));
-  console.log('✓ Loaded provider-prices.json');
-} catch (err) {
-  console.error('✗ Error loading provider-prices.json:', err.message);
-}
+console.log(`✓ Total: ${Object.keys(plzZoneMap).length} PLZ entries, ${Object.keys(providerPrices).length} providers`);
 
 // Middleware
 app.use(cors());
@@ -91,13 +110,12 @@ app.post('/api/calculate', async (req, res) => {
 // API endpoint to get pricing based on postal codes
 app.post('/api/zone-pricing', (req, res) => {
   try {
-    const { plzHome, plzDestination, isYouth = true, provider = 'zvv' } = req.body;
+    const { plzHome, plzDestination, isYouth = true } = req.body;
 
     console.log('\n=== Zone Pricing Request ===');
     console.log('plzHome:', plzHome);
     console.log('plzDestination:', plzDestination);
     console.log('isYouth:', isYouth);
-    console.log('provider:', provider);
 
     // Validate input
     if (!plzHome || !plzDestination) {
@@ -112,6 +130,11 @@ app.post('/api/zone-pricing', (req, res) => {
     const plzDestPadded = String(plzDestination).padStart(4, '0');
     console.log('Padded home:', plzHomePadded, '- in map?', plzHomePadded in plzZoneMap);
     console.log('Padded dest:', plzDestPadded, '- in map?', plzDestPadded in plzZoneMap);
+
+    // Auto-detect provider from home postal code (can be overridden via request body)
+    const homeEntry = plzZoneMap[plzHomePadded];
+    const provider = req.body.provider || (homeEntry ? homeEntry.provider : 'zvv');
+    console.log('provider:', provider);
 
     // Create calculator instance with loaded data
     const calculator = new ZoneCalculator(plzZoneMap, providerPrices);
@@ -140,18 +163,22 @@ app.post('/api/zone-pricing', (req, res) => {
 
     // Get subscription pricing for the determined fare zone
     const subscriptionPricing = calculator.getSubscriptionPricing(
-      pricingData.fareZone,
+      pricingData.subscriptionZone,
       isYouth,
       provider
     );
 
     const zoneDescription = calculator.getZoneDescription(pricingData.zonesTraversed);
+    
+    // Get the price source from the provider data
+    const priceSource = providerPrices[provider]?.price_source || '';
 
     console.log('SUCCESS: Returning pricing data');
     res.json({
       ...pricingData,
       subscription: subscriptionPricing,
-      zoneDescription
+      zoneDescription,
+      priceSource
     });
   } catch (error) {
     console.error('Zone calculation error:', error);
@@ -181,6 +208,18 @@ app.get('/api/postal-codes', (req, res) => {
     console.error('Postal code search error:', error);
     res.status(500).json({ error: 'Internal server error during search' });
   }
+});
+
+// API endpoint to list available providers
+app.get('/api/providers', (req, res) => {
+  const providers = Object.entries(providerPrices).map(([key, data]) => ({
+    id: key,
+    name: data.name,
+    abbreviation: data.abbreviation,
+    website: data.website,
+    prices_valid_from: data.prices_valid_from
+  }));
+  res.json({ providers });
 });
 
 // Health check endpoint

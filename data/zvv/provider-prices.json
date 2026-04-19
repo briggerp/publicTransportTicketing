@@ -1,0 +1,76 @@
+{
+  "zvv": {
+    "name": "Zürcher Verkehrsverbund (ZVV)",
+    "abbreviation": "ZVV",
+    "website": "https://www.zvv.ch/en/travelcards-and-tickets/travelcards/network-pass.html",
+    "price_source": "https://www.zvv.ch/en/travelcards-and-tickets/travelcards/network-pass.html",
+    "prices_valid_from": "2024-12-15",
+    "subscription_types": {
+      "networkpass": {
+        "label": "ZVV NetworkPass",
+        "adult": {
+          "2nd_class": {
+            "local":     { "monthly": 51,  "annual": 474  },
+            "1_2_zones": { "monthly": 87,  "annual": 809  },
+            "3_zones":   { "monthly": 128, "annual": 1189 },
+            "4_zones":   { "monthly": 169, "annual": 1569 },
+            "5_zones":   { "monthly": 207, "annual": 1922 },
+            "all_zones": { "monthly": 247, "annual": 2295 }
+          },
+          "1st_class": {
+            "local":     { "monthly": 84,  "annual": 781  },
+            "1_2_zones": { "monthly": 144, "annual": 1338 },
+            "3_zones":   { "monthly": 211, "annual": 1961 },
+            "4_zones":   { "monthly": 279, "annual": 2592 },
+            "5_zones":   { "monthly": 342, "annual": 3178 },
+            "all_zones": { "monthly": 408, "annual": 3791 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "local":     { "monthly": 37,  "annual": 343  },
+            "1_2_zones": { "monthly": 63,  "annual": 586  },
+            "3_zones":   { "monthly": 93,  "annual": 861  },
+            "4_zones":   { "monthly": 123, "annual": 1138 },
+            "5_zones":   { "monthly": 150, "annual": 1393 },
+            "all_zones": { "monthly": 179, "annual": 1663 }
+          },
+          "1st_class": {
+            "local":     { "monthly": 61,  "annual": 566  },
+            "1_2_zones": { "monthly": 104, "annual": 968  },
+            "3_zones":   { "monthly": 153, "annual": 1421 },
+            "4_zones":   { "monthly": 203, "annual": 1881 },
+            "5_zones":   { "monthly": 248, "annual": 2302 },
+            "all_zones": { "monthly": 296, "annual": 2746 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "local":     { "full": 2.80, "halbtax": 2.40 },
+          "1_2_zones": { "full": 4.70, "halbtax": 3.30 },
+          "3_zones":   { "full": 7.20, "halbtax": 3.60 },
+          "4_zones":   { "full": 9.40, "halbtax": 4.70 },
+          "5_zones":   { "full": 11.40, "halbtax": 5.70 },
+          "6_zones": { "full": 13.60, "halbtax": 6.80 },
+          "7_zones": { "full": 15.80, "halbtax": 7.90 },
+          "all_zones": { "full": 18.00, "halbtax": 9.00 }
+        }
+      },
+      "youth": {
+        "2nd_class": {
+          "local":     { "full": 2.80, "halbtax": 2.40 },
+          "1_2_zones": { "full": 4.70, "halbtax": 3.30 },
+          "3_zones":   { "full": 7.20, "halbtax": 3.60 },
+          "4_zones":   { "full": 9.40, "halbtax": 4.70 },
+          "5_zones":   { "full": 11.40, "halbtax": 5.70 },
+          "6_zones": { "full": 13.60, "halbtax": 6.80 },
+          "7_zones": { "full": 15.80, "halbtax": 7.90 },
+          "all_zones": { "full": 18.00, "halbtax": 9.00 }
+        }
+      }
+    }
+  }
+}

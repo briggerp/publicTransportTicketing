@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "description": "Maps Swiss PLZ codes to Passepartout fare zones (cantons Luzern, Obwalden, Nidwalden).",
+    "sources": [
+      "https://passepartout.ch/liniennetz-tarifzonen/",
+      "https://opendata.swiss/de/dataset/amtliches-ortschaftenverzeichnis-mit-postleitzahl-und-perimeter"
+    ],
+    "last_updated": "2026-04-17",
+    "coverage": "Passepartout Tarifverbund – major localities. Expand as needed.",
+    "verification_needed": true
+  },
+
+  "6000": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6002": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6003": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6004": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6005": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6006": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6007": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6009": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6014": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+  "6015": { "provider": "passepartout", "zones": [210, 210], "locality": "Luzern" },
+
+  "6010": { "provider": "passepartout", "zones": [211], "locality": "Kriens" },
+  "6012": { "provider": "passepartout", "zones": [211], "locality": "Obernau" },
+  "6013": { "provider": "passepartout", "zones": [211], "locality": "Eigenthal" },
+  "6048": { "provider": "passepartout", "zones": [211], "locality": "Horw" },
+  "6047": { "provider": "passepartout", "zones": [211], "locality": "Kastanienbaum" },
+
+  "6020": { "provider": "passepartout", "zones": [212], "locality": "Emmenbrücke" },
+  "6032": { "provider": "passepartout", "zones": [212], "locality": "Emmen" },
+  "6023": { "provider": "passepartout", "zones": [212], "locality": "Rothenburg" },
+  "6026": { "provider": "passepartout", "zones": [212], "locality": "Rain" },
+
+  "6030": { "provider": "passepartout", "zones": [220], "locality": "Ebikon" },
+  "6031": { "provider": "passepartout", "zones": [220], "locality": "Ebikon (Risch)" },
+  "6043": { "provider": "passepartout", "zones": [220], "locality": "Adligenswil" },
+  "6044": { "provider": "passepartout", "zones": [220], "locality": "Udligenswil" },
+
+  "6037": { "provider": "passepartout", "zones": [221], "locality": "Root" },
+  "6038": { "provider": "passepartout", "zones": [221], "locality": "Gisikon" },
+  "6039": { "provider": "passepartout", "zones": [221], "locality": "Root D4" },
+  "6036": { "provider": "passepartout", "zones": [221], "locality": "Dierikon" },
+
+  "6045": { "provider": "passepartout", "zones": [222], "locality": "Meggen" },
+  "6404": { "provider": "passepartout", "zones": [222], "locality": "Greppen" },
+
+  "6403": { "provider": "passepartout", "zones": [223], "locality": "Küssnacht am Rigi" },
+  "6402": { "provider": "passepartout", "zones": [223], "locality": "Merlischachen" },
+
+  "6340": { "provider": "passepartout", "zones": [224], "locality": "Baar" },
+  "6343": { "provider": "passepartout", "zones": [224], "locality": "Rotkreuz" },
+
+  "6210": { "provider": "passepartout", "zones": [230], "locality": "Sursee" },
+  "6208": { "provider": "passepartout", "zones": [230], "locality": "Oberkirch LU" },
+  "6214": { "provider": "passepartout", "zones": [230], "locality": "Schenkon" },
+  "6215": { "provider": "passepartout", "zones": [230], "locality": "Beromünster" },
+
+  "6204": { "provider": "passepartout", "zones": [231], "locality": "Sempach" },
+  "6205": { "provider": "passepartout", "zones": [231], "locality": "Eich" },
+  "6206": { "provider": "passepartout", "zones": [231], "locality": "Neuenkirch" },
+  "6203": { "provider": "passepartout", "zones": [231], "locality": "Sempach Station" },
+
+  "6370": { "provider": "passepartout", "zones": [240], "locality": "Stans" },
+  "6362": { "provider": "passepartout", "zones": [240], "locality": "Stansstad" },
+  "6363": { "provider": "passepartout", "zones": [240], "locality": "Obbürgen" },
+  "6052": { "provider": "passepartout", "zones": [240], "locality": "Hergiswil NW" },
+
+  "6374": { "provider": "passepartout", "zones": [241], "locality": "Buochs" },
+  "6375": { "provider": "passepartout", "zones": [241], "locality": "Beckenried" },
+  "6376": { "provider": "passepartout", "zones": [241], "locality": "Emmetten" },
+  "6373": { "provider": "passepartout", "zones": [241], "locality": "Ennetbürgen" },
+
+  "6371": { "provider": "passepartout", "zones": [242], "locality": "Stans (Oberdorf)" },
+  "6382": { "provider": "passepartout", "zones": [242], "locality": "Büren NW" },
+  "6383": { "provider": "passepartout", "zones": [242], "locality": "Dallenwil" },
+  "6386": { "provider": "passepartout", "zones": [242], "locality": "Wolfenschiessen" },
+  "6388": { "provider": "passepartout", "zones": [242], "locality": "Grafenort" },
+
+  "6060": { "provider": "passepartout", "zones": [250], "locality": "Sarnen" },
+  "6062": { "provider": "passepartout", "zones": [250], "locality": "Wilen (Sarnen)" },
+  "6063": { "provider": "passepartout", "zones": [250], "locality": "Stalden (Sarnen)" },
+
+  "6053": { "provider": "passepartout", "zones": [251], "locality": "Alpnachstad" },
+  "6055": { "provider": "passepartout", "zones": [251], "locality": "Alpnach Dorf" },
+  "6064": { "provider": "passepartout", "zones": [251], "locality": "Kerns" },
+  "6066": { "provider": "passepartout", "zones": [251], "locality": "St. Niklausen OW" },
+  "6072": { "provider": "passepartout", "zones": [251], "locality": "Sachseln" },
+  "6074": { "provider": "passepartout", "zones": [251], "locality": "Giswil" },
+
+  "6110": { "provider": "passepartout", "zones": [260], "locality": "Wolhusen" },
+  "6112": { "provider": "passepartout", "zones": [260], "locality": "Doppleschwand" },
+  "6113": { "provider": "passepartout", "zones": [260], "locality": "Romoos" },
+  "6162": { "provider": "passepartout", "zones": [260], "locality": "Entlebuch" },
+  "6170": { "provider": "passepartout", "zones": [260], "locality": "Schüpfheim" },
+
+  "6130": { "provider": "passepartout", "zones": [270], "locality": "Willisau" },
+  "6122": { "provider": "passepartout", "zones": [270], "locality": "Menznau" },
+  "6142": { "provider": "passepartout", "zones": [270], "locality": "Gettnau" },
+  "6144": { "provider": "passepartout", "zones": [270], "locality": "Zell LU" },
+  "6145": { "provider": "passepartout", "zones": [270], "locality": "Fischbach LU" },
+
+  "6246": { "provider": "passepartout", "zones": [232], "locality": "Altishofen" },
+  "6247": { "provider": "passepartout", "zones": [232], "locality": "Schötz" },
+  "6248": { "provider": "passepartout", "zones": [232], "locality": "Alberswil" },
+  "6242": { "provider": "passepartout", "zones": [232], "locality": "Wauwil" },
+  "6244": { "provider": "passepartout", "zones": [232], "locality": "Nebikon" }
+}

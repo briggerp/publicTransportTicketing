@@ -1,0 +1,142 @@
+{
+  "_meta": {
+    "description": "Maps Swiss PLZ codes to Libero fare zones (cantons Bern, Solothurn and surrounding areas).",
+    "sources": [
+      "https://www.mylibero.ch/de/zonenplan",
+      "https://www.bernmobil.ch/de/fahrplan-netz/zonenplaene/zonenplan-libero",
+      "https://opendata.swiss/de/dataset/amtliches-ortschaftenverzeichnis-mit-postleitzahl-und-perimeter"
+    ],
+    "last_updated": "2026-04-17",
+    "coverage": "Libero Tarifverbund – major localities. Expand as needed.",
+    "verification_needed": true
+  },
+
+  "3000": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3001": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3003": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3004": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3005": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3006": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3007": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3008": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3010": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3011": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3012": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3013": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3014": { "provider": "libero", "zones": [310, 310], "locality": "Bern" },
+  "3015": { "provider": "libero", "zones": [310, 310], "locality": "Bern Bümpliz" },
+  "3018": { "provider": "libero", "zones": [310, 310], "locality": "Bern Bümpliz" },
+  "3019": { "provider": "libero", "zones": [310, 310], "locality": "Bern Oberbottigen" },
+  "3020": { "provider": "libero", "zones": [310, 310], "locality": "Bern Wyler" },
+  "3027": { "provider": "libero", "zones": [310, 310], "locality": "Bern Bethlehem" },
+
+  "3072": { "provider": "libero", "zones": [311], "locality": "Ostermundigen" },
+  "3073": { "provider": "libero", "zones": [311], "locality": "Gümligen" },
+  "3074": { "provider": "libero", "zones": [311], "locality": "Muri bei Bern" },
+  "3098": { "provider": "libero", "zones": [311], "locality": "Köniz" },
+  "3095": { "provider": "libero", "zones": [311], "locality": "Spiegel bei Bern" },
+  "3097": { "provider": "libero", "zones": [311], "locality": "Liebefeld" },
+  "3084": { "provider": "libero", "zones": [311], "locality": "Wabern" },
+
+  "3075": { "provider": "libero", "zones": [312], "locality": "Rüfenacht BE" },
+  "3076": { "provider": "libero", "zones": [312], "locality": "Worb" },
+  "3065": { "provider": "libero", "zones": [312], "locality": "Bolligen" },
+  "3066": { "provider": "libero", "zones": [312], "locality": "Stettlen" },
+
+  "3052": { "provider": "libero", "zones": [313], "locality": "Zollikofen" },
+  "3053": { "provider": "libero", "zones": [313], "locality": "Münchenbuchsee" },
+  "3063": { "provider": "libero", "zones": [313], "locality": "Ittigen" },
+
+  "3032": { "provider": "libero", "zones": [314], "locality": "Hinterkappelen" },
+  "3033": { "provider": "libero", "zones": [314], "locality": "Wohlen bei Bern" },
+  "3034": { "provider": "libero", "zones": [314], "locality": "Murzelen" },
+  "3036": { "provider": "libero", "zones": [314], "locality": "Detligen" },
+
+  "3110": { "provider": "libero", "zones": [320], "locality": "Münsingen" },
+  "3111": { "provider": "libero", "zones": [320], "locality": "Tägertschi" },
+  "3112": { "provider": "libero", "zones": [320], "locality": "Allmendingen bei Bern" },
+  "3113": { "provider": "libero", "zones": [320], "locality": "Rubigen" },
+  "3114": { "provider": "libero", "zones": [320], "locality": "Wichtrach" },
+
+  "3123": { "provider": "libero", "zones": [321], "locality": "Belp" },
+  "3124": { "provider": "libero", "zones": [321], "locality": "Belpberg" },
+  "3125": { "provider": "libero", "zones": [321], "locality": "Toffen" },
+  "3126": { "provider": "libero", "zones": [321], "locality": "Kaufdorf" },
+
+  "3086": { "provider": "libero", "zones": [322], "locality": "Zimmerwald" },
+  "3088": { "provider": "libero", "zones": [322], "locality": "Rüeggisberg" },
+  "3096": { "provider": "libero", "zones": [322], "locality": "Oberbalm" },
+
+  "3600": { "provider": "libero", "zones": [330, 330], "locality": "Thun" },
+  "3602": { "provider": "libero", "zones": [330, 330], "locality": "Thun" },
+  "3603": { "provider": "libero", "zones": [330, 330], "locality": "Thun (Allmendingen)" },
+  "3604": { "provider": "libero", "zones": [330, 330], "locality": "Thun" },
+  "3608": { "provider": "libero", "zones": [330, 330], "locality": "Thun" },
+
+  "3612": { "provider": "libero", "zones": [331], "locality": "Steffisburg" },
+  "3613": { "provider": "libero", "zones": [331], "locality": "Steffisburg" },
+  "3614": { "provider": "libero", "zones": [331], "locality": "Heimberg" },
+  "3616": { "provider": "libero", "zones": [331], "locality": "Schwarzenegg" },
+
+  "3609": { "provider": "libero", "zones": [332], "locality": "Thun (Gwatt)" },
+  "3645": { "provider": "libero", "zones": [332], "locality": "Gwatt" },
+  "3646": { "provider": "libero", "zones": [332], "locality": "Einigen" },
+  "3638": { "provider": "libero", "zones": [332], "locality": "Blumenstein" },
+
+  "3400": { "provider": "libero", "zones": [340, 340], "locality": "Burgdorf" },
+  "3401": { "provider": "libero", "zones": [340, 340], "locality": "Burgdorf" },
+  "3402": { "provider": "libero", "zones": [340, 340], "locality": "Burgdorf" },
+
+  "3412": { "provider": "libero", "zones": [341], "locality": "Heimiswil" },
+  "3414": { "provider": "libero", "zones": [341], "locality": "Oberburg" },
+  "3415": { "provider": "libero", "zones": [341], "locality": "Hasle bei Burgdorf" },
+  "3422": { "provider": "libero", "zones": [341], "locality": "Kirchberg BE" },
+  "3421": { "provider": "libero", "zones": [341], "locality": "Lyssach" },
+  "3424": { "provider": "libero", "zones": [341], "locality": "Niederösch" },
+
+  "3425": { "provider": "libero", "zones": [342], "locality": "Koppigen" },
+  "3426": { "provider": "libero", "zones": [342], "locality": "Aefligen" },
+  "3427": { "provider": "libero", "zones": [342], "locality": "Utzenstorf" },
+  "3428": { "provider": "libero", "zones": [342], "locality": "Wiler bei Utzenstorf" },
+
+  "2500": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+  "2501": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+  "2502": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+  "2503": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+  "2504": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+  "2505": { "provider": "libero", "zones": [350, 350], "locality": "Biel/Bienne" },
+
+  "2520": { "provider": "libero", "zones": [351], "locality": "La Neuveville" },
+  "2516": { "provider": "libero", "zones": [351], "locality": "Lamboing" },
+  "2518": { "provider": "libero", "zones": [351], "locality": "Nods" },
+
+  "2532": { "provider": "libero", "zones": [352], "locality": "Magglingen/Macolin" },
+  "2533": { "provider": "libero", "zones": [352], "locality": "Evilard" },
+  "2534": { "provider": "libero", "zones": [352], "locality": "Orvin" },
+  "2540": { "provider": "libero", "zones": [352], "locality": "Grenchen" },
+
+  "4500": { "provider": "libero", "zones": [360, 360], "locality": "Solothurn" },
+  "4502": { "provider": "libero", "zones": [360, 360], "locality": "Solothurn" },
+
+  "4503": { "provider": "libero", "zones": [361], "locality": "Solothurn (Feldbrunnen)" },
+  "4512": { "provider": "libero", "zones": [361], "locality": "Bellach" },
+  "4513": { "provider": "libero", "zones": [361], "locality": "Langendorf" },
+  "4514": { "provider": "libero", "zones": [361], "locality": "Lommiswil" },
+  "4522": { "provider": "libero", "zones": [361], "locality": "Rüttenen" },
+  "4528": { "provider": "libero", "zones": [361], "locality": "Zuchwil" },
+
+  "3150": { "provider": "libero", "zones": [343], "locality": "Schwarzenburg" },
+  "3132": { "provider": "libero", "zones": [343], "locality": "Riggisberg" },
+
+  "3250": { "provider": "libero", "zones": [344], "locality": "Lyss" },
+  "3251": { "provider": "libero", "zones": [344], "locality": "Wengi bei Büren" },
+  "3252": { "provider": "libero", "zones": [344], "locality": "Worben" },
+  "3270": { "provider": "libero", "zones": [344], "locality": "Aarberg" },
+  "3282": { "provider": "libero", "zones": [344], "locality": "Bargen BE" },
+
+  "3322": { "provider": "libero", "zones": [345], "locality": "Urtenen-Schönbühl" },
+  "3303": { "provider": "libero", "zones": [345], "locality": "Jegenstorf" },
+  "3306": { "provider": "libero", "zones": [345], "locality": "Etzelkofen" },
+  "3312": { "provider": "libero", "zones": [345], "locality": "Fraubrunnen" },
+  "3315": { "provider": "libero", "zones": [345], "locality": "Bätterkinden" }
+}

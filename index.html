@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swiss Transit Calculator</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ccircle%20cx='50'%20cy='50'%20r='50'%20fill='black'/%3E%3Crect%20x='8'%20y='34'%20width='84'%20height='32'%20rx='16'%20fill='white'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%231C1C1E'/%3E%3Crect%20x='4'%20y='5'%20width='24'%20height='16'%20rx='4'%20fill='white'/%3E%3Crect%20x='8'%20y='8'%20width='5.5'%20height='4'%20rx='1.5'%20fill='%231C1C1E'/%3E%3Crect%20x='18.5'%20y='8'%20width='5.5'%20height='4'%20rx='1.5'%20fill='%231C1C1E'/%3E%3Cpath%20d='M11%2017%20Q16%2021%2021%2017'%20fill='none'%20stroke='%231C1C1E'%20stroke-width='1.5'%20stroke-linecap='round'/%3E%3Ccircle%20cx='10'%20cy='25'%20r='2.5'%20fill='white'/%3E%3Ccircle%20cx='22'%20cy='25'%20r='2.5'%20fill='white'/%3E%3C/svg%3E">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -148,6 +148,7 @@
       transition: border-color .18s, background .18s;
       -moz-appearance: textfield;
     }
+
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button { opacity: 0; }
     input[type="number"]:focus,
@@ -160,6 +161,45 @@
       color: var(--muted);
       white-space: nowrap;
       min-width: 44px;
+    }
+
+    /* ── Autocomplete dropdown ──────────────── */
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--sep);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      margin-top: 4px;
+    }
+
+    .autocomplete-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--sep);
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text);
+      transition: background-color .15s;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:hover {
+      background-color: var(--bg);
+    }
+
+    .autocomplete-item-plz {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
     }
 
     /* ── Disclosure (collapsible) ─────────── */
@@ -339,14 +379,94 @@
     </div>
   </div>
 
-  <!-- Travel ─────���─────────────────────────── -->
+  <!-- Postal Code Lookup ───────────────────── -->
   <div class="card">
-    <button class="disclosure" onclick="toggleTravel()">
-      <span class="disc-title">Your Travel</span>
-      <span class="disc-chevron open" id="chevronTravel">›</span>
+    <button class="disclosure" onclick="togglePostalCodes()">
+      <span class="disc-title">Location Details</span>
+      <span class="disc-chevron open" id="chevronPostal">›</span>
     </button>
 
-    <div class="adv-body open" id="travelBody">
+    <div class="adv-body open" id="postalBody">
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Postal Code</span>
+          <span class="field-sub">Enter your home PLZ (4 digits)</span>
+        </div>
+        <div class="field-right">
+          <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
+          <span class="unit">PLZ</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Location</span>
+        </div>
+        <div class="field-right" style="position: relative;">
+          <input type="text" id="homeLocation" class="location-input" placeholder="i.e. Bern" />
+          <span class="unit">City</span>
+          <div id="homeLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Destination Postal Code</span>
+          <span class="field-sub">Enter destination PLZ (4 digits)</span>
+        </div>
+        <div class="field-right">
+          <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
+          <span class="unit">PLZ</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Destination Location</span>
+        </div>
+        <div class="field-right" style="position: relative;">
+          <input type="text" id="destLocation" class="location-input" placeholder="i.e. Zürich" />
+          <span class="unit">City</span>
+          <div id="destLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);">
+        <div class="field" style="border-bottom: none; padding-bottom: 0;">
+          <div class="field-info">
+            <span class="field-name">Zones Traversed</span>
+          </div>
+          <div class="field-right">
+            <span id="zonesTraversed" style="font-weight: 600; color: var(--blue);">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="pricingResult" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;">
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;">Single Trip Prices</div>
+        <div class="field" style="border-bottom:1px solid var(--sep);padding-bottom:10px;">
+          <span style="font-size:13px;color:var(--text);">Full Price</span>
+          <span id="fullPrice" style="font-weight:600;color:var(--text);">—</span>
+        </div>
+        <div class="field" style="border-bottom:none;padding-top:10px;">
+          <span style="font-size:13px;color:var(--text);">Half-Tax Price</span>
+          <span id="halftaxPrice" style="font-weight:600;color:var(--green);">—</span>
+        </div>
+      </div>
+
+      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
+
+    </div>
+  </div>
+
+  <!-- Travel Habits ─────���─────────────────────────── -->
+  <div class="card">
+    <button class="disclosure" onclick="toggleTravel()">
+      <span class="disc-title">Your Travel Habits</span>
+      <span class="disc-chevron" id="chevronTravel">›</span>
+    </button>
+
+    <div class="adv-body" id="travelBody">
 
       <div class="field">
         <div class="field-info">
@@ -391,82 +511,6 @@
           <span class="unit">CHF</span>
         </div>
       </div>
-
-    </div>
-  </div>
-
-  <!-- Postal Code Lookup ───────────────────── -->
-  <div class="card">
-    <button class="disclosure" onclick="togglePostalCodes()">
-      <span class="disc-title">Zone & Pricing Lookup</span>
-      <span class="disc-chevron" id="chevronPostal">›</span>
-    </button>
-
-    <div class="adv-body" id="postalBody">
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Home Postal Code</span>
-          <span class="field-sub">Enter your home PLZ (4 digits)</span>
-        </div>
-        <div class="field-right">
-          <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
-          <span class="unit">PLZ</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Home Location</span>
-        </div>
-        <div class="field-right">
-          <span id="homeLocation" class="unit" style="color: var(--muted);">—</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Destination Postal Code</span>
-          <span class="field-sub">Enter destination PLZ (4 digits)</span>
-        </div>
-        <div class="field-right">
-          <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
-          <span class="unit">PLZ</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Destination Location</span>
-        </div>
-        <div class="field-right">
-          <span id="destLocation" class="unit" style="color: var(--muted);">—</span>
-        </div>
-      </div>
-
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);">
-        <div class="field" style="border-bottom: none; padding-bottom: 0;">
-          <div class="field-info">
-            <span class="field-name">Zones Traversed</span>
-          </div>
-          <div class="field-right">
-            <span id="zonesTraversed" style="font-weight: 600; color: var(--blue);">—</span>
-          </div>
-        </div>
-      </div>
-
-      <div id="pricingResult" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;">Single Trip Prices</div>
-        <div class="field" style="border-bottom:1px solid var(--sep);padding-bottom:10px;">
-          <span style="font-size:13px;color:var(--text);">Full Price</span>
-          <span id="fullPrice" style="font-weight:600;color:var(--text);">—</span>
-        </div>
-        <div class="field" style="border-bottom:none;padding-top:10px;">
-          <span style="font-size:13px;color:var(--text);">Half-Tax Price</span>
-          <span id="halftaxPrice" style="font-weight:600;color:var(--green);">—</span>
-        </div>
-      </div>
-
-      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
 
     </div>
   </div>
@@ -570,7 +614,7 @@
 
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);font-size:12px;color:var(--muted);line-height:1.8;">
         <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;">Sources</strong><br>
-        · Local pass pricing: <a href="https://www.zvv.ch/zvv/de/abos-und-tickets/abos/zonenabo.html" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">zvv.ch/zonenabo</a><br>
+        · Local pass pricing: <a id="localPassSourceLink" href="https://www.zvv.ch/en/travelcards-and-tickets/travelcards/network-pass.html" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">zvv.ch</a><br>
         · SBB passes (Halbtax, GA, Halbtax Plus): <a href="https://www.sbb.ch/de/angebote/halbtax" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/halbtax</a>, <a href="https://www.sbb.ch/de/angebote/ga" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/ga</a>, <a href="https://www.sbb.ch/de/angebote/halbtax-plus" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">sbb.ch/halbtax-plus</a>
       </div>
 
@@ -777,6 +821,37 @@
   // ── Postal Code Lookup ────────────────────────
   let currentZonePricing = null;
 
+  async function lookupSinglePostalCode(plz, fieldType) {
+    if (!plz || plz.trim().length === 0) {
+      document.getElementById(`${fieldType}Location`).value = '';
+      return;
+    }
+
+    try {
+      // Search all providers for this postal code
+      const providers = ['zvv', 'libero', 'passepartout'];
+      const plzPadded = plz.padStart(4, '0');
+
+      for (const provider of providers) {
+        const response = await fetch(`/api/postal-codes?search=${encodeURIComponent(plzPadded)}&provider=${provider}`);
+        const data = await response.json();
+
+        if (data.postalCodes && data.postalCodes.length > 0) {
+          // Find exact match for the postal code
+          const match = data.postalCodes.find(item => item.plz === plzPadded);
+          if (match) {
+            const locationInput = document.getElementById(`${fieldType}Location`);
+            locationInput.value = match.locality;
+            autoResizeLocationInput(locationInput);
+            return;
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error looking up postal code ${plz}:`, error);
+    }
+  }
+
   async function lookupZonePricing() {
     const plzHome = document.getElementById('plzHome').value.trim();
     const plzDest = document.getElementById('plzDest').value.trim();
@@ -788,9 +863,16 @@
     errorDiv.style.display = 'none';
     resultDiv.style.display = 'none';
 
+    // Lookup individual postal code localities
+    if (plzHome) {
+      await lookupSinglePostalCode(plzHome, 'home');
+    }
+    if (plzDest) {
+      await lookupSinglePostalCode(plzDest, 'dest');
+    }
+
+    // Only proceed with zone pricing if both are set
     if (!plzHome || !plzDest) {
-      document.getElementById('homeLocation').textContent = '—';
-      document.getElementById('destLocation').textContent = '—';
       document.getElementById('zonesTraversed').textContent = '—';
       return;
     }
@@ -802,8 +884,7 @@
         body: JSON.stringify({
           plzHome,
           plzDestination: plzDest,
-          isYouth,
-          provider: 'zvv'
+          isYouth
         })
       });
 
@@ -817,8 +898,14 @@
       }
 
       // Update UI with results
-      document.getElementById('homeLocation').textContent = data.homeLocality;
-      document.getElementById('destLocation').textContent = data.destLocality;
+      const homeInput = document.getElementById('homeLocation');
+      const destInput = document.getElementById('destLocation');
+      homeInput.value = data.homeLocality;
+      destInput.value = data.destLocality;
+      autoResizeLocationInput(homeInput);
+      autoResizeLocationInput(destInput);
+      saveLocationToStorage('home', data.homeLocality);
+      saveLocationToStorage('dest', data.destLocality);
       document.getElementById('zonesTraversed').textContent = `${data.zonesTraversed} zone${data.zonesTraversed !== 1 ? 's' : ''}`;
       document.getElementById('fullPrice').textContent = `CHF ${data.pricing.singleTrip.fullPrice.toFixed(2)}`;
       document.getElementById('halftaxPrice').textContent = `CHF ${data.pricing.singleTrip.halftaxPrice.toFixed(2)}`;
@@ -832,6 +919,21 @@
         document.getElementById('localPassDesc').textContent = `${data.zoneDescription} yearly subscription`;
       }
 
+      // Update local pass pricing source link from provider data
+      if (data.priceSource) {
+        const sourceLink = document.getElementById('localPassSourceLink');
+        sourceLink.href = data.priceSource;
+        
+        // Extract domain from URL for display text
+        try {
+          const url = new URL(data.priceSource);
+          const hostname = url.hostname.replace('www.', '');
+          sourceLink.textContent = hostname;
+        } catch (e) {
+          sourceLink.textContent = 'Local pass pricing';
+        }
+      }
+
       // Auto-update tram price based on zone
       document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
       calculate();
@@ -841,6 +943,207 @@
       errorDiv.style.display = 'block';
     }
   }
+
+  // ── Location Search & Autocomplete ─────────────────────
+  let locationSearchTimeout = null;
+
+  async function searchLocations(searchTerm, fieldType) {
+    if (!searchTerm || searchTerm.trim().length < 2) {
+      document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
+      return;
+    }
+
+    try {
+      // Search all providers and merge results
+      const providers = ['zvv', 'libero', 'passepartout'];
+      const allResults = [];
+      const seenPlz = new Set();
+
+      for (const provider of providers) {
+        try {
+          const response = await fetch(`/api/postal-codes?search=${encodeURIComponent(searchTerm)}&provider=${provider}`);
+          const data = await response.json();
+
+          if (data.postalCodes && data.postalCodes.length > 0) {
+            // Add unique results (avoid duplicates)
+            for (const item of data.postalCodes) {
+              if (!seenPlz.has(item.plz)) {
+                allResults.push(item);
+                seenPlz.add(item.plz);
+              }
+            }
+          }
+        } catch (error) {
+          console.error(`Error searching provider ${provider}:`, error);
+        }
+      }
+
+      if (allResults.length === 0) {
+        document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
+        return;
+      }
+
+      const dropdown = document.getElementById(`${fieldType}LocationDropdown`);
+      dropdown.innerHTML = allResults.slice(0, 20).map(item => `
+        <div class="autocomplete-item" onclick="selectLocation('${item.plz}', '${item.locality}', '${fieldType}')">
+          <strong>${item.locality}</strong>
+          <div class="autocomplete-item-plz">PLZ ${item.plz}</div>
+        </div>
+      `).join('');
+      dropdown.style.display = 'block';
+    } catch (error) {
+      console.error('Location search error:', error);
+      document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
+    }
+  }
+
+  function selectLocation(plz, locality, fieldType) {
+    // Set the postal code field
+    document.getElementById(`plz${fieldType === 'home' ? 'Home' : 'Dest'}`).value = plz;
+    
+    // Set the location field
+    const locationInput = document.getElementById(`${fieldType}Location`);
+    locationInput.value = locality;
+    
+    // Auto-resize to fit content
+    autoResizeLocationInput(locationInput);
+    
+    // Save to localStorage
+    localStorage.setItem(`location_${fieldType}`, locality);
+    
+    // Hide dropdown
+    document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
+    
+    // Trigger lookup
+    lookupZonePricing();
+  }
+
+  function saveLocationToStorage(fieldType, value) {
+    if (value.trim()) {
+      localStorage.setItem(`location_${fieldType}`, value);
+    }
+  }
+
+  function loadLocationsFromStorage() {
+    const homeLocation = localStorage.getItem('location_home');
+    const destLocation = localStorage.getItem('location_dest');
+    
+    if (homeLocation) {
+      document.getElementById('homeLocation').value = homeLocation;
+    }
+    if (destLocation) {
+      document.getElementById('destLocation').value = destLocation;
+    }
+  }
+
+  function setupLocationSearchListeners() {
+    const homeLocationInput = document.getElementById('homeLocation');
+    const destLocationInput = document.getElementById('destLocation');
+
+    if (homeLocationInput) {
+      homeLocationInput.addEventListener('input', (e) => {
+        clearTimeout(locationSearchTimeout);
+        locationSearchTimeout = setTimeout(() => {
+          searchLocations(e.target.value, 'home');
+        }, 300);
+      });
+
+      homeLocationInput.addEventListener('blur', () => {
+        saveLocationToStorage('home', homeLocationInput.value);
+        setTimeout(() => {
+          document.getElementById('homeLocationDropdown').style.display = 'none';
+        }, 200);
+      });
+
+      homeLocationInput.addEventListener('focus', (e) => {
+        if (e.target.value.length >= 2) {
+          searchLocations(e.target.value, 'home');
+        }
+      });
+    }
+
+    if (destLocationInput) {
+      destLocationInput.addEventListener('input', (e) => {
+        clearTimeout(locationSearchTimeout);
+        locationSearchTimeout = setTimeout(() => {
+          searchLocations(e.target.value, 'dest');
+        }, 300);
+      });
+
+      destLocationInput.addEventListener('blur', () => {
+        saveLocationToStorage('dest', destLocationInput.value);
+        setTimeout(() => {
+          document.getElementById('destLocationDropdown').style.display = 'none';
+        }, 200);
+      });
+
+      destLocationInput.addEventListener('focus', (e) => {
+        if (e.target.value.length >= 2) {
+          searchLocations(e.target.value, 'dest');
+        }
+      });
+    }
+  }
+
+  // ── Auto-resize location input fields ───────────────────
+  function autoResizeLocationInput(inputElement) {
+    const minWidth = 86; // Default width in pixels
+    const maxWidth = 250; // Maximum width to prevent overflow
+    const padding = 22; // Left + right padding (11px each side)
+    
+    // Create a hidden span to measure text width
+    const span = document.createElement('span');
+    span.style.visibility = 'hidden';
+    span.style.position = 'absolute';
+    span.style.font = window.getComputedStyle(inputElement).font;
+    span.style.padding = '0';
+    span.style.border = '0';
+    span.textContent = inputElement.value || inputElement.placeholder;
+    
+    document.body.appendChild(span);
+    const textWidth = span.offsetWidth;
+    document.body.removeChild(span);
+    
+    // Calculate needed width (text width + padding + small buffer)
+    const neededWidth = Math.min(textWidth + padding + 8, maxWidth);
+    const newWidth = Math.max(minWidth, neededWidth);
+    
+    inputElement.style.width = newWidth + 'px';
+  }
+
+  function setupLocationInputAutoResize() {
+    const homeLocation = document.getElementById('homeLocation');
+    const destLocation = document.getElementById('destLocation');
+    
+    for (const input of [homeLocation, destLocation]) {
+      if (!input) continue;
+      
+      // Resize on input
+      input.addEventListener('input', () => {
+        autoResizeLocationInput(input);
+      });
+      
+      // Resize on initial load (for persisted values)
+      if (input.value) {
+        autoResizeLocationInput(input);
+      }
+    }
+  }
+
+  function setupPostalCodeAutoResize() {
+    const plzHome = document.getElementById('plzHome');
+    const plzDest = document.getElementById('plzDest');
+    
+    for (const input of [plzHome, plzDest]) {
+      if (!input) continue;
+      
+      // Resize on input
+      input.addEventListener('input', () => {
+        autoResizeLocationInput(input);
+      });
+    }
+  }
+
   function togglePostalCodes() {
     const body = document.getElementById('postalBody');
     const chevron = document.getElementById('chevronPostal');
@@ -885,6 +1188,19 @@
 
   // ── Init ───────────────────────────────────────────────
   updateFromPersonalDetails();
+  setupLocationSearchListeners();
+  setupLocationInputAutoResize();
+  setupPostalCodeAutoResize();
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#homeLocation') && !e.target.closest('#homeLocationDropdown')) {
+      document.getElementById('homeLocationDropdown').style.display = 'none';
+    }
+    if (!e.target.closest('#destLocation') && !e.target.closest('#destLocationDropdown')) {
+      document.getElementById('destLocationDropdown').style.display = 'none';
+    }
+  });
 </script>
 
 </body>

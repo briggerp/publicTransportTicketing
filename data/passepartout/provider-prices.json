@@ -1,0 +1,77 @@
+{
+  "passepartout": {
+    "name": "Tarifverbund Passepartout",
+    "abbreviation": "Passepartout",
+    "website": "https://passepartout.ch/abonnemente/",
+    "prices_valid_from": "2025-12-14",
+    "price_source": "https://passepartout.ch/wp-content/uploads/2025/12/Passepartout_Basisbroschuere_2025_26_Web.pdf",
+    "price_verification_needed": true,
+    "subscription_types": {
+      "networkpass": {
+        "label": "Passepartout Abo",
+        "adult": {
+          "2nd_class": {
+            "local":     { "monthly": 57,  "annual": 513  },
+            "1_2_zones": { "monthly": 87,  "annual": 783  },
+            "3_zones":   { "monthly": 117, "annual": 1053 },
+            "4_zones":   { "monthly": 143, "annual": 1287 },
+            "5_zones":   { "monthly": 165, "annual": 1485 },
+            "all_zones": { "monthly": 247, "annual": 2223 }
+          },
+          "1st_class": {
+            "local":     { "monthly": 94,  "annual": 846  },
+            "1_2_zones": { "monthly": 144, "annual": 1296 },
+            "3_zones":   { "monthly": 193, "annual": 1737 },
+            "4_zones":   { "monthly": 236, "annual": 2124 },
+            "5_zones":   { "monthly": 272, "annual": 2448 },
+            "all_zones": { "monthly": 408, "annual": 3672 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "local":     { "monthly": 42,  "annual": 378  },
+            "1_2_zones": { "monthly": 64,  "annual": 576  },
+            "3_zones":   { "monthly": 85,  "annual": 765  },
+            "4_zones":   { "monthly": 104, "annual": 936  },
+            "5_zones":   { "monthly": 120, "annual": 1080 },
+            "all_zones": { "monthly": 180, "annual": 1620 }
+          },
+          "1st_class": {
+            "local":     { "monthly": 69,  "annual": 621  },
+            "1_2_zones": { "monthly": 106, "annual": 954  },
+            "3_zones":   { "monthly": 140, "annual": 1260 },
+            "4_zones":   { "monthly": 172, "annual": 1548 },
+            "5_zones":   { "monthly": 198, "annual": 1782 },
+            "all_zones": { "monthly": 297, "annual": 2673 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "local":     { "full": 2.60, "halbtax": 2.20 },
+          "1_2_zones": { "full": 4.40, "halbtax": 3.00 },
+          "3_zones":   { "full": 6.60, "halbtax": 3.30 },
+          "4_zones":   { "full": 8.80, "halbtax": 4.40 },
+          "5_zones":   { "full": 11.00, "halbtax": 5.50 },
+          "6_zones":   { "full": 13.00, "halbtax": 6.50 },
+          "7_zones":   { "full": 14.80, "halbtax": 7.40 },
+          "all_zones": { "full": 16.40, "halbtax": 8.20 }
+        }
+      },
+      "youth": {
+        "2nd_class": {
+          "local":     { "full": 2.60, "halbtax": 2.20 },
+          "1_2_zones": { "full": 4.40, "halbtax": 3.00 },
+          "3_zones":   { "full": 6.60, "halbtax": 3.30 },
+          "4_zones":   { "full": 8.80, "halbtax": 4.40 },
+          "5_zones":   { "full": 11.00, "halbtax": 5.50 },
+          "6_zones":   { "full": 13.00, "halbtax": 6.50 },
+          "7_zones":   { "full": 14.80, "halbtax": 7.40 },
+          "all_zones": { "full": 16.40, "halbtax": 8.20 }
+        }
+      }
+    }
+  }
+}
