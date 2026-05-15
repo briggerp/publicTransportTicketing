@@ -15,7 +15,7 @@
     "special_price_zones": [
       {
         "key":            "10_zone_LU",
-        "required_zones": [210],
+        "required_zones": [10],
         "condition":      "all_zones_within"
       }
     ],

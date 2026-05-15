@@ -1,0 +1,510 @@
+{
+  "_meta": {
+    "description": "Passepartout stop graph for zone-based fare calculation. Covers major railway stations and bus interchanges across the Passepartout network (valid from 14.12.2025).",
+    "provider": "passepartout",
+    "coverage": "Cantons Luzern, Obwalden, Nidwalden – main transit corridors",
+    "stop_id_format": "PP_<NORMALIZED_NAME> — prefix avoids collision with global ZVV stop IDs",
+    "corridors": [
+      "ZB Engelberg line: Luzern – Horw – Hergiswil NW – Stansstad – Stans – Oberdorf NW – Dallenwil – Wolfenschiessen – Grafenort – Engelberg",
+      "ZB Brünig line: Hergiswil NW – Alpnach Dorf – Alpnachstad – Sarnen – Sachseln – Giswil",
+      "SBB S3 Luzern–Sursee: Luzern – Emmenbrücke – Rothenburg – Sempach-Neuenkirch – Oberkirch – Sursee",
+      "SBB S4 Luzern–Schüpfheim: Luzern – Emmenbrücke – Wolhusen – Entlebuch – Schüpfheim",
+      "Willisauer Bahn: Wolhusen – Menznau – Gettnau – Zell LU – Willisau",
+      "SBB S1 Luzern–Rotkreuz: Luzern – Ebikon – Root – Rotkreuz",
+      "Küssnacht (bus/boat): Luzern – Küssnacht am Rigi",
+      "Stans area buses: Stans – Buochs – Beckenried, Stans – Ennetbürgen",
+      "Obwalden buses: Sarnen – Kerns, Sursee – Beromünster, Sursee – Schötz – Wauwil – Willisau"
+    ],
+    "sources": [
+      "https://passepartout.ch/wp-content/uploads/2025/12/Liniennetz_und_Tarifzonen_Detailliert_Passepartout_A0_25_print_ohne_EZ.pdf"
+    ],
+    "last_updated": "2026-05-15",
+    "verification_needed": true
+  },
+
+  "PP_LUZERN": {
+    "name": "Luzern",
+    "provider": "passepartout",
+    "zones": [10],
+    "lat": 47.0502,
+    "lon": 8.3098,
+    "neighbors": ["PP_HORW", "PP_EMMENBRUECKE", "PP_EBIKON", "PP_WOLHUSEN", "PP_KUESSNACHT"]
+  },
+
+  "PP_HORW": {
+    "name": "Horw",
+    "provider": "passepartout",
+    "zones": [21],
+    "lat": 47.0134,
+    "lon": 8.3082,
+    "neighbors": ["PP_LUZERN", "PP_HERGISWIL_NW"]
+  },
+
+  "PP_KASTANIENBAUM": {
+    "name": "Kastanienbaum",
+    "provider": "passepartout",
+    "zones": [21],
+    "lat": 47.0007,
+    "lon": 8.3393,
+    "neighbors": ["PP_HORW"]
+  },
+
+  "PP_KRIENS": {
+    "name": "Kriens, Busbahnhof",
+    "provider": "passepartout",
+    "zones": [22],
+    "lat": 47.0327,
+    "lon": 8.2826,
+    "neighbors": ["PP_LUZERN", "PP_MALTERS"]
+  },
+
+  "PP_EMMENBRUECKE": {
+    "name": "Emmenbrücke Gersag",
+    "provider": "passepartout",
+    "zones": [22],
+    "lat": 47.0735,
+    "lon": 8.2911,
+    "neighbors": ["PP_LUZERN", "PP_EMMEN_DORF", "PP_WOLHUSEN"]
+  },
+
+  "PP_EMMEN_DORF": {
+    "name": "Emmen Dorf",
+    "provider": "passepartout",
+    "zones": [23],
+    "lat": 47.0848,
+    "lon": 8.3027,
+    "neighbors": ["PP_EMMENBRUECKE", "PP_ROTHENBURG"]
+  },
+
+  "PP_MALTERS": {
+    "name": "Malters",
+    "provider": "passepartout",
+    "zones": [23],
+    "lat": 47.0394,
+    "lon": 8.1840,
+    "neighbors": ["PP_KRIENS", "PP_WOLHUSEN"]
+  },
+
+  "PP_ROTHENBURG": {
+    "name": "Rothenburg AG",
+    "provider": "passepartout",
+    "zones": [25],
+    "lat": 47.0953,
+    "lon": 8.2628,
+    "neighbors": ["PP_EMMEN_DORF", "PP_SEMPACH_NEUENKIRCH"]
+  },
+
+  "PP_EBIKON": {
+    "name": "Ebikon",
+    "provider": "passepartout",
+    "zones": [26],
+    "lat": 47.0726,
+    "lon": 8.3416,
+    "neighbors": ["PP_LUZERN", "PP_ROOT"]
+  },
+
+  "PP_ADLIGENSWIL": {
+    "name": "Adligenswil",
+    "provider": "passepartout",
+    "zones": [26],
+    "lat": 47.0637,
+    "lon": 8.3724,
+    "neighbors": ["PP_EBIKON", "PP_MEGGEN"]
+  },
+
+  "PP_ROOT": {
+    "name": "Root Längenbold",
+    "provider": "passepartout",
+    "zones": [27],
+    "lat": 47.0842,
+    "lon": 8.3862,
+    "neighbors": ["PP_EBIKON", "PP_ROTKREUZ", "PP_DIERIKON"]
+  },
+
+  "PP_DIERIKON": {
+    "name": "Dierikon",
+    "provider": "passepartout",
+    "zones": [27],
+    "lat": 47.0768,
+    "lon": 8.3662,
+    "neighbors": ["PP_ROOT", "PP_EBIKON"]
+  },
+
+  "PP_ROTKREUZ": {
+    "name": "Rotkreuz",
+    "provider": "passepartout",
+    "zones": [27],
+    "lat": 47.1393,
+    "lon": 8.4285,
+    "neighbors": ["PP_ROOT", "PP_KUESSNACHT"]
+  },
+
+  "PP_MEGGEN": {
+    "name": "Meggen",
+    "provider": "passepartout",
+    "zones": [28],
+    "lat": 47.0479,
+    "lon": 8.3908,
+    "neighbors": ["PP_ADLIGENSWIL", "PP_UDLIGENSWIL", "PP_KUESSNACHT"]
+  },
+
+  "PP_UDLIGENSWIL": {
+    "name": "Udligenswil",
+    "provider": "passepartout",
+    "zones": [28],
+    "lat": 47.0579,
+    "lon": 8.4040,
+    "neighbors": ["PP_MEGGEN", "PP_KUESSNACHT"]
+  },
+
+  "PP_KUESSNACHT": {
+    "name": "Küssnacht am Rigi",
+    "provider": "passepartout",
+    "zones": [29],
+    "lat": 47.0839,
+    "lon": 8.4416,
+    "neighbors": ["PP_LUZERN", "PP_MEGGEN", "PP_UDLIGENSWIL", "PP_ROTKREUZ"]
+  },
+
+  "PP_SEMPACH_NEUENKIRCH": {
+    "name": "Sempach-Neuenkirch",
+    "provider": "passepartout",
+    "zones": [32],
+    "lat": 47.1308,
+    "lon": 8.1952,
+    "neighbors": ["PP_ROTHENBURG", "PP_OBERKIRCH", "PP_SEMPACH"]
+  },
+
+  "PP_SEMPACH": {
+    "name": "Sempach Stadt",
+    "provider": "passepartout",
+    "zones": [32],
+    "lat": 47.1322,
+    "lon": 8.1874,
+    "neighbors": ["PP_SEMPACH_NEUENKIRCH", "PP_NEUENKIRCH"]
+  },
+
+  "PP_NEUENKIRCH": {
+    "name": "Neuenkirch",
+    "provider": "passepartout",
+    "zones": [32],
+    "lat": 47.1193,
+    "lon": 8.1806,
+    "neighbors": ["PP_SEMPACH", "PP_SEMPACH_NEUENKIRCH"]
+  },
+
+  "PP_OBERKIRCH": {
+    "name": "Oberkirch LU",
+    "provider": "passepartout",
+    "zones": [33],
+    "lat": 47.1526,
+    "lon": 8.1636,
+    "neighbors": ["PP_SEMPACH_NEUENKIRCH", "PP_SURSEE"]
+  },
+
+  "PP_SURSEE": {
+    "name": "Sursee",
+    "provider": "passepartout",
+    "zones": [37],
+    "lat": 47.1732,
+    "lon": 8.1135,
+    "neighbors": ["PP_OBERKIRCH", "PP_SCHENKON", "PP_BEROMÜNSTER", "PP_SCHOETZ"]
+  },
+
+  "PP_SCHENKON": {
+    "name": "Schenkon",
+    "provider": "passepartout",
+    "zones": [37],
+    "lat": 47.1649,
+    "lon": 8.1341,
+    "neighbors": ["PP_SURSEE"]
+  },
+
+  "PP_BEROMÜNSTER": {
+    "name": "Beromünster",
+    "provider": "passepartout",
+    "zones": [38],
+    "lat": 47.2027,
+    "lon": 8.1889,
+    "neighbors": ["PP_SURSEE"]
+  },
+
+  "PP_SCHOETZ": {
+    "name": "Schötz",
+    "provider": "passepartout",
+    "zones": [39],
+    "lat": 47.1635,
+    "lon": 7.9991,
+    "neighbors": ["PP_SURSEE", "PP_WAUWIL", "PP_ALTISHOFEN"]
+  },
+
+  "PP_WAUWIL": {
+    "name": "Wauwil",
+    "provider": "passepartout",
+    "zones": [39],
+    "lat": 47.1528,
+    "lon": 7.9838,
+    "neighbors": ["PP_SCHOETZ", "PP_WILLISAU"]
+  },
+
+  "PP_ALTISHOFEN": {
+    "name": "Altishofen",
+    "provider": "passepartout",
+    "zones": [39],
+    "lat": 47.1771,
+    "lon": 7.9676,
+    "neighbors": ["PP_SCHOETZ", "PP_NEBIKON"]
+  },
+
+  "PP_NEBIKON": {
+    "name": "Nebikon",
+    "provider": "passepartout",
+    "zones": [39],
+    "lat": 47.1875,
+    "lon": 7.9527,
+    "neighbors": ["PP_ALTISHOFEN", "PP_GETTNAU"]
+  },
+
+  "PP_HERGISWIL_NW": {
+    "name": "Hergiswil NW",
+    "provider": "passepartout",
+    "zones": [41],
+    "lat": 46.9888,
+    "lon": 8.3133,
+    "neighbors": ["PP_HORW", "PP_STANSSTAD", "PP_ALPNACH_DORF"]
+  },
+
+  "PP_STANSSTAD": {
+    "name": "Stansstad",
+    "provider": "passepartout",
+    "zones": [41],
+    "lat": 46.9716,
+    "lon": 8.3426,
+    "neighbors": ["PP_HERGISWIL_NW", "PP_STANS"]
+  },
+
+  "PP_STANS": {
+    "name": "Stans",
+    "provider": "passepartout",
+    "zones": [42],
+    "lat": 46.9576,
+    "lon": 8.3657,
+    "neighbors": ["PP_STANSSTAD", "PP_OBERDORF_NW", "PP_ENNETBUERGEN", "PP_BUOCHS"]
+  },
+
+  "PP_OBERDORF_NW": {
+    "name": "Oberdorf NW",
+    "provider": "passepartout",
+    "zones": [42],
+    "lat": 46.9464,
+    "lon": 8.3714,
+    "neighbors": ["PP_STANS", "PP_DALLENWIL"]
+  },
+
+  "PP_ENNETBUERGEN": {
+    "name": "Ennetbürgen",
+    "provider": "passepartout",
+    "zones": [42],
+    "lat": 46.9643,
+    "lon": 8.4091,
+    "neighbors": ["PP_STANS", "PP_BUOCHS"]
+  },
+
+  "PP_BUOCHS": {
+    "name": "Buochs",
+    "provider": "passepartout",
+    "zones": [43],
+    "lat": 46.9703,
+    "lon": 8.4327,
+    "neighbors": ["PP_STANS", "PP_ENNETBUERGEN", "PP_BECKENRIED"]
+  },
+
+  "PP_BECKENRIED": {
+    "name": "Beckenried",
+    "provider": "passepartout",
+    "zones": [43],
+    "lat": 46.9645,
+    "lon": 8.4836,
+    "neighbors": ["PP_BUOCHS", "PP_EMMETTEN"]
+  },
+
+  "PP_EMMETTEN": {
+    "name": "Emmetten",
+    "provider": "passepartout",
+    "zones": [43],
+    "lat": 46.9530,
+    "lon": 8.5127,
+    "neighbors": ["PP_BECKENRIED"]
+  },
+
+  "PP_DALLENWIL": {
+    "name": "Dallenwil",
+    "provider": "passepartout",
+    "zones": [46],
+    "lat": 46.9277,
+    "lon": 8.3662,
+    "neighbors": ["PP_OBERDORF_NW", "PP_WOLFENSCHIESSEN", "PP_BUREN_NW"]
+  },
+
+  "PP_BUREN_NW": {
+    "name": "Büren NW",
+    "provider": "passepartout",
+    "zones": [47],
+    "lat": 46.9090,
+    "lon": 8.3452,
+    "neighbors": ["PP_DALLENWIL"]
+  },
+
+  "PP_WOLFENSCHIESSEN": {
+    "name": "Wolfenschiessen",
+    "provider": "passepartout",
+    "zones": [45],
+    "lat": 46.9117,
+    "lon": 8.3920,
+    "neighbors": ["PP_DALLENWIL", "PP_GRAFENORT"]
+  },
+
+  "PP_GRAFENORT": {
+    "name": "Grafenort",
+    "provider": "passepartout",
+    "zones": [44],
+    "lat": 46.8823,
+    "lon": 8.4200,
+    "neighbors": ["PP_WOLFENSCHIESSEN", "PP_ENGELBERG"]
+  },
+
+  "PP_ENGELBERG": {
+    "name": "Engelberg",
+    "provider": "passepartout",
+    "zones": [44],
+    "lat": 46.8220,
+    "lon": 8.4077,
+    "neighbors": ["PP_GRAFENORT"]
+  },
+
+  "PP_ALPNACH_DORF": {
+    "name": "Alpnach Dorf",
+    "provider": "passepartout",
+    "zones": [51],
+    "lat": 46.9380,
+    "lon": 8.2845,
+    "neighbors": ["PP_HERGISWIL_NW", "PP_ALPNACHSTAD"]
+  },
+
+  "PP_ALPNACHSTAD": {
+    "name": "Alpnachstad",
+    "provider": "passepartout",
+    "zones": [51],
+    "lat": 46.9464,
+    "lon": 8.2942,
+    "neighbors": ["PP_ALPNACH_DORF", "PP_SARNEN"]
+  },
+
+  "PP_KERNS": {
+    "name": "Kerns",
+    "provider": "passepartout",
+    "zones": [52],
+    "lat": 46.9062,
+    "lon": 8.2701,
+    "neighbors": ["PP_SARNEN", "PP_ST_NIKLAUSEN"]
+  },
+
+  "PP_ST_NIKLAUSEN": {
+    "name": "St. Niklausen OW",
+    "provider": "passepartout",
+    "zones": [52],
+    "lat": 46.8960,
+    "lon": 8.2521,
+    "neighbors": ["PP_KERNS", "PP_SACHSELN"]
+  },
+
+  "PP_SARNEN": {
+    "name": "Sarnen",
+    "provider": "passepartout",
+    "zones": [53],
+    "lat": 46.8964,
+    "lon": 8.2451,
+    "neighbors": ["PP_ALPNACHSTAD", "PP_KERNS", "PP_SACHSELN"]
+  },
+
+  "PP_SACHSELN": {
+    "name": "Sachseln",
+    "provider": "passepartout",
+    "zones": [55],
+    "lat": 46.8625,
+    "lon": 8.2508,
+    "neighbors": ["PP_SARNEN", "PP_ST_NIKLAUSEN", "PP_GISWIL"]
+  },
+
+  "PP_GISWIL": {
+    "name": "Giswil",
+    "provider": "passepartout",
+    "zones": [54],
+    "lat": 46.8360,
+    "lon": 8.1875,
+    "neighbors": ["PP_SACHSELN"]
+  },
+
+  "PP_WOLHUSEN": {
+    "name": "Wolhusen",
+    "provider": "passepartout",
+    "zones": [61],
+    "lat": 47.0603,
+    "lon": 8.0757,
+    "neighbors": ["PP_EMMENBRUECKE", "PP_MALTERS", "PP_MENZNAU", "PP_ENTLEBUCH"]
+  },
+
+  "PP_MENZNAU": {
+    "name": "Menznau",
+    "provider": "passepartout",
+    "zones": [61],
+    "lat": 47.0804,
+    "lon": 8.0154,
+    "neighbors": ["PP_WOLHUSEN", "PP_GETTNAU"]
+  },
+
+  "PP_ENTLEBUCH": {
+    "name": "Entlebuch",
+    "provider": "passepartout",
+    "zones": [63],
+    "lat": 46.9954,
+    "lon": 8.0580,
+    "neighbors": ["PP_WOLHUSEN", "PP_SCHÜPFHEIM"]
+  },
+
+  "PP_SCHÜPFHEIM": {
+    "name": "Schüpfheim",
+    "provider": "passepartout",
+    "zones": [66],
+    "lat": 46.9349,
+    "lon": 8.0133,
+    "neighbors": ["PP_ENTLEBUCH"]
+  },
+
+  "PP_GETTNAU": {
+    "name": "Gettnau",
+    "provider": "passepartout",
+    "zones": [74],
+    "lat": 47.1051,
+    "lon": 7.9593,
+    "neighbors": ["PP_MENZNAU", "PP_ZELL_LU", "PP_NEBIKON"]
+  },
+
+  "PP_ZELL_LU": {
+    "name": "Zell LU",
+    "provider": "passepartout",
+    "zones": [74],
+    "lat": 47.0866,
+    "lon": 7.9318,
+    "neighbors": ["PP_GETTNAU", "PP_WILLISAU"]
+  },
+
+  "PP_WILLISAU": {
+    "name": "Willisau",
+    "provider": "passepartout",
+    "zones": [73],
+    "lat": 47.1225,
+    "lon": 7.9985,
+    "neighbors": ["PP_ZELL_LU", "PP_WAUWIL"]
+  }
+}

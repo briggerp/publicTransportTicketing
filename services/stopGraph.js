@@ -1,7 +1,8 @@
 const fs   = require('fs');
 const path = require('path');
 
-const GRAPH_PATH = path.join(__dirname, '..', 'data', 'stops', 'stop-graph.json');
+const GLOBAL_GRAPH_PATH = path.join(__dirname, '..', 'data', 'stops', 'stop-graph.json');
+const DATA_DIR          = path.join(__dirname, '..', 'data');
 
 class StopGraph {
   constructor() {
@@ -10,9 +11,7 @@ class StopGraph {
     this._loaded = false;
   }
 
-  load() {
-    if (this._loaded) return;
-    const raw = JSON.parse(fs.readFileSync(GRAPH_PATH, 'utf8'));
+  _loadEntries(raw) {
     for (const [id, stop] of Object.entries(raw)) {
       if (id === '_meta') continue;
       this.graph[id] = stop;
@@ -26,6 +25,25 @@ class StopGraph {
         lon:       stop.lon
       });
     }
+  }
+
+  load() {
+    if (this._loaded) return;
+
+    // Load global stop graph (ZVV and others)
+    const globalRaw = JSON.parse(fs.readFileSync(GLOBAL_GRAPH_PATH, 'utf8'));
+    this._loadEntries(globalRaw);
+
+    // Load any provider-specific stop graphs (data/<provider>/stop-graph.json)
+    for (const entry of fs.readdirSync(DATA_DIR, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const providerGraphPath = path.join(DATA_DIR, entry.name, 'stop-graph.json');
+      if (fs.existsSync(providerGraphPath)) {
+        const raw = JSON.parse(fs.readFileSync(providerGraphPath, 'utf8'));
+        this._loadEntries(raw);
+      }
+    }
+
     this._loaded = true;
     console.log(`✓ Loaded ${Object.keys(this.graph).length} stops from stop-graph.json`);
   }
