@@ -1,0 +1,54 @@
+{
+  "unireso": {
+    "name": "Communauté tarifaire Unireso",
+    "abbreviation": "Unireso",
+    "website": "https://www.unireso.com/",
+    "price_source": "https://www.tpg.ch/en/ticket-fares",
+    "prices_valid_from": "2024-12-15",
+    "price_verification_needed": false,
+    "notes": "Single-zone system (Zone 10) covering entire Canton of Geneva. Geneva offers free passes for residents under 25 and AVS/DI beneficiaries get 50% off.",
+    "subscription_types": {
+      "networkpass": {
+        "label": "Unireso Abonnement Zone 10",
+        "adult": {
+          "2nd_class": {
+            "all_zones": { "monthly": 75, "annual": 500 }
+          },
+          "1st_class": {
+            "all_zones": { "monthly": 119, "annual": 850 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "all_zones": { "monthly": 45, "annual": 400 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "all_zones": { "full": 3.00, "halbtax": 2.00 }
+        }
+      },
+      "youth": {
+        "2nd_class": {
+          "all_zones": { "full": 3.00, "halbtax": 2.00 }
+        }
+      }
+    },
+    "day_pass": {
+      "adult": {
+        "2nd_class": {
+          "all_zones": 10.00
+        }
+      }
+    },
+    "subsidies": {
+      "under_6": "Free, no pass required",
+      "ages_6_to_17": "Free annual pass for Geneva residents",
+      "ages_18_to_24": "Free annual pass for Geneva residents in training or low income",
+      "avs_di": "50% discount on subscriptions"
+    }
+  }
+}
