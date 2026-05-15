@@ -1,0 +1,156 @@
+{
+  "ostwind": {
+    "name": "Tarifverbund Ostwind",
+    "abbreviation": "OSTWIND",
+    "website": "https://www.ostwind.ch/billette-abos/abos/monats-und-jahresabos/",
+    "price_source": "https://www.ostwind.ch/assets/resources/Dateien/Tarifflyer/flyer-otv-vvv-2025-druck.pdf",
+    "prices_valid_from": "2025-12-14",
+    "price_verification_needed": false,
+    "notes": "111 zones across Eastern Switzerland + Liechtenstein. Subscriptions available for 1-7 zones or all zones (8+ zones automatically become all-zones since Dec 2023). Youth = under 24.99 years, 2nd class only. Adults = from 25 years, 2nd or 1st class. Annual = 12 months for price of 9. Halbtax valid only for single/day tickets, NOT for subscriptions.",
+    "subscription_types": {
+      "networkpass": {
+        "label": "OSTWIND Monats-/Jahresabo",
+        "adult": {
+          "2nd_class": {
+            "1_zone":    { "monthly": 72,  "annual": 648  },
+            "2_zones":   { "monthly": 79,  "annual": 711  },
+            "3_zones":   { "monthly": 116, "annual": 1044 },
+            "4_zones":   { "monthly": 154, "annual": 1386 },
+            "5_zones":   { "monthly": 189, "annual": 1701 },
+            "6_zones":   { "monthly": 225, "annual": 2025 },
+            "7_zones":   { "monthly": 260, "annual": 2340 },
+            "all_zones": { "monthly": 288, "annual": 2592 }
+          },
+          "1st_class": {
+            "1_zone":    { "monthly": 126, "annual": 1134 },
+            "2_zones":   { "monthly": 139, "annual": 1251 },
+            "3_zones":   { "monthly": 203, "annual": 1827 },
+            "4_zones":   { "monthly": 269, "annual": 2421 },
+            "5_zones":   { "monthly": 330, "annual": 2970 },
+            "6_zones":   { "monthly": 395, "annual": 3555 },
+            "7_zones":   { "monthly": 454, "annual": 4086 },
+            "all_zones": { "monthly": 504, "annual": 4536 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "1_zone":    { "monthly": 54,  "annual": 486  },
+            "2_zones":   { "monthly": 61,  "annual": 549  },
+            "3_zones":   { "monthly": 89,  "annual": 801  },
+            "4_zones":   { "monthly": 116, "annual": 1044 },
+            "5_zones":   { "monthly": 144, "annual": 1296 },
+            "6_zones":   { "monthly": 170, "annual": 1530 },
+            "7_zones":   { "monthly": 195, "annual": 1755 },
+            "all_zones": { "monthly": 218, "annual": 1962 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "short_distance": { "full": 2.50, "halbtax": 2.30 },
+          "1_zone":    { "full": 3.30, "halbtax": 2.70 },
+          "2_zones":   { "full": 5.00, "halbtax": 3.00 },
+          "3_zones":   { "full": 7.60, "halbtax": 3.80 },
+          "4_zones":   { "full": 10.00, "halbtax": 5.00 },
+          "5_zones":   { "full": 12.60, "halbtax": 6.30 },
+          "6_zones":   { "full": 15.00, "halbtax": 7.50 },
+          "7_zones":   { "full": 17.40, "halbtax": 8.70 },
+          "8_zones":   { "full": 20.00, "halbtax": 10.00 },
+          "9_zones":   { "full": 22.40, "halbtax": 11.20 },
+          "10_zones":  { "full": 25.00, "halbtax": 12.50 },
+          "11_zones":  { "full": 27.20, "halbtax": 13.60 },
+          "12_zones":  { "full": 29.60, "halbtax": 14.80 },
+          "all_zones": { "full": 31.80, "halbtax": 15.90 }
+        },
+        "1st_class": {
+          "short_distance": { "full": 4.40, "halbtax": 3.90 },
+          "1_zone":    { "full": 5.80, "halbtax": 4.70 },
+          "2_zones":   { "full": 8.80, "halbtax": 5.30 },
+          "3_zones":   { "full": 13.40, "halbtax": 6.70 },
+          "4_zones":   { "full": 17.60, "halbtax": 8.80 },
+          "5_zones":   { "full": 22.00, "halbtax": 11.00 },
+          "6_zones":   { "full": 26.20, "halbtax": 13.10 },
+          "7_zones":   { "full": 30.40, "halbtax": 15.20 },
+          "8_zones":   { "full": 35.00, "halbtax": 17.50 },
+          "9_zones":   { "full": 39.20, "halbtax": 19.60 },
+          "10_zones":  { "full": 43.80, "halbtax": 21.90 },
+          "11_zones":  { "full": 47.60, "halbtax": 23.80 },
+          "12_zones":  { "full": 51.80, "halbtax": 25.90 },
+          "all_zones": { "full": 55.60, "halbtax": 27.80 }
+        }
+      },
+      "youth": {
+        "2nd_class": {
+          "short_distance": { "full": 2.50, "halbtax": 2.30 },
+          "1_zone":    { "full": 3.30, "halbtax": 2.70 },
+          "2_zones":   { "full": 5.00, "halbtax": 3.00 },
+          "3_zones":   { "full": 7.60, "halbtax": 3.80 },
+          "4_zones":   { "full": 10.00, "halbtax": 5.00 },
+          "5_zones":   { "full": 12.60, "halbtax": 6.30 },
+          "6_zones":   { "full": 15.00, "halbtax": 7.50 },
+          "7_zones":   { "full": 17.40, "halbtax": 8.70 },
+          "8_zones":   { "full": 20.00, "halbtax": 10.00 },
+          "9_zones":   { "full": 22.40, "halbtax": 11.20 },
+          "10_zones":  { "full": 25.00, "halbtax": 12.50 },
+          "11_zones":  { "full": 27.20, "halbtax": 13.60 },
+          "12_zones":  { "full": 29.60, "halbtax": 14.80 },
+          "all_zones": { "full": 31.80, "halbtax": 15.90 }
+        }
+      }
+    },
+    "day_pass": {
+      "adult": {
+        "2nd_class": {
+          "1_zone":    { "full": 6.60, "halbtax": 5.40 },
+          "2_zones":   { "full": 10.00, "halbtax": 6.00 },
+          "3_zones":   { "full": 15.20, "halbtax": 7.60 },
+          "4_zones":   { "full": 20.00, "halbtax": 10.00 },
+          "5_zones":   { "full": 25.20, "halbtax": 12.60 },
+          "6_zones":   { "full": 30.00, "halbtax": 15.00 },
+          "7_zones":   { "full": 34.80, "halbtax": 17.40 },
+          "8_zones":   { "full": 40.00, "halbtax": 20.00 },
+          "9_zones":   { "full": 44.80, "halbtax": 22.40 },
+          "10_zones":  { "full": 50.00, "halbtax": 25.00 },
+          "11_zones":  { "full": 54.40, "halbtax": 27.20 },
+          "12_zones":  { "full": 59.20, "halbtax": 29.60 },
+          "all_zones": { "full": 63.60, "halbtax": 31.80 }
+        },
+        "1st_class": {
+          "1_zone":    { "full": 11.60, "halbtax": 9.40 },
+          "2_zones":   { "full": 17.60, "halbtax": 10.60 },
+          "3_zones":   { "full": 26.80, "halbtax": 13.40 },
+          "4_zones":   { "full": 35.20, "halbtax": 17.60 },
+          "5_zones":   { "full": 44.00, "halbtax": 22.00 },
+          "6_zones":   { "full": 52.40, "halbtax": 26.20 },
+          "7_zones":   { "full": 60.80, "halbtax": 30.40 },
+          "8_zones":   { "full": 70.00, "halbtax": 35.00 },
+          "9_zones":   { "full": 78.40, "halbtax": 39.20 },
+          "10_zones":  { "full": 87.60, "halbtax": 43.80 },
+          "11_zones":  { "full": 95.20, "halbtax": 47.60 },
+          "12_zones":  { "full": 103.60, "halbtax": 51.80 },
+          "all_zones": { "full": 111.20, "halbtax": 55.60 }
+        }
+      }
+    },
+    "9_uhr_tageskarte": {
+      "notes": "Valid from 09:00 Mon-Fri; all day Sat/Sun/holidays until 05:00 next day",
+      "adult": {
+        "2nd_class": { "full": 40.00, "halbtax": 20.00 },
+        "1st_class": { "full": 70.00, "halbtax": 35.00 }
+      },
+      "reduced": {
+        "2nd_class": { "full": 20.00 },
+        "1st_class": { "full": 35.00 }
+      },
+      "9_uhr_multi_tageskarte": {
+        "notes": "6-day pass, valid 1 year",
+        "adult": {
+          "2nd_class": { "full": 220.00, "halbtax": 110.00 },
+          "1st_class": { "full": 385.00, "halbtax": 193.00 }
+        }
+      }
+    }
+  }
+}

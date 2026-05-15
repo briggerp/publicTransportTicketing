@@ -387,47 +387,82 @@
     </button>
 
     <div class="adv-body open" id="postalBody">
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Home Postal Code</span>
-          <span class="field-sub">Enter your home PLZ (4 digits)</span>
+
+      <!-- Mode toggle -->
+      <div style="display:flex;gap:8px;margin-bottom:18px;">
+        <button id="modeZip"     onclick="setLocationMode('zip')"     style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">ZIP Code</button>
+        <button id="modeStation" onclick="setLocationMode('station')" style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--sep);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Station</button>
+      </div>
+
+      <!-- ── ZIP Code mode ─────────────────────────── -->
+      <div id="zipSection">
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Home Postal Code</span>
+            <span class="field-sub">Enter your home PLZ (4 digits)</span>
+          </div>
+          <div class="field-right">
+            <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
+            <span class="unit">PLZ</span>
+          </div>
         </div>
-        <div class="field-right">
-          <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
-          <span class="unit">PLZ</span>
+
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Home Location</span>
+          </div>
+          <div class="field-right" style="position: relative;">
+            <input type="text" id="homeLocation" class="location-input" placeholder="i.e. Bern" />
+            <span class="unit">City</span>
+            <div id="homeLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Destination Postal Code</span>
+            <span class="field-sub">Enter destination PLZ (4 digits)</span>
+          </div>
+          <div class="field-right">
+            <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
+            <span class="unit">PLZ</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Destination Location</span>
+          </div>
+          <div class="field-right" style="position: relative;">
+            <input type="text" id="destLocation" class="location-input" placeholder="i.e. Zürich" />
+            <span class="unit">City</span>
+            <div id="destLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+          </div>
         </div>
       </div>
 
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Home Location</span>
+      <!-- ── Station mode ──────────────────────────── -->
+      <div id="stationSection" style="display:none;">
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Home Station</span>
+            <span class="field-sub">Your usual boarding stop</span>
+          </div>
+          <div class="field-right" style="position:relative;">
+            <input type="text" id="stopHome" class="location-input" placeholder="i.e. Luzern" autocomplete="off" />
+            <div id="stopHomeDropdown" class="autocomplete-dropdown" style="display:none;"></div>
+          </div>
         </div>
-        <div class="field-right" style="position: relative;">
-          <input type="text" id="homeLocation" class="location-input" placeholder="i.e. Bern" />
-          <span class="unit">City</span>
-          <div id="homeLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-        </div>
-      </div>
 
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Destination Postal Code</span>
-          <span class="field-sub">Enter destination PLZ (4 digits)</span>
-        </div>
-        <div class="field-right">
-          <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
-          <span class="unit">PLZ</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-info">
-          <span class="field-name">Destination Location</span>
-        </div>
-        <div class="field-right" style="position: relative;">
-          <input type="text" id="destLocation" class="location-input" placeholder="i.e. Zürich" />
-          <span class="unit">City</span>
-          <div id="destLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+        <div class="field">
+          <div class="field-info">
+            <span class="field-name">Destination Station</span>
+            <span class="field-sub">Your usual alighting stop</span>
+          </div>
+          <div class="field-right" style="position:relative;">
+            <input type="text" id="stopDest" class="location-input" placeholder="i.e. Sursee" autocomplete="off" />
+            <div id="stopDestDropdown" class="autocomplete-dropdown" style="display:none;"></div>
+          </div>
         </div>
       </div>
 
@@ -1155,8 +1190,162 @@
   if (document.getElementById('plzHome')) {
     document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
     document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
-    document.getElementById('ageInput').addEventListener('change', lookupZonePricing);
+    document.getElementById('ageInput').addEventListener('change', () => {
+      if (currentLocationMode === 'zip') lookupZonePricing();
+      else lookupStopPricing();
+    });
   }
+
+  // ── Location mode (ZIP / Station) ────────────────────────
+
+  let currentLocationMode = 'zip';
+  // Resolved stop IDs for the station mode
+  let selectedStopHome = null;
+  let selectedStopDest = null;
+
+  function setLocationMode(mode) {
+    currentLocationMode = mode;
+    document.getElementById('zipSection').style.display     = mode === 'zip'     ? '' : 'none';
+    document.getElementById('stationSection').style.display = mode === 'station' ? '' : 'none';
+
+    const btnZip     = document.getElementById('modeZip');
+    const btnStation = document.getElementById('modeStation');
+    const activeStyle   = 'flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;';
+    const inactiveStyle = 'flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--sep);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;';
+    btnZip.style.cssText     = mode === 'zip'     ? activeStyle : inactiveStyle;
+    btnStation.style.cssText = mode === 'station' ? activeStyle : inactiveStyle;
+
+    // Reset results when switching modes
+    document.getElementById('zonesTraversed').textContent = '—';
+    document.getElementById('pricingResult').style.display = 'none';
+    document.getElementById('priceError').style.display    = 'none';
+  }
+
+  // ── Station autocomplete ──────────────────────────────────
+
+  let stopSearchTimeout = null;
+
+  async function searchStops(query, fieldType) {
+    const dropdownId = fieldType === 'home' ? 'stopHomeDropdown' : 'stopDestDropdown';
+    const dropdown   = document.getElementById(dropdownId);
+
+    if (!query || query.trim().length < 2) {
+      dropdown.style.display = 'none';
+      return;
+    }
+
+    try {
+      const res  = await fetch(`/api/stops?search=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      const stops = data.stops || [];
+
+      if (stops.length === 0) { dropdown.style.display = 'none'; return; }
+
+      dropdown.innerHTML = stops.map((s, i) =>
+        `<div class="autocomplete-item" data-idx="${i}">
+           <div style="font-size:14px;">${s.name}</div>
+           <div class="autocomplete-item-plz" style="font-size:11px;color:var(--muted);">${s.provider} · zone ${s.zones[0]}</div>
+         </div>`
+      ).join('');
+      // Attach listeners after rendering — avoids all HTML-escaping issues
+      dropdown.querySelectorAll('.autocomplete-item').forEach((el, i) => {
+        el.addEventListener('mousedown', e => {
+          e.preventDefault(); // keep focus on the input
+          selectStop(stops[i].stopId, stops[i].name, fieldType);
+        });
+      });
+      dropdown.style.display = 'block';
+    } catch (e) {
+      console.error('Stop search error:', e);
+    }
+  }
+
+  function selectStop(stopId, name, fieldType) {
+    const inputId    = fieldType === 'home' ? 'stopHome'         : 'stopDest';
+    const dropdownId = fieldType === 'home' ? 'stopHomeDropdown' : 'stopDestDropdown';
+
+    document.getElementById(inputId).value    = name;
+    document.getElementById(dropdownId).style.display = 'none';
+
+    if (fieldType === 'home') selectedStopHome = stopId;
+    else                      selectedStopDest = stopId;
+
+    lookupStopPricing();
+  }
+
+  // ── Stop pricing lookup ───────────────────────────────────
+
+  async function lookupStopPricing() {
+    if (!selectedStopHome || !selectedStopDest) return;
+
+    const errorDiv  = document.getElementById('priceError');
+    const resultDiv = document.getElementById('pricingResult');
+    const age       = parseInt(document.getElementById('ageInput').value) || 25;
+    const isYouth   = age < 25;
+
+    errorDiv.style.display  = 'none';
+    resultDiv.style.display = 'none';
+
+    try {
+      const res  = await fetch('/api/stop-pricing', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ stopHome: selectedStopHome, stopDest: selectedStopDest, isYouth })
+      });
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        errorDiv.textContent    = data.error || 'Failed to look up stops';
+        errorDiv.style.display  = 'block';
+        return;
+      }
+
+      document.getElementById('zonesTraversed').textContent =
+        `${data.zonesTraversed} zone${data.zonesTraversed !== 1 ? 's' : ''}`;
+      document.getElementById('fullPrice').textContent    = `CHF ${data.pricing.singleTrip.fullPrice.toFixed(2)}`;
+      document.getElementById('halftaxPrice').textContent = `CHF ${data.pricing.singleTrip.halftaxPrice.toFixed(2)}`;
+      resultDiv.style.display = 'block';
+      currentZonePricing = data;
+
+      if (data.subscription) {
+        document.getElementById('localPass').value = data.subscription.annual;
+        document.getElementById('localPassDesc').textContent = `${data.zoneDescription} yearly subscription`;
+      }
+      if (data.priceSource) {
+        const sourceLink = document.getElementById('localPassSourceLink');
+        sourceLink.href = data.priceSource;
+        try {
+          sourceLink.textContent = new URL(data.priceSource).hostname.replace('www.', '');
+        } catch { sourceLink.textContent = 'Local pass pricing'; }
+      }
+
+      document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
+      calculate();
+    } catch (e) {
+      console.error('Stop pricing error:', e);
+      errorDiv.textContent   = 'Error looking up stop pricing. Please try again.';
+      errorDiv.style.display = 'block';
+    }
+  }
+
+  // Wire up station inputs
+  document.getElementById('stopHome').addEventListener('input', e => {
+    selectedStopHome = null;
+    clearTimeout(stopSearchTimeout);
+    stopSearchTimeout = setTimeout(() => searchStops(e.target.value, 'home'), 200);
+  });
+  document.getElementById('stopDest').addEventListener('input', e => {
+    selectedStopDest = null;
+    clearTimeout(stopSearchTimeout);
+    stopSearchTimeout = setTimeout(() => searchStops(e.target.value, 'dest'), 200);
+  });
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#stationSection')) {
+      document.getElementById('stopHomeDropdown').style.display = 'none';
+      document.getElementById('stopDestDropdown').style.display = 'none';
+    }
+  });
 
   // ── Disclosure toggles ────────────────────────────────
   function togglePersonal() {

@@ -1,0 +1,47 @@
+{
+  "tnw": {
+    "name": "Tarifverbund Nordwestschweiz (TNW)",
+    "abbreviation": "TNW",
+    "website": "https://www.tnw.ch/en/tickets-preise/abonnemente/das-u-abo",
+    "price_source": "https://www.u-abo.ch/preissrechner/",
+    "prices_valid_from": "2025-12-13",
+    "price_verification_needed": true,
+    "notes": "TNW U-Abo is an ALL-ZONES product covering the entire 48-zone network. No zone-tiered subscriptions exist. Basel-Stadt youth (under 25) residents get a special CHF 365/year rate. Prices below estimated from search data — verify against official sources.",
+    "subscription_types": {
+      "networkpass": {
+        "label": "TNW U-Abo",
+        "adult": {
+          "2nd_class": {
+            "all_zones": { "monthly": 86, "annual": 824 }
+          },
+          "1st_class": {
+            "all_zones": { "monthly": -1, "annual": -1 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "all_zones": { "monthly": 57, "annual": 542 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "1_zone":    { "full": 4.20, "halbtax": 2.90 },
+          "2_zones":   { "full": 5.10, "halbtax": -1 },
+          "short_distance": { "full": -1, "halbtax": 2.00 }
+        }
+      }
+    },
+    "day_pass": {
+      "adult": {
+        "2nd_class": {
+          "basel_city": -1,
+          "all_zones": 20.20
+        }
+      }
+    },
+    "_placeholder_values": "Values of -1 indicate data not yet available. These must be filled in from official TNW sources before use in calculations."
+  }
+}

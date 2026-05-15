@@ -11,55 +11,35 @@
         "adult": {
           "2nd_class": {
             "local":     { "monthly": 51,  "annual": 474  },
-            "1_2_zones": { "monthly": 87,  "annual": 809  },
-            "3_zones":   { "monthly": 128, "annual": 1189 },
-            "4_zones":   { "monthly": 169, "annual": 1569 },
-            "5_zones":   { "monthly": 207, "annual": 1922 },
-            "all_zones": { "monthly": 247, "annual": 2295 }
+            "1_2_zones": { "monthly": 88,  "annual": 813  },
+            "3_zones":   { "monthly": 130, "annual": 1200 },
+            "4_zones":   { "monthly": 171, "annual": 1579 },
+            "5_zones":   { "monthly": 210, "annual": 1939 },
+            "all_zones": { "monthly": 250, "annual": 2308 }
           },
           "1st_class": {
-            "local":     { "monthly": 84,  "annual": 781  },
-            "1_2_zones": { "monthly": 144, "annual": 1338 },
-            "3_zones":   { "monthly": 211, "annual": 1961 },
-            "4_zones":   { "monthly": 279, "annual": 2592 },
-            "5_zones":   { "monthly": 342, "annual": 3178 },
-            "all_zones": { "monthly": 408, "annual": 3791 }
+            "local":     { "monthly": 86,  "annual": 794  },
+            "1_2_zones": { "monthly": 144, "annual": 1345 },
+            "3_zones":   { "monthly": 212, "annual": 1971 },
+            "4_zones":   { "monthly": 283, "annual": 3203 },
+            "5_zones":   { "monthly": 347, "annual": 3203 },
+            "all_zones": { "monthly": 413, "annual": 3812 }
           }
         },
         "youth": {
           "2nd_class": {
             "local":     { "monthly": 37,  "annual": 343  },
-            "1_2_zones": { "monthly": 63,  "annual": 586  },
-            "3_zones":   { "monthly": 93,  "annual": 861  },
-            "4_zones":   { "monthly": 123, "annual": 1138 },
-            "5_zones":   { "monthly": 150, "annual": 1393 },
-            "all_zones": { "monthly": 179, "annual": 1663 }
-          },
-          "1st_class": {
-            "local":     { "monthly": 61,  "annual": 566  },
-            "1_2_zones": { "monthly": 104, "annual": 968  },
-            "3_zones":   { "monthly": 153, "annual": 1421 },
-            "4_zones":   { "monthly": 203, "annual": 1881 },
-            "5_zones":   { "monthly": 248, "annual": 2302 },
-            "all_zones": { "monthly": 296, "annual": 2746 }
+            "1_2_zones": { "monthly": 64,  "annual": 589  },
+            "3_zones":   { "monthly": 94,  "annual": 868  },
+            "4_zones":   { "monthly": 124, "annual": 1145 },
+            "5_zones":   { "monthly": 152, "annual": 1403 },
+            "all_zones": { "monthly": 181, "annual": 1671 }
           }
         }
       }
     },
     "single_trip": {
       "adult": {
-        "2nd_class": {
-          "local":     { "full": 2.80, "halbtax": 2.40 },
-          "1_2_zones": { "full": 4.70, "halbtax": 3.30 },
-          "3_zones":   { "full": 7.20, "halbtax": 3.60 },
-          "4_zones":   { "full": 9.40, "halbtax": 4.70 },
-          "5_zones":   { "full": 11.40, "halbtax": 5.70 },
-          "6_zones": { "full": 13.60, "halbtax": 6.80 },
-          "7_zones": { "full": 15.80, "halbtax": 7.90 },
-          "all_zones": { "full": 18.00, "halbtax": 9.00 }
-        }
-      },
-      "youth": {
         "2nd_class": {
           "local":     { "full": 2.80, "halbtax": 2.40 },
           "1_2_zones": { "full": 4.70, "halbtax": 3.30 },

@@ -1,0 +1,153 @@
+{
+  "mobilis": {
+    "name": "Communauté tarifaire Mobilis",
+    "abbreviation": "Mobilis",
+    "website": "https://www.mobilis-vaud.ch/en/tarifs/",
+    "price_source": "T651.22 Communauté tarifaire vaudoise Mobilis (dès le 14.12.2025)",
+    "prices_valid_from": "2023-12-10",
+    "price_verification_needed": true,
+    "notes": "~188 zones in Canton Vaud (zones 11-188). Zones must be contiguous. Grand Lausanne: zone 11 cannot be sold alone, must include zone 12 minimum. 12+ zones = all-zones pass. Annual = 12 months for price of 9. Categories: Child/Youth/Student (<25), Adult (25-64), Senior (65+). Canton Vaud offers 50% discount on annual passes for youth and seniors (residents only, from 2025/2026). Shared zones with Frimobil (100,105,106,107,130-135) and Onde Verte (126,127). Prices extracted from PNG screenshots of T651.22 — verify against original document for small-digit accuracy.",
+    "subscription_types": {
+      "networkpass": {
+        "label": "Mobilis Abonnement",
+        "adult": {
+          "2nd_class": {
+            "2_zones":    { "monthly": 78,  "annual": 702  },
+            "3_zones":    { "monthly": 108, "annual": 972  },
+            "4_zones":    { "monthly": 148, "annual": 1332 },
+            "5_zones":    { "monthly": 185, "annual": 1665 },
+            "6_zones":    { "monthly": 221, "annual": 1989 },
+            "7_zones":    { "monthly": 256, "annual": 2304 },
+            "8_zones":    { "monthly": 292, "annual": 2628 },
+            "9_zones":    { "monthly": 325, "annual": 2925 },
+            "10_zones":   { "monthly": 359, "annual": 3231 },
+            "11_zones":   { "monthly": 390, "annual": 3510 },
+            "all_zones":  { "monthly": 418, "annual": 3762 }
+          },
+          "1st_class": {
+            "2_zones":    { "monthly": 136, "annual": 1224 },
+            "3_zones":    { "monthly": 189, "annual": 1701 },
+            "4_zones":    { "monthly": 258, "annual": 2322 },
+            "5_zones":    { "monthly": 323, "annual": 2907 },
+            "6_zones":    { "monthly": 385, "annual": 3465 },
+            "7_zones":    { "monthly": 447, "annual": 4023 },
+            "8_zones":    { "monthly": 509, "annual": 4581 },
+            "9_zones":    { "monthly": 567, "annual": 5103 },
+            "10_zones":   { "monthly": 626, "annual": 5634 },
+            "11_zones":   { "monthly": 680, "annual": 6120 },
+            "all_zones":  { "monthly": 729, "annual": 6561 }
+          }
+        },
+        "youth": {
+          "2nd_class": {
+            "2_zones":    { "monthly": 55,  "annual": 495  },
+            "3_zones":    { "monthly": 77,  "annual": 693  },
+            "4_zones":    { "monthly": 105, "annual": 945  },
+            "5_zones":    { "monthly": 131, "annual": 1179 },
+            "6_zones":    { "monthly": 157, "annual": 1413 },
+            "7_zones":    { "monthly": 182, "annual": 1638 },
+            "8_zones":    { "monthly": 207, "annual": 1863 },
+            "9_zones":    { "monthly": 231, "annual": 2079 },
+            "10_zones":   { "monthly": 255, "annual": 2295 },
+            "11_zones":   { "monthly": 277, "annual": 2493 },
+            "all_zones":  { "monthly": 297, "annual": 2673 }
+          },
+          "1st_class": {
+            "2_zones":    { "monthly": 96,  "annual": 864  },
+            "3_zones":    { "monthly": 134, "annual": 1206 },
+            "4_zones":    { "monthly": 183, "annual": 1647 },
+            "5_zones":    { "monthly": 229, "annual": 2061 },
+            "6_zones":    { "monthly": 274, "annual": 2466 },
+            "7_zones":    { "monthly": 317, "annual": 2853 },
+            "8_zones":    { "monthly": 361, "annual": 3249 },
+            "9_zones":    { "monthly": 403, "annual": 3627 },
+            "10_zones":   { "monthly": 445, "annual": 4005 },
+            "11_zones":   { "monthly": 483, "annual": 4347 },
+            "all_zones":  { "monthly": 518, "annual": 4662 }
+          }
+        },
+        "senior": {
+          "2nd_class": {
+            "2_zones":    { "monthly": 71,  "annual": 639  },
+            "3_zones":    { "monthly": 99,  "annual": 891  },
+            "4_zones":    { "monthly": 135, "annual": 1215 },
+            "5_zones":    { "monthly": 169, "annual": 1521 },
+            "6_zones":    { "monthly": 202, "annual": 1818 },
+            "7_zones":    { "monthly": 234, "annual": 2106 },
+            "8_zones":    { "monthly": 267, "annual": 2403 },
+            "9_zones":    { "monthly": 297, "annual": 2673 },
+            "10_zones":   { "monthly": 328, "annual": 2952 },
+            "11_zones":   { "monthly": 356, "annual": 3204 },
+            "all_zones":  { "monthly": 382, "annual": 3438 }
+          },
+          "1st_class": {
+            "2_zones":    { "monthly": 124, "annual": 1116 },
+            "3_zones":    { "monthly": 173, "annual": 1557 },
+            "4_zones":    { "monthly": 236, "annual": 2124 },
+            "5_zones":    { "monthly": 295, "annual": 2655 },
+            "6_zones":    { "monthly": 353, "annual": 3177 },
+            "7_zones":    { "monthly": 409, "annual": 3681 },
+            "8_zones":    { "monthly": 466, "annual": 4194 },
+            "9_zones":    { "monthly": 519, "annual": 4671 },
+            "10_zones":   { "monthly": 573, "annual": 5157 },
+            "11_zones":   { "monthly": 622, "annual": 5598 },
+            "all_zones":  { "monthly": 667, "annual": 6003 }
+          }
+        }
+      }
+    },
+    "single_trip": {
+      "adult": {
+        "2nd_class": {
+          "short_distance": { "full": 2.30, "halbtax": -1 },
+          "2_zones":   { "full": 3.80, "halbtax": 2.60 },
+          "3_zones":   { "full": 5.60, "halbtax": 2.80 },
+          "4_zones":   { "full": 7.80, "halbtax": 3.90 },
+          "5_zones":   { "full": 9.80, "halbtax": 4.90 },
+          "6_zones":   { "full": 11.80, "halbtax": 5.90 },
+          "7_zones":   { "full": 13.80, "halbtax": 6.90 },
+          "8_zones":   { "full": 15.60, "halbtax": 7.80 },
+          "9_zones":   { "full": 17.40, "halbtax": 8.70 },
+          "10_zones":  { "full": 19.20, "halbtax": 9.60 },
+          "11_zones":  { "full": 21.00, "halbtax": 10.50 },
+          "all_zones": { "full": 22.60, "halbtax": 11.30 }
+        },
+        "1st_class": {
+          "2_zones":   { "full": 6.60, "halbtax": 4.60 },
+          "3_zones":   { "full": 9.80, "halbtax": 4.90 },
+          "4_zones":   { "full": 13.60, "halbtax": 6.80 },
+          "5_zones":   { "full": 17.20, "halbtax": 8.60 },
+          "6_zones":   { "full": 20.60, "halbtax": 10.30 },
+          "7_zones":   { "full": 24.00, "halbtax": 12.00 },
+          "8_zones":   { "full": 27.40, "halbtax": 13.70 },
+          "9_zones":   { "full": 30.60, "halbtax": 15.30 },
+          "10_zones":  { "full": 33.60, "halbtax": 16.80 },
+          "11_zones":  { "full": 36.80, "halbtax": 18.40 },
+          "all_zones": { "full": 39.60, "halbtax": 19.80 }
+        }
+      }
+    },
+    "day_pass": {
+      "adult": {
+        "2nd_class": {
+          "2_zones":   { "full": 7.60, "halbtax": 5.20 },
+          "3_zones":   { "full": 11.20, "halbtax": 5.60 },
+          "4_zones":   { "full": 15.60, "halbtax": 7.80 },
+          "5_zones":   { "full": 19.60, "halbtax": 9.80 },
+          "6_zones":   { "full": 23.60, "halbtax": 11.80 },
+          "7_zones":   { "full": 27.60, "halbtax": 13.80 },
+          "8_zones":   { "full": 31.20, "halbtax": 15.60 },
+          "9_zones":   { "full": 34.80, "halbtax": 17.40 },
+          "10_zones":  { "full": 38.40, "halbtax": 19.20 },
+          "11_zones":  { "full": 42.00, "halbtax": 21.00 },
+          "all_zones": { "full": 45.20, "halbtax": 22.60 }
+        }
+      }
+    },
+    "subsidies": {
+      "youth_annual_discount": "50% off annual pass for Vaud residents under 25 (from summer 2025)",
+      "senior_annual_discount": "50% off annual pass for Vaud residents 65+ (from January 2026)"
+    },
+    "_extraction_notes": "Prices extracted from PNG screenshots of T651.22 tariff regulation. Annual prices calculated as monthly × 9 (confirmed formula in official docs). Youth/adult ratio ~71%, senior/adult ratio ~91%, 1st/2nd class ratio ~1.74×. Cross-verified ratios are highly consistent, giving confidence in readings. Individual digits may need spot-checking against the original PDF."
+  }
+}
