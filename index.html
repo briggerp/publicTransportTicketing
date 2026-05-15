@@ -871,8 +871,8 @@
       await lookupSinglePostalCode(plzDest, 'dest');
     }
 
-    // Only proceed with zone pricing if both are set
-    if (!plzHome || !plzDest) {
+    // Only proceed with zone pricing if both are fully entered (4 digits)
+    if (!plzHome || !plzDest || plzHome.length < 4 || plzDest.length < 4) {
       document.getElementById('zonesTraversed').textContent = '—';
       return;
     }

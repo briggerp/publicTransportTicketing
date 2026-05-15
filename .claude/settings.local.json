@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "WebSearch",
+      "WebFetch(domain:www.oev-info.ch)",
+      "WebFetch(domain:gtfs.geops.ch)",
+      "WebFetch(domain:opentransportdata.swiss)",
+      "WebFetch(domain:gtfs.org)",
+      "WebFetch(domain:data.opentransportdata.swiss)"
+    ]
+  }
+}
