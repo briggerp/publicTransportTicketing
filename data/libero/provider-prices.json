@@ -12,7 +12,8 @@
         "adult": {
           "2nd_class": {
             "local":     { "monthly": 82,  "annual": 738  },
-            "1_2_zones": { "monthly": 82,  "annual": 738  },
+            "1_zones": { "monthly": 82,  "annual": 738  },
+            "2_zones": { "monthly": 82,  "annual": 738  },
             "3_zones":   { "monthly": 118, "annual": 1062 },
             "4_zones":   { "monthly": 152, "annual": 1368 },
             "5_zones":   { "monthly": 182, "annual": 1638 },
@@ -20,7 +21,8 @@
           },
           "1st_class": {
             "local":     { "monthly": 135, "annual": 1215 },
-            "1_2_zones": { "monthly": 135, "annual": 1215 },
+            "1_zones": { "monthly": 135, "annual": 1215 },
+            "2_zones": { "monthly": 135, "annual": 1215 },
             "3_zones":   { "monthly": 195, "annual": 1755 },
             "4_zones":   { "monthly": 251, "annual": 2259 },
             "5_zones":   { "monthly": 300, "annual": 2700 },
@@ -30,7 +32,8 @@
         "youth": {
           "2nd_class": {
             "local":     { "monthly": 62,  "annual": 558  },
-            "1_2_zones": { "monthly": 62,  "annual": 558  },
+            "1_zones": { "monthly": 62,  "annual": 558  },
+            "2_zones": { "monthly": 62,  "annual": 558  },
             "3_zones":   { "monthly": 90,  "annual": 810  },
             "4_zones":   { "monthly": 116, "annual": 1044 },
             "5_zones":   { "monthly": 139, "annual": 1251 },
@@ -38,7 +41,8 @@
           },
           "1st_class": {
             "local":     { "monthly": 102, "annual": 918  },
-            "1_2_zones": { "monthly": 102, "annual": 918  },
+            "1_zones": { "monthly": 102, "annual": 918  },
+            "2_zones": { "monthly": 102, "annual": 918  },
             "3_zones":   { "monthly": 149, "annual": 1341 },
             "4_zones":   { "monthly": 191, "annual": 1719 },
             "5_zones":   { "monthly": 229, "annual": 2061 },
@@ -51,7 +55,8 @@
       "adult": {
         "2nd_class": {
           "local":     { "full": 2.60, "halbtax": 2.20 },
-          "1_2_zones": { "full": 4.60, "halbtax": 3.20 },
+          "1_zones": { "full": 4.60, "halbtax": 3.20 },
+          "2_zones": { "full": 4.60, "halbtax": 3.20 },
           "3_zones":   { "full": 7.00, "halbtax": 3.50 },
           "4_zones":   { "full": 9.20, "halbtax": 4.60 },
           "5_zones":   { "full": 11.20, "halbtax": 5.60 },
@@ -63,7 +68,8 @@
       "youth": {
         "2nd_class": {
           "local":     { "full": 2.60, "halbtax": 2.20 },
-          "1_2_zones": { "full": 4.60, "halbtax": 3.20 },
+          "1_zones": { "full": 4.60, "halbtax": 3.20 },
+          "2_zones": { "full": 4.60, "halbtax": 3.20 },
           "3_zones":   { "full": 7.00, "halbtax": 3.50 },
           "4_zones":   { "full": 9.20, "halbtax": 4.60 },
           "5_zones":   { "full": 11.20, "halbtax": 5.60 },

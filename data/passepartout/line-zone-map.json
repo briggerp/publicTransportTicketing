@@ -1,0 +1,60 @@
+{
+    "zones": [
+        {
+        "zone_number": 10,
+        "color_description": "white (counted double in pricing as '10*')",
+        "area_description": "Lucerne city and immediate surroundings (including Kriens, Horw, Adligenswil)",
+        "uncertain": false,
+        "stations": {
+            "Luzern Bahnhof":{
+                "neighbors": ["Schwanenplatz", "Pilatusplatz", "Luzern Allmend/Messe", "Hertenstein SGV", "Luzern Verkehrshaus", "Ebikon Bahnhof", "Emmenbrücke Bahnhof", "Luzern Littau Bahnhof"]
+            },
+            "Schwanenplatz": {
+                "neighbors": ["Luzern Bahnhof", "Luzernerhof"]
+            },
+            "Luzernerhof": {
+                "neighbors": ["Schwanenplatz", "Haldensteig"]
+            },
+            "Haldensteig": {
+                "neighbors": ["Luzernerhof", "Brüelstrasse"]
+            },
+            "Brüelstrasse": {
+                "neighbors": ["Haldensteig", "Schlösslihalde"]
+            },
+            "Schlösslihalde": {
+                "neighbors": ["Brüelstrasse", "Schädrütihalde"]
+            },
+            "Schädrütihalde": {
+                "neighbors": ["Schlösslihalde", "Luzern, Hochhüsliweid"]
+            },
+            "Luzern, Hochhüsliweid": {
+                "neighbors": ["Schädrütihalde", "Adligenswil, Luegisland"]
+            },
+            "Adligenswil, Luegisland": {
+                "neighbors": ["Luzern, Hochhüsliweid", "Rigiblick"]
+            },
+            "Rigiblick": {
+                "neighbors": ["Adligenswil, Luegisland", "Adligenswil, Dorf"]
+            },
+            "Adligenswil, Dorf": {
+                "neighbors": ["Rigiblick", "Blatte"]
+            },
+            "Blatte": {
+                "neighbors": ["Adligenswil, Dorf", "Sagi"]
+            },
+            "Sagi": {
+                "neighbors": ["Blatte", "Adligenswil, Chliäbnet"]
+            },
+            "Adligenswil, Chliäbnet": {
+                "neighbors": ["Sagi", "Götzentalstrasse"]
+            }
+        }
+        },
+        {
+        "zone_number": 2,
+        "color_description": "salmon/red-pink",
+        "area_description": "Emmen, Emmenbrücke",
+        "uncertain": false 
+        }
+    ]
+}

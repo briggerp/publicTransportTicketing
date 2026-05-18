@@ -1,0 +1,6 @@
+{
+  "provider": "mobilis",
+  "displayName": "Mobilis",
+  "cantons": ["VD", "FR"],
+  "zoneMapFile": "mobilis_vaud_generale.pdf"
+}

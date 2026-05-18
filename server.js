@@ -53,6 +53,10 @@ stopGraph.load();
 app.use(cors());
 app.use(express.json());
 
+// Serve data files and zone images as static assets
+app.use('/data', express.static(path.join(__dirname, 'data')));
+app.use('/zoneImages', express.static(path.join(__dirname, 'zoneImages')));
+
 // Serve root index.html FIRST
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -322,6 +326,14 @@ app.get('/api/providers', (req, res) => {
     prices_valid_from: data.prices_valid_from
   }));
   res.json({ providers });
+});
+
+app.get('/api/plz-provider', (req, res) => {
+  const { plz } = req.query;
+  if (!plz) return res.status(400).json({ error: 'Missing plz parameter' });
+  const entry = plzZoneMap[plz];
+  if (!entry) return res.status(404).json({ error: 'PLZ not in any known local network' });
+  res.json({ plz, provider: entry.provider, zones: entry.zones, locality: entry.locality });
 });
 
 // Health check endpoint

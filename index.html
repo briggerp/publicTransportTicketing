@@ -66,6 +66,7 @@
       padding: 24px;
       margin-bottom: 14px;
       box-shadow: var(--shadow);
+      overflow: visible;
     }
     .card-label {
       font-size: 12px;
@@ -166,40 +167,75 @@
     /* ── Autocomplete dropdown ──────────────── */
     .autocomplete-dropdown {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 6px);
       left: 0;
       right: 0;
       background: var(--card);
       border: 1px solid var(--sep);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      max-height: 200px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06);
+      max-height: 260px;
       overflow-y: auto;
       z-index: 1000;
-      margin-top: 4px;
     }
 
     .autocomplete-item {
-      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--sep);
       cursor: pointer;
-      font-size: 14px;
-      color: var(--text);
       transition: background-color .15s;
     }
 
-    .autocomplete-item:last-child {
-      border-bottom: none;
+    .autocomplete-item:last-child { border-bottom: none; }
+
+    .autocomplete-item:hover,
+    .autocomplete-item.highlighted {
+      background-color: var(--bg);
     }
 
-    .autocomplete-item:hover {
-      background-color: var(--bg);
+    .autocomplete-item-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
     }
 
     .autocomplete-item-plz {
       font-size: 12px;
+      font-weight: 600;
       color: var(--muted);
-      margin-top: 2px;
+      background: #E5E5EA;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Zone pills ──────────────────────── */
+    .zone-pill {
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1.5px solid var(--sep);
+      background: transparent;
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s, border-color .15s, color .15s;
+      white-space: nowrap;
+    }
+    .zone-pill:hover:not(.selected) {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    .zone-pill.selected {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
     }
 
     /* ── Disclosure (collapsible) ─────────── */
@@ -371,7 +407,7 @@
           <span class="field-sub" id="ageSegLabel"></span>
         </div>
         <div class="field-right">
-          <input type="number" id="ageInput" value="25" min="0" max="120" />
+          <input type="number" id="ageInput" value="30" min="0" max="120" />
           <span class="unit">years</span>
         </div>
       </div>
@@ -387,110 +423,52 @@
     </button>
 
     <div class="adv-body open" id="postalBody">
-
-      <!-- Mode toggle -->
-      <div style="display:flex;gap:8px;margin-bottom:18px;">
-        <button id="modeZip"     onclick="setLocationMode('zip')"     style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">ZIP Code</button>
-        <button id="modeStation" onclick="setLocationMode('station')" style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--sep);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Station</button>
-      </div>
-
-      <!-- ── ZIP Code mode ─────────────────────────── -->
-      <div id="zipSection">
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Postal Code</span>
-            <span class="field-sub">Enter your home PLZ (4 digits)</span>
-          </div>
-          <div class="field-right">
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Postal Code</span>
+          <span class="field-sub">Enter your home PLZ (4 digits)</span>
+        </div>
+        <div class="field-right">
+          <div style="position:relative;">
             <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
-            <span class="unit">PLZ</span>
+            <div id="plzDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
-        </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Location</span>
-          </div>
-          <div class="field-right" style="position: relative;">
-            <input type="text" id="homeLocation" class="location-input" placeholder="i.e. Bern" />
-            <span class="unit">City</span>
-            <div id="homeLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Postal Code</span>
-            <span class="field-sub">Enter destination PLZ (4 digits)</span>
-          </div>
-          <div class="field-right">
-            <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
-            <span class="unit">PLZ</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Location</span>
-          </div>
-          <div class="field-right" style="position: relative;">
-            <input type="text" id="destLocation" class="location-input" placeholder="i.e. Zürich" />
-            <span class="unit">City</span>
-            <div id="destLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-          </div>
+          <span class="unit">PLZ</span>
         </div>
       </div>
 
-      <!-- ── Station mode ──────────────────────────── -->
-      <div id="stationSection" style="display:none;">
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Station</span>
-            <span class="field-sub">Your usual boarding stop</span>
-          </div>
-          <div class="field-right" style="position:relative;">
-            <input type="text" id="stopHome" class="location-input" placeholder="i.e. Luzern" autocomplete="off" />
-            <div id="stopHomeDropdown" class="autocomplete-dropdown" style="display:none;"></div>
-          </div>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Town</span>
         </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Station</span>
-            <span class="field-sub">Your usual alighting stop</span>
+        <div class="field-right">
+          <div style="position:relative;">
+            <input type="text" id="homeTown" placeholder="i.e. Bern" />
+            <div id="townDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
-          <div class="field-right" style="position:relative;">
-            <input type="text" id="stopDest" class="location-input" placeholder="i.e. Sursee" autocomplete="off" />
-            <div id="stopDestDropdown" class="autocomplete-dropdown" style="display:none;"></div>
-          </div>
+          <span class="unit">Town</span>
         </div>
       </div>
 
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);">
-        <div class="field" style="border-bottom: none; padding-bottom: 0;">
+      <!-- Total Local Zones -->
+      <div class="field" style="flex-direction:column; align-items:stretch; gap:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
           <div class="field-info">
-            <span class="field-name">Zones Traversed</span>
-          </div>
-          <div class="field-right">
-            <span id="zonesTraversed" style="font-weight: 600; color: var(--blue);">—</span>
+            <span class="field-name">Local Zones</span>
+            <span class="field-sub" id="zoneSelectionSummary">Select your zones</span>
           </div>
         </div>
+        <span id="providerLabel" style="display:none; font-size:0.8em; color:var(--blue); margin-bottom:4px;"></span>
+        <div id="zonePicker" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
       </div>
 
-      <div id="pricingResult" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;">Single Trip Prices</div>
-        <div class="field" style="border-bottom:1px solid var(--sep);padding-bottom:10px;">
-          <span style="font-size:13px;color:var(--text);">Full Price</span>
-          <span id="fullPrice" style="font-weight:600;color:var(--text);">—</span>
-        </div>
-        <div class="field" style="border-bottom:none;padding-top:10px;">
-          <span style="font-size:13px;color:var(--text);">Half-Tax Price</span>
-          <span id="halftaxPrice" style="font-weight:600;color:var(--green);">—</span>
-        </div>
+      <!-- Zone map toggle -->
+      <div class="field">
+        <button id="showMapBtn" style="padding:8px 12px;border:none;border-radius:8px;background:var(--blue);color:#fff;cursor:pointer;">Show Zone Map</button>
       </div>
-
-      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
-
+      <div id="zoneMapContainer" style="display:none;margin-top:12px;">
+        <embed id="zoneMapEmbed" src="" type="application/pdf" width="100%" height="500px" />
+      </div>
     </div>
   </div>
 
@@ -704,21 +682,15 @@
   }
 
   // ── Calculation logic (mirrors Python notebook) ────────
+  // Always assume the package is purchased; excess spend beyond creditTotal is paid individually.
   function calcTramAboHTPlus(localPass, gaNight, ht, htCost, htBonus, trainTrips, trainPrice) {
     const base        = localPass + gaNight + ht;
     const yearlyTrain = trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    let money, bonusLeft;
-    if (yearlyTrain > creditTotal) {
-      money     = base + yearlyTrain - htBonus;
-      bonusLeft = 0;
-    } else if (yearlyTrain < htCost) {
-      money     = base + yearlyTrain;
-      bonusLeft = htBonus;
-    } else {
-      money     = base + htCost;
-      bonusLeft = creditTotal - yearlyTrain;
-    }
+    const money       = base + htCost + Math.max(0, yearlyTrain - creditTotal);
+    const bonusLeft   = yearlyTrain >= creditTotal ? 0
+                      : yearlyTrain >= htCost      ? creditTotal - yearlyTrain
+                      : htBonus;
     return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTrain), creditTotal, htBonus];
   }
 
@@ -726,17 +698,10 @@
     const base        = gaNight + ht;
     const yearlyTotal = tramTrips * 52 * tramPrice + trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    let money, bonusLeft;
-    if (yearlyTotal > creditTotal) {
-      money     = base + yearlyTotal - htBonus;
-      bonusLeft = 0;
-    } else if (yearlyTotal < htCost) {
-      money     = base + yearlyTotal;
-      bonusLeft = htBonus;
-    } else {
-      money     = base + htCost;
-      bonusLeft = creditTotal - yearlyTotal;
-    }
+    const money       = base + htCost + Math.max(0, yearlyTotal - creditTotal);
+    const bonusLeft   = yearlyTotal >= creditTotal ? 0
+                      : yearlyTotal >= htCost      ? creditTotal - yearlyTotal
+                      : htBonus;
     return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTotal), creditTotal, htBonus];
   }
 
@@ -762,6 +727,10 @@
       {
         name: 'Local Pass + HT Plus 2000',
         result: calcTramAboHTPlus(localPass, gaNight, ht, ht2c, ht2b, trainTrips, trainPrice),
+      },
+      {
+        name: 'Local Pass + HT Plus 3000',
+        result: calcTramAboHTPlus(localPass, gaNight, ht, ht3c, ht3b, trainTrips, trainPrice),
       },
       {
         name: 'HT Plus 1000',
@@ -853,501 +822,14 @@
     updateFromPersonalDetails();
   }
 
-  // ── Postal Code Lookup ────────────────────────
-  let currentZonePricing = null;
-
-  async function lookupSinglePostalCode(plz, fieldType) {
-    if (!plz || plz.trim().length === 0) {
-      document.getElementById(`${fieldType}Location`).value = '';
-      return;
-    }
-
-    try {
-      // Search all providers for this postal code
-      const providers = ['zvv', 'libero', 'passepartout'];
-      const plzPadded = plz.padStart(4, '0');
-
-      for (const provider of providers) {
-        const response = await fetch(`/api/postal-codes?search=${encodeURIComponent(plzPadded)}&provider=${provider}`);
-        const data = await response.json();
-
-        if (data.postalCodes && data.postalCodes.length > 0) {
-          // Find exact match for the postal code
-          const match = data.postalCodes.find(item => item.plz === plzPadded);
-          if (match) {
-            const locationInput = document.getElementById(`${fieldType}Location`);
-            locationInput.value = match.locality;
-            autoResizeLocationInput(locationInput);
-            return;
-          }
-        }
-      }
-    } catch (error) {
-      console.error(`Error looking up postal code ${plz}:`, error);
-    }
-  }
-
-  async function lookupZonePricing() {
-    const plzHome = document.getElementById('plzHome').value.trim();
-    const plzDest = document.getElementById('plzDest').value.trim();
-    const errorDiv = document.getElementById('priceError');
-    const resultDiv = document.getElementById('pricingResult');
-    const age = parseInt(document.getElementById('ageInput').value) || 25;
-    const isYouth = age < 25;
-
-    errorDiv.style.display = 'none';
-    resultDiv.style.display = 'none';
-
-    // Lookup individual postal code localities
-    if (plzHome) {
-      await lookupSinglePostalCode(plzHome, 'home');
-    }
-    if (plzDest) {
-      await lookupSinglePostalCode(plzDest, 'dest');
-    }
-
-    // Only proceed with zone pricing if both are fully entered (4 digits)
-    if (!plzHome || !plzDest || plzHome.length < 4 || plzDest.length < 4) {
-      document.getElementById('zonesTraversed').textContent = '—';
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/zone-pricing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          plzHome,
-          plzDestination: plzDest,
-          isYouth
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        errorDiv.textContent = data.error || 'Failed to look up postal codes';
-        errorDiv.style.display = 'block';
-        console.error('API Error:', data);
-        return;
-      }
-
-      // Update UI with results
-      const homeInput = document.getElementById('homeLocation');
-      const destInput = document.getElementById('destLocation');
-      homeInput.value = data.homeLocality;
-      destInput.value = data.destLocality;
-      autoResizeLocationInput(homeInput);
-      autoResizeLocationInput(destInput);
-      saveLocationToStorage('home', data.homeLocality);
-      saveLocationToStorage('dest', data.destLocality);
-      document.getElementById('zonesTraversed').textContent = `${data.zonesTraversed} zone${data.zonesTraversed !== 1 ? 's' : ''}`;
-      document.getElementById('fullPrice').textContent = `CHF ${data.pricing.singleTrip.fullPrice.toFixed(2)}`;
-      document.getElementById('halftaxPrice').textContent = `CHF ${data.pricing.singleTrip.halftaxPrice.toFixed(2)}`;
-
-      resultDiv.style.display = 'block';
-      currentZonePricing = data;
-
-      // Update local pass price and description based on zones traversed
-      if (data.subscription) {
-        document.getElementById('localPass').value = data.subscription.annual;
-        document.getElementById('localPassDesc').textContent = `${data.zoneDescription} yearly subscription`;
-      }
-
-      // Update local pass pricing source link from provider data
-      if (data.priceSource) {
-        const sourceLink = document.getElementById('localPassSourceLink');
-        sourceLink.href = data.priceSource;
-        
-        // Extract domain from URL for display text
-        try {
-          const url = new URL(data.priceSource);
-          const hostname = url.hostname.replace('www.', '');
-          sourceLink.textContent = hostname;
-        } catch (e) {
-          sourceLink.textContent = 'Local pass pricing';
-        }
-      }
-
-      // Auto-update tram price based on zone
-      document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
-      calculate();
-    } catch (error) {
-      console.error('Zone lookup error:', error);
-      errorDiv.textContent = 'Error looking up postal codes. Please try again.';
-      errorDiv.style.display = 'block';
-    }
-  }
-
-  // ── Location Search & Autocomplete ─────────────────────
-  let locationSearchTimeout = null;
-
-  async function searchLocations(searchTerm, fieldType) {
-    if (!searchTerm || searchTerm.trim().length < 2) {
-      document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
-      return;
-    }
-
-    try {
-      // Search all providers and merge results
-      const providers = ['zvv', 'libero', 'passepartout'];
-      const allResults = [];
-      const seenPlz = new Set();
-
-      for (const provider of providers) {
-        try {
-          const response = await fetch(`/api/postal-codes?search=${encodeURIComponent(searchTerm)}&provider=${provider}`);
-          const data = await response.json();
-
-          if (data.postalCodes && data.postalCodes.length > 0) {
-            // Add unique results (avoid duplicates)
-            for (const item of data.postalCodes) {
-              if (!seenPlz.has(item.plz)) {
-                allResults.push(item);
-                seenPlz.add(item.plz);
-              }
-            }
-          }
-        } catch (error) {
-          console.error(`Error searching provider ${provider}:`, error);
-        }
-      }
-
-      if (allResults.length === 0) {
-        document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
-        return;
-      }
-
-      const dropdown = document.getElementById(`${fieldType}LocationDropdown`);
-      dropdown.innerHTML = allResults.slice(0, 20).map(item => `
-        <div class="autocomplete-item" onclick="selectLocation('${item.plz}', '${item.locality}', '${fieldType}')">
-          <strong>${item.locality}</strong>
-          <div class="autocomplete-item-plz">PLZ ${item.plz}</div>
-        </div>
-      `).join('');
-      dropdown.style.display = 'block';
-    } catch (error) {
-      console.error('Location search error:', error);
-      document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
-    }
-  }
-
-  function selectLocation(plz, locality, fieldType) {
-    // Set the postal code field
-    document.getElementById(`plz${fieldType === 'home' ? 'Home' : 'Dest'}`).value = plz;
-    
-    // Set the location field
-    const locationInput = document.getElementById(`${fieldType}Location`);
-    locationInput.value = locality;
-    
-    // Auto-resize to fit content
-    autoResizeLocationInput(locationInput);
-    
-    // Save to localStorage
-    localStorage.setItem(`location_${fieldType}`, locality);
-    
-    // Hide dropdown
-    document.getElementById(`${fieldType}LocationDropdown`).style.display = 'none';
-    
-    // Trigger lookup
-    lookupZonePricing();
-  }
-
-  function saveLocationToStorage(fieldType, value) {
-    if (value.trim()) {
-      localStorage.setItem(`location_${fieldType}`, value);
-    }
-  }
-
-  function loadLocationsFromStorage() {
-    const homeLocation = localStorage.getItem('location_home');
-    const destLocation = localStorage.getItem('location_dest');
-    
-    if (homeLocation) {
-      document.getElementById('homeLocation').value = homeLocation;
-    }
-    if (destLocation) {
-      document.getElementById('destLocation').value = destLocation;
-    }
-  }
-
-  function setupLocationSearchListeners() {
-    const homeLocationInput = document.getElementById('homeLocation');
-    const destLocationInput = document.getElementById('destLocation');
-
-    if (homeLocationInput) {
-      homeLocationInput.addEventListener('input', (e) => {
-        clearTimeout(locationSearchTimeout);
-        locationSearchTimeout = setTimeout(() => {
-          searchLocations(e.target.value, 'home');
-        }, 300);
-      });
-
-      homeLocationInput.addEventListener('blur', () => {
-        saveLocationToStorage('home', homeLocationInput.value);
-        setTimeout(() => {
-          document.getElementById('homeLocationDropdown').style.display = 'none';
-        }, 200);
-      });
-
-      homeLocationInput.addEventListener('focus', (e) => {
-        if (e.target.value.length >= 2) {
-          searchLocations(e.target.value, 'home');
-        }
-      });
-    }
-
-    if (destLocationInput) {
-      destLocationInput.addEventListener('input', (e) => {
-        clearTimeout(locationSearchTimeout);
-        locationSearchTimeout = setTimeout(() => {
-          searchLocations(e.target.value, 'dest');
-        }, 300);
-      });
-
-      destLocationInput.addEventListener('blur', () => {
-        saveLocationToStorage('dest', destLocationInput.value);
-        setTimeout(() => {
-          document.getElementById('destLocationDropdown').style.display = 'none';
-        }, 200);
-      });
-
-      destLocationInput.addEventListener('focus', (e) => {
-        if (e.target.value.length >= 2) {
-          searchLocations(e.target.value, 'dest');
-        }
-      });
-    }
-  }
-
-  // ── Auto-resize location input fields ───────────────────
-  function autoResizeLocationInput(inputElement) {
-    const minWidth = 86; // Default width in pixels
-    const maxWidth = 250; // Maximum width to prevent overflow
-    const padding = 22; // Left + right padding (11px each side)
-    
-    // Create a hidden span to measure text width
-    const span = document.createElement('span');
-    span.style.visibility = 'hidden';
-    span.style.position = 'absolute';
-    span.style.font = window.getComputedStyle(inputElement).font;
-    span.style.padding = '0';
-    span.style.border = '0';
-    span.textContent = inputElement.value || inputElement.placeholder;
-    
-    document.body.appendChild(span);
-    const textWidth = span.offsetWidth;
-    document.body.removeChild(span);
-    
-    // Calculate needed width (text width + padding + small buffer)
-    const neededWidth = Math.min(textWidth + padding + 8, maxWidth);
-    const newWidth = Math.max(minWidth, neededWidth);
-    
-    inputElement.style.width = newWidth + 'px';
-  }
-
-  function setupLocationInputAutoResize() {
-    const homeLocation = document.getElementById('homeLocation');
-    const destLocation = document.getElementById('destLocation');
-    
-    for (const input of [homeLocation, destLocation]) {
-      if (!input) continue;
-      
-      // Resize on input
-      input.addEventListener('input', () => {
-        autoResizeLocationInput(input);
-      });
-      
-      // Resize on initial load (for persisted values)
-      if (input.value) {
-        autoResizeLocationInput(input);
-      }
-    }
-  }
-
-  function setupPostalCodeAutoResize() {
-    const plzHome = document.getElementById('plzHome');
-    const plzDest = document.getElementById('plzDest');
-    
-    for (const input of [plzHome, plzDest]) {
-      if (!input) continue;
-      
-      // Resize on input
-      input.addEventListener('input', () => {
-        autoResizeLocationInput(input);
-      });
-    }
-  }
-
+  // ── Disclosure toggles ────────────────────────────────
   function togglePostalCodes() {
-    const body = document.getElementById('postalBody');
+    const body    = document.getElementById('postalBody');
     const chevron = document.getElementById('chevronPostal');
-    const open = body.classList.toggle('open');
+    const open    = body.classList.toggle('open');
     chevron.classList.toggle('open', open);
   }
 
-  // Wire up postal code inputs
-  if (document.getElementById('plzHome')) {
-    document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
-    document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
-    document.getElementById('ageInput').addEventListener('change', () => {
-      if (currentLocationMode === 'zip') lookupZonePricing();
-      else lookupStopPricing();
-    });
-  }
-
-  // ── Location mode (ZIP / Station) ────────────────────────
-
-  let currentLocationMode = 'zip';
-  // Resolved stop IDs for the station mode
-  let selectedStopHome = null;
-  let selectedStopDest = null;
-
-  function setLocationMode(mode) {
-    currentLocationMode = mode;
-    document.getElementById('zipSection').style.display     = mode === 'zip'     ? '' : 'none';
-    document.getElementById('stationSection').style.display = mode === 'station' ? '' : 'none';
-
-    const btnZip     = document.getElementById('modeZip');
-    const btnStation = document.getElementById('modeStation');
-    const activeStyle   = 'flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;';
-    const inactiveStyle = 'flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--sep);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;';
-    btnZip.style.cssText     = mode === 'zip'     ? activeStyle : inactiveStyle;
-    btnStation.style.cssText = mode === 'station' ? activeStyle : inactiveStyle;
-
-    // Reset results when switching modes
-    document.getElementById('zonesTraversed').textContent = '—';
-    document.getElementById('pricingResult').style.display = 'none';
-    document.getElementById('priceError').style.display    = 'none';
-  }
-
-  // ── Station autocomplete ──────────────────────────────────
-
-  let stopSearchTimeout = null;
-
-  async function searchStops(query, fieldType) {
-    const dropdownId = fieldType === 'home' ? 'stopHomeDropdown' : 'stopDestDropdown';
-    const dropdown   = document.getElementById(dropdownId);
-
-    if (!query || query.trim().length < 2) {
-      dropdown.style.display = 'none';
-      return;
-    }
-
-    try {
-      const res  = await fetch(`/api/stops?search=${encodeURIComponent(query)}`);
-      const data = await res.json();
-      const stops = data.stops || [];
-
-      if (stops.length === 0) { dropdown.style.display = 'none'; return; }
-
-      dropdown.innerHTML = stops.map((s, i) =>
-        `<div class="autocomplete-item" data-idx="${i}">
-           <div style="font-size:14px;">${s.name}</div>
-           <div class="autocomplete-item-plz" style="font-size:11px;color:var(--muted);">${s.provider} · zone ${s.zones[0]}</div>
-         </div>`
-      ).join('');
-      // Attach listeners after rendering — avoids all HTML-escaping issues
-      dropdown.querySelectorAll('.autocomplete-item').forEach((el, i) => {
-        el.addEventListener('mousedown', e => {
-          e.preventDefault(); // keep focus on the input
-          selectStop(stops[i].stopId, stops[i].name, fieldType);
-        });
-      });
-      dropdown.style.display = 'block';
-    } catch (e) {
-      console.error('Stop search error:', e);
-    }
-  }
-
-  function selectStop(stopId, name, fieldType) {
-    const inputId    = fieldType === 'home' ? 'stopHome'         : 'stopDest';
-    const dropdownId = fieldType === 'home' ? 'stopHomeDropdown' : 'stopDestDropdown';
-
-    document.getElementById(inputId).value    = name;
-    document.getElementById(dropdownId).style.display = 'none';
-
-    if (fieldType === 'home') selectedStopHome = stopId;
-    else                      selectedStopDest = stopId;
-
-    lookupStopPricing();
-  }
-
-  // ── Stop pricing lookup ───────────────────────────────────
-
-  async function lookupStopPricing() {
-    if (!selectedStopHome || !selectedStopDest) return;
-
-    const errorDiv  = document.getElementById('priceError');
-    const resultDiv = document.getElementById('pricingResult');
-    const age       = parseInt(document.getElementById('ageInput').value) || 25;
-    const isYouth   = age < 25;
-
-    errorDiv.style.display  = 'none';
-    resultDiv.style.display = 'none';
-
-    try {
-      const res  = await fetch('/api/stop-pricing', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ stopHome: selectedStopHome, stopDest: selectedStopDest, isYouth })
-      });
-      const data = await res.json();
-
-      if (!res.ok || data.error) {
-        errorDiv.textContent    = data.error || 'Failed to look up stops';
-        errorDiv.style.display  = 'block';
-        return;
-      }
-
-      document.getElementById('zonesTraversed').textContent =
-        `${data.zonesTraversed} zone${data.zonesTraversed !== 1 ? 's' : ''}`;
-      document.getElementById('fullPrice').textContent    = `CHF ${data.pricing.singleTrip.fullPrice.toFixed(2)}`;
-      document.getElementById('halftaxPrice').textContent = `CHF ${data.pricing.singleTrip.halftaxPrice.toFixed(2)}`;
-      resultDiv.style.display = 'block';
-      currentZonePricing = data;
-
-      if (data.subscription) {
-        document.getElementById('localPass').value = data.subscription.annual;
-        document.getElementById('localPassDesc').textContent = `${data.zoneDescription} yearly subscription`;
-      }
-      if (data.priceSource) {
-        const sourceLink = document.getElementById('localPassSourceLink');
-        sourceLink.href = data.priceSource;
-        try {
-          sourceLink.textContent = new URL(data.priceSource).hostname.replace('www.', '');
-        } catch { sourceLink.textContent = 'Local pass pricing'; }
-      }
-
-      document.getElementById('tramPrice').value = data.pricing.singleTrip.halftaxPrice.toFixed(2);
-      calculate();
-    } catch (e) {
-      console.error('Stop pricing error:', e);
-      errorDiv.textContent   = 'Error looking up stop pricing. Please try again.';
-      errorDiv.style.display = 'block';
-    }
-  }
-
-  // Wire up station inputs
-  document.getElementById('stopHome').addEventListener('input', e => {
-    selectedStopHome = null;
-    clearTimeout(stopSearchTimeout);
-    stopSearchTimeout = setTimeout(() => searchStops(e.target.value, 'home'), 200);
-  });
-  document.getElementById('stopDest').addEventListener('input', e => {
-    selectedStopDest = null;
-    clearTimeout(stopSearchTimeout);
-    stopSearchTimeout = setTimeout(() => searchStops(e.target.value, 'dest'), 200);
-  });
-  // Close dropdowns when clicking outside
-  document.addEventListener('click', e => {
-    if (!e.target.closest('#stationSection')) {
-      document.getElementById('stopHomeDropdown').style.display = 'none';
-      document.getElementById('stopDestDropdown').style.display = 'none';
-    }
-  });
-
-  // ── Disclosure toggles ────────────────────────────────
   function togglePersonal() {
     const body    = document.getElementById('personalBody');
     const chevron = document.getElementById('chevronPersonal');
@@ -1377,19 +859,322 @@
 
   // ── Init ───────────────────────────────────────────────
   updateFromPersonalDetails();
-  setupLocationSearchListeners();
-  setupLocationInputAutoResize();
-  setupPostalCodeAutoResize();
+// ── Zip/Town map lookup ─────────────────────
+let zipTownMap = {};
 
-  // Close dropdowns when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('#homeLocation') && !e.target.closest('#homeLocationDropdown')) {
-      document.getElementById('homeLocationDropdown').style.display = 'none';
-    }
-    if (!e.target.closest('#destLocation') && !e.target.closest('#destLocationDropdown')) {
-      document.getElementById('destLocationDropdown').style.display = 'none';
+const plzInput    = document.getElementById('plzHome');
+const townInput   = document.getElementById('homeTown');
+const plzDropdown  = document.getElementById('plzDropdown');
+const townDropdown = document.getElementById('townDropdown');
+
+// Keyboard state for the town dropdown
+let townItems = [];
+let townOnSelect = null;
+let townHighlight = -1;
+
+function setTownHighlight(idx) {
+  townHighlight = idx;
+  townDropdown.querySelectorAll('.autocomplete-item').forEach((el, i) => {
+    el.classList.toggle('highlighted', i === idx);
+  });
+}
+
+function renderDropdown(dropdown, items, onSelect) {
+  if (!items.length) { dropdown.style.display = 'none'; return; }
+  dropdown.innerHTML = items.map(({ zip, town }) =>
+    `<div class="autocomplete-item" data-zip="${zip}" data-town="${escHtml(town)}">
+       <span class="autocomplete-item-name">${town}</span>
+       <span class="autocomplete-item-plz">${zip}</span>
+     </div>`
+  ).join('');
+  dropdown.querySelectorAll('.autocomplete-item').forEach(el => {
+    el.addEventListener('mousedown', e => {
+      e.preventDefault();
+      onSelect(el.dataset.zip, el.dataset.town);
+    });
+  });
+  // Store for keyboard access (town dropdown only)
+  if (dropdown === townDropdown) {
+    townItems = items;
+    townOnSelect = onSelect;
+    townHighlight = -1;
+  }
+  dropdown.style.display = 'block';
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function selectZipTown(zip, town) {
+  plzInput.value  = zip;
+  townInput.value = town;
+  plzDropdown.style.display  = 'none';
+  townDropdown.style.display = 'none';
+  lookupProvider(zip);
+}
+
+function matchingByPlz(q) {
+  if (!q) return [];
+  return Object.entries(zipTownMap)
+    .filter(([zip]) => zip.startsWith(q))
+    .map(([zip, town]) => ({ zip, town }))
+    .sort((a, b) => a.zip.localeCompare(b.zip))
+    .slice(0, 15);
+}
+
+function matchingByTown(q) {
+  if (q.length < 2) return [];
+  const lq = q.toLowerCase();
+  const matches = Object.entries(zipTownMap)
+    .filter(([, town]) => town.toLowerCase().includes(lq))
+    .map(([zip, town]) => ({ zip, town }));
+  matches.sort((a, b) => {
+    const al = a.town.toLowerCase(), bl = b.town.toLowerCase();
+    const as = al.startsWith(lq), bs = bl.startsWith(lq);
+    if (as !== bs) return as ? -1 : 1;
+    return a.town.localeCompare(b.town);
+  });
+  return matches.slice(0, 20);
+}
+
+let plzTimeout = null;
+if (plzInput) {
+  plzInput.addEventListener('input', () => {
+    clearTimeout(plzTimeout);
+    plzTimeout = setTimeout(() => {
+      const q = plzInput.value.trim();
+      if (zipTownMap[q]) {
+        // Exact 4-digit match → fill town immediately, no dropdown
+        townInput.value = zipTownMap[q];
+        plzDropdown.style.display = 'none';
+        lookupProvider(q);
+      } else {
+        const items = matchingByPlz(q);
+        renderDropdown(plzDropdown, items, (zip, town) => {
+          selectZipTown(zip, town);
+        });
+      }
+    }, 150);
+  });
+  plzInput.addEventListener('blur', () => {
+    setTimeout(() => { plzDropdown.style.display = 'none'; }, 200);
+  });
+}
+
+let townTimeout = null;
+if (townInput) {
+  townInput.addEventListener('input', () => {
+    clearTimeout(townTimeout);
+    townTimeout = setTimeout(() => {
+      const q = townInput.value.trim();
+      const items = matchingByTown(q);
+      renderDropdown(townDropdown, items, (zip, town) => {
+        selectZipTown(zip, town);
+      });
+    }, 200);
+  });
+
+  townInput.addEventListener('keydown', e => {
+    const open = townDropdown.style.display !== 'none' && townItems.length > 0;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (open) setTownHighlight(Math.min(townHighlight + 1, townItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (open) setTownHighlight(Math.max(townHighlight - 1, 0));
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      if (open) {
+        const pick = townHighlight >= 0 ? townItems[townHighlight] : townItems[0];
+        if (pick) {
+          if (e.key === 'Tab') e.preventDefault();
+          townOnSelect(pick.zip, pick.town);
+        }
+      } else {
+        // Dropdown not visible yet (user typed and hit Tab before debounce fired)
+        const q = townInput.value.trim();
+        if (q.length >= 2) {
+          clearTimeout(townTimeout);
+          const items = matchingByTown(q);
+          if (items.length > 0) {
+            if (e.key === 'Tab') e.preventDefault();
+            selectZipTown(items[0].zip, items[0].town);
+          }
+        }
+      }
+    } else if (e.key === 'Escape') {
+      townDropdown.style.display = 'none';
     }
   });
+
+  townInput.addEventListener('blur', () => {
+    setTimeout(() => { townDropdown.style.display = 'none'; }, 200);
+  });
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#plzHome') && !e.target.closest('#plzDropdown'))
+    plzDropdown.style.display = 'none';
+  if (!e.target.closest('#homeTown') && !e.target.closest('#townDropdown'))
+    townDropdown.style.display = 'none';
+});
+
+// Load map data
+fetch('./data/geography-map/zipTownMap.json')
+  .then(r => r.json())
+  .then(m => { zipTownMap = m; })
+  .catch(e => console.error('Failed to load zip-town map', e));
+
+// ── Zone picker and price handling ────────
+let zoneData = null;
+let providerData = null;
+let currentProviderConfig = null;
+let currentProvider = null;
+const selectedZones = new Set();
+
+function renderZonePicker(zones) {
+  const picker = document.getElementById('zonePicker');
+  if (!picker) return;
+  picker.innerHTML = '';
+  selectedZones.clear();
+  updateZonePrice();
+  if (!zones || zones.length === 0) return;
+  // Deduplicate zones
+  const seen = new Set();
+  zones.forEach(z => {
+    if (seen.has(z.zone_number)) return;
+    seen.add(z.zone_number);
+    const btn = document.createElement('button');
+    btn.className = 'zone-pill';
+    btn.textContent = z.zone_number === 10 ? '10*' : String(z.zone_number);
+    btn.dataset.zone = z.zone_number;
+    btn.addEventListener('click', () => toggleZone(z.zone_number, btn));
+    picker.appendChild(btn);
+  });
+}
+
+async function lookupProvider(plz) {
+  try {
+    const res = await fetch(`/api/plz-provider?plz=${encodeURIComponent(plz)}`);
+    if (!res.ok) {
+      // PLZ not in any known network — clear picker and provider label
+      renderZonePicker([]);
+      updateProviderLabel(null);
+      updateZoneMapEmbed(null);
+      return;
+    }
+    const data = await res.json();
+    const provider = data.provider;
+    currentProvider = provider;
+
+    // Fetch configuration and zone-weight in parallel
+    const [configRes, weightRes, pricesRes] = await Promise.all([
+      fetch(`/data/${provider}/configuration.json`),
+      fetch(`/data/${provider}/zone-weight.json`),
+      fetch(`/data/${provider}/provider-prices.json`)
+    ]);
+
+    currentProviderConfig = configRes.ok ? await configRes.json() : null;
+    zoneData = weightRes.ok ? await weightRes.json() : null;
+    providerData = pricesRes.ok ? await pricesRes.json() : null;
+
+    renderZonePicker(zoneData ? zoneData.zones : []);
+    updateProviderLabel(currentProviderConfig);
+    updateZoneMapEmbed(currentProviderConfig ? currentProviderConfig.zoneMapFile : null);
+  } catch (e) {
+    console.error('Provider lookup failed', e);
+  }
+}
+
+function updateProviderLabel(config) {
+  const label = document.getElementById('providerLabel');
+  if (!label) return;
+  if (!config) { label.textContent = ''; label.style.display = 'none'; return; }
+  const cantons = config.cantons.join(' / ');
+  label.textContent = `${config.displayName} \u00B7 ${cantons}`;
+  label.style.display = '';
+}
+
+function updateZoneMapEmbed(zoneMapFile) {
+  const btn = document.getElementById('showMapBtn');
+  const container = document.getElementById('zoneMapContainer');
+  const embed = document.getElementById('zoneMapEmbed');
+  if (!btn || !container) return;
+
+  // Hide any currently shown map
+  container.style.display = 'none';
+  btn.textContent = 'Show Zone Map';
+
+  if (!zoneMapFile) {
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = '';
+  if (embed) embed.src = `/zoneImages/${zoneMapFile}`;
+}
+
+function toggleZone(zoneNum, btn) {
+  if (selectedZones.has(zoneNum)) {
+    selectedZones.delete(zoneNum);
+    btn.classList.remove('selected');
+  } else {
+    selectedZones.add(zoneNum);
+    btn.classList.add('selected');
+  }
+  updateZonePrice();
+}
+
+function updateZonePrice() {
+  const summary = document.getElementById('zoneSelectionSummary');
+  if (selectedZones.size === 0) {
+    summary.textContent = 'Select your zones';
+    return;
+  }
+
+  // Sum weights of selected zones
+  let totalWeight = 0;
+  selectedZones.forEach(zoneNum => {
+    const z = zoneData.zones.find(z => z.zone_number === zoneNum);
+    if (z) totalWeight += z.weight;
+  });
+
+  const sorted = [...selectedZones].sort((a, b) => a - b);
+  const zoneList = sorted.map(z => z === 10 ? '10*' : z).join(', ');
+  summary.textContent = `Zones ${zoneList} · ${totalWeight} zone weight`;
+
+  if (!providerData || !currentProvider) return;
+  const providerInfo = providerData[currentProvider];
+  const prices = providerInfo?.single_trip?.adult?.['2nd_class'];
+  if (!prices) return;
+
+  // Check specialPriceZones from configuration.json before falling back to weight-based key
+  let key = `${totalWeight}_zones`;
+  for (const special of (currentProviderConfig?.specialPriceZones || [])) {
+    if (special.condition === 'all_zones_within') {
+      const required = new Set(special.required_zones);
+      if ([...selectedZones].every(z => required.has(z))) {
+        key = special.key;
+        break;
+      }
+    }
+  }
+
+  const priceInfo = prices[key] || prices['all_zones'];
+  if (priceInfo?.halbtax !== undefined) {
+    document.getElementById('tramPrice').value = priceInfo.halbtax.toFixed(2);
+    calculate();
+  }
+}
+
+// ── Zone map toggle ───────────────────────────
+document.getElementById('showMapBtn').addEventListener('click', () => {
+  const container = document.getElementById('zoneMapContainer');
+  const btn = document.getElementById('showMapBtn');
+  const visible = container.style.display !== 'none';
+  container.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? 'Show Zone Map' : 'Hide Zone Map';
+});
+
 </script>
 
 </body>

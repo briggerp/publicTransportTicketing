@@ -1,0 +1,6 @@
+{
+  "provider": "zvv",
+  "displayName": "ZVV",
+  "cantons": ["ZH"],
+  "zoneMapFile": "zvv-tarifzonen.pdf"
+}
