@@ -1,5 +1,4 @@
 {
-
     "zones": [
         {
         "zone_number": 10,
@@ -55,6 +54,7 @@
         "zone_number": 2,
         "color_description": "salmon/red-pink",
         "area_description": "Emmen, Emmenbrücke",
-        "uncertain": false
-    
+        "uncertain": false 
+        }
+    ]
 }

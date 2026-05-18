@@ -1,0 +1,146 @@
+{
+  "_meta": {
+    "description": "Passepartout zone list with weights for fare calculation. Zone 10* counts double (weight 2), others count as 1.",
+    "provider": "passepartout",
+    "coverage": "Cantons Luzern, Obwalden, Nidwalden – main transit corridors",
+    "sources": [
+      "https://passepartout.ch/wp-content/uploads/2025/12/Liniennetz_und_Tarifzonen_Detailliert_Passepartout_A0_25_print_ohne_EZ.pdf"
+    ],
+    "last_updated": "2026-05-15",
+    "verification_needed": true
+  },
+    "zones": [
+        {
+        "zone_number": 10,
+        "weight": 2
+        },
+        {
+        "zone_number": 21,
+        "weight": 1
+        },
+        {
+        "zone_number": 23,
+        "weight": 1
+        },
+        {
+        "zone_number": 26,
+        "weight": 1
+        },
+        {
+        "zone_number": 28,
+        "weight": 1
+        },
+        {
+        "zone_number": 29,
+        "weight": 1
+        },
+        {
+        "zone_number": 31,
+        "weight": 1
+        },
+        {
+        "zone_number": 32,
+        "weight": 1
+        },
+        {
+        "zone_number": 33,
+        "weight": 1
+        },
+        {
+        "zone_number": 37,
+        "weight": 1
+        },
+        {
+        "zone_number": 38,
+        "weight": 1
+        },
+        {
+        "zone_number": 39,
+        "weight": 1
+        },
+        {
+        "zone_number": 41,
+        "weight": 1
+        },
+        {
+        "zone_number": 42,
+        "weight": 1
+        },
+        {
+        "zone_number": 43,
+        "weight": 1
+        },
+        {
+        "zone_number": 41,
+        "weight": 1
+        },
+        {
+        "zone_number": 44,
+        "weight": 1
+        },
+        {
+        "zone_number": 45,
+        "weight": 1
+        },
+        {
+        "zone_number": 46,
+        "weight": 1
+        },
+        {
+        "zone_number": 47,
+        "weight": 1
+        },
+        {
+        "zone_number": 51,
+        "weight": 1
+        },
+        {
+        "zone_number": 53,
+        "weight": 1
+        },
+        {
+        "zone_number": 54,
+        "weight": 1
+        },
+        {
+        "zone_number": 55,
+        "weight": 1
+        },
+        {
+        "zone_number": 56,
+        "weight": 1
+        },
+        {
+        "zone_number": 57,
+        "weight": 1
+        },
+        {
+        "zone_number": 61,
+        "weight": 1
+        },
+        {
+        "zone_number": 63,
+        "weight": 1
+        },
+        {
+        "zone_number": 66,
+        "weight": 1
+        },
+        {
+        "zone_number": 73,
+        "weight": 1
+        },
+        {
+        "zone_number": 74,
+        "weight": 1
+        },
+        {
+        "zone_number": 76,
+        "weight": 1
+        },
+        {
+        "zone_number": 84,
+        "weight": 1
+        }
+    ]
+}

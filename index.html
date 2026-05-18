@@ -387,110 +387,46 @@
     </button>
 
     <div class="adv-body open" id="postalBody">
-
-      <!-- Mode toggle -->
-      <div style="display:flex;gap:8px;margin-bottom:18px;">
-        <button id="modeZip"     onclick="setLocationMode('zip')"     style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">ZIP Code</button>
-        <button id="modeStation" onclick="setLocationMode('station')" style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--sep);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Station</button>
-      </div>
-
-      <!-- ── ZIP Code mode ─────────────────────────── -->
-      <div id="zipSection">
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Postal Code</span>
-            <span class="field-sub">Enter your home PLZ (4 digits)</span>
-          </div>
-          <div class="field-right">
-            <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
-            <span class="unit">PLZ</span>
-          </div>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Postal Code</span>
+          <span class="field-sub">Enter your home PLZ (4 digits)</span>
         </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Location</span>
-          </div>
-          <div class="field-right" style="position: relative;">
-            <input type="text" id="homeLocation" class="location-input" placeholder="i.e. Bern" />
-            <span class="unit">City</span>
-            <div id="homeLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Postal Code</span>
-            <span class="field-sub">Enter destination PLZ (4 digits)</span>
-          </div>
-          <div class="field-right">
-            <input type="text" id="plzDest" placeholder="i.e. 8050" maxlength="4" />
-            <span class="unit">PLZ</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Location</span>
-          </div>
-          <div class="field-right" style="position: relative;">
-            <input type="text" id="destLocation" class="location-input" placeholder="i.e. Zürich" />
-            <span class="unit">City</span>
-            <div id="destLocationDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-          </div>
+        <div class="field-right">
+          <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
+          <span class="unit">PLZ</span>
         </div>
       </div>
 
-      <!-- ── Station mode ──────────────────────────── -->
-      <div id="stationSection" style="display:none;">
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Home Station</span>
-            <span class="field-sub">Your usual boarding stop</span>
-          </div>
-          <div class="field-right" style="position:relative;">
-            <input type="text" id="stopHome" class="location-input" placeholder="i.e. Luzern" autocomplete="off" />
-            <div id="stopHomeDropdown" class="autocomplete-dropdown" style="display:none;"></div>
-          </div>
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Home Town</span>
         </div>
-
-        <div class="field">
-          <div class="field-info">
-            <span class="field-name">Destination Station</span>
-            <span class="field-sub">Your usual alighting stop</span>
-          </div>
-          <div class="field-right" style="position:relative;">
-            <input type="text" id="stopDest" class="location-input" placeholder="i.e. Sursee" autocomplete="off" />
-            <div id="stopDestDropdown" class="autocomplete-dropdown" style="display:none;"></div>
-          </div>
+        <div class="field-right">
+          <input type="text" id="homeTown" placeholder="i.e. Bern" />
+          <span class="unit">Town</span>
         </div>
       </div>
 
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sep);">
-        <div class="field" style="border-bottom: none; padding-bottom: 0;">
-          <div class="field-info">
-            <span class="field-name">Zones Traversed</span>
-          </div>
-          <div class="field-right">
-            <span id="zonesTraversed" style="font-weight: 600; color: var(--blue);">—</span>
-          </div>
+      <!-- Total Local Zones -->
+      <div class="field">
+        <div class="field-info">
+          <span class="field-name">Total Local Zones</span>
+        </div>
+        <div class="field-right">
+          <select id="totalLocalZones" style="width:120px;">
+            <option value="" disabled selected>Select zones</option>
+          </select>
         </div>
       </div>
 
-      <div id="pricingResult" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;">Single Trip Prices</div>
-        <div class="field" style="border-bottom:1px solid var(--sep);padding-bottom:10px;">
-          <span style="font-size:13px;color:var(--text);">Full Price</span>
-          <span id="fullPrice" style="font-weight:600;color:var(--text);">—</span>
-        </div>
-        <div class="field" style="border-bottom:none;padding-top:10px;">
-          <span style="font-size:13px;color:var(--text);">Half-Tax Price</span>
-          <span id="halftaxPrice" style="font-weight:600;color:var(--green);">—</span>
-        </div>
+      <!-- Zone map toggle -->
+      <div class="field">
+        <button id="showMapBtn" style="padding:8px 12px;border:none;border-radius:8px;background:var(--blue);color:#fff;cursor:pointer;">Show Zone Map</button>
       </div>
-
-      <div id="priceError" style="display:none;margin-top:16px;padding:12px;background:rgba(255,59,48,.1);color:var(--red);border-radius:8px;font-size:13px;"></div>
-
+      <div id="zoneMapContainer" style="display:none;margin-top:12px;">
+        <embed src="zoneImages/Liniennetz_und_Tarifzonen_Detailliert_Passepartout_A0_25_print_ohne_EZ.pdf" type="application/pdf" width="100%" height="500px" />
+      </div>
     </div>
   </div>
 
@@ -1186,14 +1122,9 @@
     chevron.classList.toggle('open', open);
   }
 
-  // Wire up postal code inputs
+  // Wire up postal code input for home zip
   if (document.getElementById('plzHome')) {
     document.getElementById('plzHome').addEventListener('input', lookupZonePricing);
-    document.getElementById('plzDest').addEventListener('input', lookupZonePricing);
-    document.getElementById('ageInput').addEventListener('change', () => {
-      if (currentLocationMode === 'zip') lookupZonePricing();
-      else lookupStopPricing();
-    });
   }
 
   // ── Location mode (ZIP / Station) ────────────────────────
@@ -1390,6 +1321,78 @@
       document.getElementById('destLocationDropdown').style.display = 'none';
     }
   });
+// ── Zip/Town map lookup ─────────────────────
+let zipTownMap = {};
+// Attach listeners immediately (they will work once map loads)
+const plzInput = document.getElementById('plzHome');
+const townInput = document.getElementById('homeTown');
+if (plzInput) {
+  plzInput.addEventListener('input', () => {
+    const zip = plzInput.value.trim();
+    if (zipTownMap[zip]) {
+      townInput.value = zipTownMap[zip];
+    }
+  });
+}
+if (townInput) {
+  townInput.addEventListener('input', () => {
+    const town = townInput.value.trim().toLowerCase();
+    const zip = Object.keys(zipTownMap).find(z => zipTownMap[z].toLowerCase() === town);
+    if (zip) {
+      plzInput.value = zip;
+    }
+  });
+}
+// Load map data
+fetch('./data/geography-map/zipTownMap.json')
+  .then(r => r.json())
+  .then(m => { zipTownMap = m; })
+  .catch(e => console.error('Failed to load zip-town map', e));
+
+// ── Zone dropdown and price handling ────────
+let zoneData = null;
+let providerData = null;
+fetch('data/passepartout/zone-weight.json')
+  .then(r => r.json())
+  .then(d => { zoneData = d; populateZoneDropdown(); })
+  .catch(e => console.error('Failed to load zone data', e));
+fetch('data/passepartout/provider-prices.json')
+  .then(r => r.json())
+  .then(d => { providerData = d; })
+  .catch(e => console.error('Failed to load provider prices', e));
+
+function populateZoneDropdown() {
+  const select = document.getElementById('totalLocalZones');
+  if (!zoneData) return;
+  zoneData.zones.forEach(z => {
+    const opt = document.createElement('option');
+    opt.value = z.zone_number;
+    opt.textContent = `Zone ${z.zone_number}`;
+    select.appendChild(opt);
+  });
+}
+document.getElementById('totalLocalZones').addEventListener('change', () => {
+  if (!zoneData || !providerData) return;
+  const zoneNum = parseInt(document.getElementById('totalLocalZones').value);
+  const zoneObj = zoneData.zones.find(z => z.zone_number === zoneNum);
+  if (!zoneObj) return;
+  const weight = zoneObj.weight;
+  const key = weight === 1 ? '1_zones' : `${weight}_zones`;
+  const priceInfo = providerData.passepartout.single_trip.adult['2nd_class'][key];
+  if (priceInfo && priceInfo.halbtax !== undefined) {
+    document.getElementById('tramPrice').value = priceInfo.halbtax.toFixed(2);
+    calculate();
+  }
+});
+
+// ── Zone map toggle ───────────────────────────
+document.getElementById('showMapBtn').addEventListener('click', () => {
+  const container = document.getElementById('zoneMapContainer');
+  const visible = container.style.display !== 'none';
+  container.style.display = visible ? 'none' : 'block';
+  document.getElementById('showMapBtn').textContent = visible ? 'Show Zone Map' : 'Hide Zone Map';
+});
+
 </script>
 
 </body>
