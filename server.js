@@ -53,6 +53,10 @@ stopGraph.load();
 app.use(cors());
 app.use(express.json());
 
+// Serve data files and zone images as static assets
+app.use('/data', express.static(path.join(__dirname, 'data')));
+app.use('/zoneImages', express.static(path.join(__dirname, 'zoneImages')));
+
 // Serve root index.html FIRST
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
