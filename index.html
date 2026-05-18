@@ -1053,25 +1053,29 @@ function renderZonePicker(zones) {
   });
 }
 
+// Static PLZ→provider map loaded once at startup
+let plzProviderMap = {};
+fetch('data/plz-provider-map.json')
+  .then(r => r.json())
+  .then(d => { plzProviderMap = d; })
+  .catch(e => console.error('Failed to load plz-provider-map', e));
+
 async function lookupProvider(plz) {
   try {
-    const res = await fetch(`/api/plz-provider?plz=${encodeURIComponent(plz)}`);
-    if (!res.ok) {
-      // PLZ not in any known network — clear picker and provider label
+    const entry = plzProviderMap[plz];
+    if (!entry) {
       renderZonePicker([]);
       updateProviderLabel(null);
       updateZoneMapEmbed(null);
       return;
     }
-    const data = await res.json();
-    const provider = data.provider;
+    const provider = entry.provider;
     currentProvider = provider;
 
-    // Fetch configuration and zone-weight in parallel
     const [configRes, weightRes, pricesRes] = await Promise.all([
-      fetch(`/data/${provider}/configuration.json`),
-      fetch(`/data/${provider}/zone-weight.json`),
-      fetch(`/data/${provider}/provider-prices.json`)
+      fetch(`data/${provider}/configuration.json`),
+      fetch(`data/${provider}/zone-weight.json`),
+      fetch(`data/${provider}/provider-prices.json`)
     ]);
 
     currentProviderConfig = configRes.ok ? await configRes.json() : null;
@@ -1110,7 +1114,7 @@ function updateZoneMapEmbed(zoneMapFile) {
     return;
   }
   btn.style.display = '';
-  if (embed) embed.src = `/zoneImages/${zoneMapFile}`;
+  if (embed) embed.src = `zoneImages/${zoneMapFile}`;
 }
 
 function toggleZone(zoneNum, btn) {
