@@ -1,0 +1,6 @@
+{
+  "provider": "ostwind",
+  "displayName": "Ostwind",
+  "cantons": ["SG", "TG", "AR", "AI", "GL", "SH"],
+  "zoneMapFile": "ostwind_tarifzonen.pdf"
+}

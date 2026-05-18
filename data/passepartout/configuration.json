@@ -1,0 +1,14 @@
+{
+  "provider": "passepartout",
+  "displayName": "Passepartout",
+  "cantons": ["LU", "OW", "NW"],
+  "zoneMapFile": "Liniennetz_und_Tarifzonen_Detailliert_Passepartout_A0_25_print_ohne_EZ.pdf",
+  "specialPriceZones": [
+    {
+      "key": "10_zone_LU",
+      "condition": "all_zones_within",
+      "required_zones": [10],
+      "note": "Zone 10 (Luzern city centre) has its own fare when travelling exclusively within it, cheaper than the standard 2-zone weight price."
+    }
+  ]
+}

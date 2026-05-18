@@ -1,0 +1,6 @@
+{
+  "provider": "libero",
+  "displayName": "Libero",
+  "cantons": ["BE", "SO"],
+  "zoneMapFile": "LiberoZones.pdf"
+}

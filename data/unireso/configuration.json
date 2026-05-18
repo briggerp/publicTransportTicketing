@@ -1,0 +1,6 @@
+{
+  "provider": "unireso",
+  "displayName": "Unireso",
+  "cantons": ["GE"],
+  "zoneMapFile": null
+}

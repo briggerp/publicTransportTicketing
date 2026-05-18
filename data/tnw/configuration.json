@@ -1,0 +1,6 @@
+{
+  "provider": "tnw",
+  "displayName": "TNW",
+  "cantons": ["BS", "BL", "AG", "SO"],
+  "zoneMapFile": null
+}

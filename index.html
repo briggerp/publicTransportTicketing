@@ -458,6 +458,7 @@
             <span class="field-sub" id="zoneSelectionSummary">Select your zones</span>
           </div>
         </div>
+        <span id="providerLabel" style="display:none; font-size:0.8em; color:var(--blue); margin-bottom:4px;"></span>
         <div id="zonePicker" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
       </div>
 
@@ -466,7 +467,7 @@
         <button id="showMapBtn" style="padding:8px 12px;border:none;border-radius:8px;background:var(--blue);color:#fff;cursor:pointer;">Show Zone Map</button>
       </div>
       <div id="zoneMapContainer" style="display:none;margin-top:12px;">
-        <embed src="zoneImages/Liniennetz_und_Tarifzonen_Detailliert_Passepartout_A0_25_print_ohne_EZ.pdf" type="application/pdf" width="100%" height="500px" />
+        <embed id="zoneMapEmbed" src="" type="application/pdf" width="100%" height="500px" />
       </div>
     </div>
   </div>
@@ -681,21 +682,15 @@
   }
 
   // ── Calculation logic (mirrors Python notebook) ────────
+  // Always assume the package is purchased; excess spend beyond creditTotal is paid individually.
   function calcTramAboHTPlus(localPass, gaNight, ht, htCost, htBonus, trainTrips, trainPrice) {
     const base        = localPass + gaNight + ht;
     const yearlyTrain = trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    let money, bonusLeft;
-    if (yearlyTrain > creditTotal) {
-      money     = base + yearlyTrain - htBonus;
-      bonusLeft = 0;
-    } else if (yearlyTrain < htCost) {
-      money     = base + yearlyTrain;
-      bonusLeft = htBonus;
-    } else {
-      money     = base + htCost;
-      bonusLeft = creditTotal - yearlyTrain;
-    }
+    const money       = base + htCost + Math.max(0, yearlyTrain - creditTotal);
+    const bonusLeft   = yearlyTrain >= creditTotal ? 0
+                      : yearlyTrain >= htCost      ? creditTotal - yearlyTrain
+                      : htBonus;
     return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTrain), creditTotal, htBonus];
   }
 
@@ -703,17 +698,10 @@
     const base        = gaNight + ht;
     const yearlyTotal = tramTrips * 52 * tramPrice + trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    let money, bonusLeft;
-    if (yearlyTotal > creditTotal) {
-      money     = base + yearlyTotal - htBonus;
-      bonusLeft = 0;
-    } else if (yearlyTotal < htCost) {
-      money     = base + yearlyTotal;
-      bonusLeft = htBonus;
-    } else {
-      money     = base + htCost;
-      bonusLeft = creditTotal - yearlyTotal;
-    }
+    const money       = base + htCost + Math.max(0, yearlyTotal - creditTotal);
+    const bonusLeft   = yearlyTotal >= creditTotal ? 0
+                      : yearlyTotal >= htCost      ? creditTotal - yearlyTotal
+                      : htBonus;
     return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTotal), creditTotal, htBonus];
   }
 
@@ -739,6 +727,10 @@
       {
         name: 'Local Pass + HT Plus 2000',
         result: calcTramAboHTPlus(localPass, gaNight, ht, ht2c, ht2b, trainTrips, trainPrice),
+      },
+      {
+        name: 'Local Pass + HT Plus 3000',
+        result: calcTramAboHTPlus(localPass, gaNight, ht, ht3c, ht3b, trainTrips, trainPrice),
       },
       {
         name: 'HT Plus 1000',
@@ -919,6 +911,7 @@ function selectZipTown(zip, town) {
   townInput.value = town;
   plzDropdown.style.display  = 'none';
   townDropdown.style.display = 'none';
+  lookupProvider(zip);
 }
 
 function matchingByPlz(q) {
@@ -955,6 +948,7 @@ if (plzInput) {
         // Exact 4-digit match → fill town immediately, no dropdown
         townInput.value = zipTownMap[q];
         plzDropdown.style.display = 'none';
+        lookupProvider(q);
       } else {
         const items = matchingByPlz(q);
         renderDropdown(plzDropdown, items, (zip, town) => {
@@ -996,6 +990,17 @@ if (townInput) {
           if (e.key === 'Tab') e.preventDefault();
           townOnSelect(pick.zip, pick.town);
         }
+      } else {
+        // Dropdown not visible yet (user typed and hit Tab before debounce fired)
+        const q = townInput.value.trim();
+        if (q.length >= 2) {
+          clearTimeout(townTimeout);
+          const items = matchingByTown(q);
+          if (items.length > 0) {
+            if (e.key === 'Tab') e.preventDefault();
+            selectZipTown(items[0].zip, items[0].town);
+          }
+        }
       }
     } else if (e.key === 'Escape') {
       townDropdown.style.display = 'none';
@@ -1023,23 +1028,20 @@ fetch('./data/geography-map/zipTownMap.json')
 // ── Zone picker and price handling ────────
 let zoneData = null;
 let providerData = null;
+let currentProviderConfig = null;
+let currentProvider = null;
 const selectedZones = new Set();
 
-fetch('data/passepartout/zone-weight.json')
-  .then(r => r.json())
-  .then(d => { zoneData = d; populateZonePicker(); })
-  .catch(e => console.error('Failed to load zone data', e));
-fetch('data/passepartout/provider-prices.json')
-  .then(r => r.json())
-  .then(d => { providerData = d; })
-  .catch(e => console.error('Failed to load provider prices', e));
-
-function populateZonePicker() {
+function renderZonePicker(zones) {
   const picker = document.getElementById('zonePicker');
-  if (!zoneData || !picker) return;
+  if (!picker) return;
+  picker.innerHTML = '';
+  selectedZones.clear();
+  updateZonePrice();
+  if (!zones || zones.length === 0) return;
   // Deduplicate zones
   const seen = new Set();
-  zoneData.zones.forEach(z => {
+  zones.forEach(z => {
     if (seen.has(z.zone_number)) return;
     seen.add(z.zone_number);
     const btn = document.createElement('button');
@@ -1049,6 +1051,66 @@ function populateZonePicker() {
     btn.addEventListener('click', () => toggleZone(z.zone_number, btn));
     picker.appendChild(btn);
   });
+}
+
+async function lookupProvider(plz) {
+  try {
+    const res = await fetch(`/api/plz-provider?plz=${encodeURIComponent(plz)}`);
+    if (!res.ok) {
+      // PLZ not in any known network — clear picker and provider label
+      renderZonePicker([]);
+      updateProviderLabel(null);
+      updateZoneMapEmbed(null);
+      return;
+    }
+    const data = await res.json();
+    const provider = data.provider;
+    currentProvider = provider;
+
+    // Fetch configuration and zone-weight in parallel
+    const [configRes, weightRes, pricesRes] = await Promise.all([
+      fetch(`/data/${provider}/configuration.json`),
+      fetch(`/data/${provider}/zone-weight.json`),
+      fetch(`/data/${provider}/provider-prices.json`)
+    ]);
+
+    currentProviderConfig = configRes.ok ? await configRes.json() : null;
+    zoneData = weightRes.ok ? await weightRes.json() : null;
+    providerData = pricesRes.ok ? await pricesRes.json() : null;
+
+    renderZonePicker(zoneData ? zoneData.zones : []);
+    updateProviderLabel(currentProviderConfig);
+    updateZoneMapEmbed(currentProviderConfig ? currentProviderConfig.zoneMapFile : null);
+  } catch (e) {
+    console.error('Provider lookup failed', e);
+  }
+}
+
+function updateProviderLabel(config) {
+  const label = document.getElementById('providerLabel');
+  if (!label) return;
+  if (!config) { label.textContent = ''; label.style.display = 'none'; return; }
+  const cantons = config.cantons.join(' / ');
+  label.textContent = `${config.displayName} \u00B7 ${cantons}`;
+  label.style.display = '';
+}
+
+function updateZoneMapEmbed(zoneMapFile) {
+  const btn = document.getElementById('showMapBtn');
+  const container = document.getElementById('zoneMapContainer');
+  const embed = document.getElementById('zoneMapEmbed');
+  if (!btn || !container) return;
+
+  // Hide any currently shown map
+  container.style.display = 'none';
+  btn.textContent = 'Show Zone Map';
+
+  if (!zoneMapFile) {
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = '';
+  if (embed) embed.src = `/zoneImages/${zoneMapFile}`;
 }
 
 function toggleZone(zoneNum, btn) {
@@ -1080,9 +1142,23 @@ function updateZonePrice() {
   const zoneList = sorted.map(z => z === 10 ? '10*' : z).join(', ');
   summary.textContent = `Zones ${zoneList} · ${totalWeight} zone weight`;
 
-  if (!providerData) return;
-  const prices = providerData.passepartout.single_trip.adult['2nd_class'];
-  const key = `${totalWeight}_zones`;
+  if (!providerData || !currentProvider) return;
+  const providerInfo = providerData[currentProvider];
+  const prices = providerInfo?.single_trip?.adult?.['2nd_class'];
+  if (!prices) return;
+
+  // Check specialPriceZones from configuration.json before falling back to weight-based key
+  let key = `${totalWeight}_zones`;
+  for (const special of (currentProviderConfig?.specialPriceZones || [])) {
+    if (special.condition === 'all_zones_within') {
+      const required = new Set(special.required_zones);
+      if ([...selectedZones].every(z => required.has(z))) {
+        key = special.key;
+        break;
+      }
+    }
+  }
+
   const priceInfo = prices[key] || prices['all_zones'];
   if (priceInfo?.halbtax !== undefined) {
     document.getElementById('tramPrice').value = priceInfo.halbtax.toFixed(2);
@@ -1093,9 +1169,10 @@ function updateZonePrice() {
 // ── Zone map toggle ───────────────────────────
 document.getElementById('showMapBtn').addEventListener('click', () => {
   const container = document.getElementById('zoneMapContainer');
+  const btn = document.getElementById('showMapBtn');
   const visible = container.style.display !== 'none';
   container.style.display = visible ? 'none' : 'block';
-  document.getElementById('showMapBtn').textContent = visible ? 'Show Zone Map' : 'Hide Zone Map';
+  btn.textContent = visible ? 'Show Zone Map' : 'Hide Zone Map';
 });
 
 </script>
