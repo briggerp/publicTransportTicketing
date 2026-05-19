@@ -430,7 +430,7 @@
         </div>
         <div class="field-right">
           <div style="position:relative;">
-            <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
+            <input type="text" id="plzHome" placeholder="i.e. 3004" maxlength="4" />
             <div id="plzDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
           <span class="unit">PLZ</span>
@@ -1148,10 +1148,11 @@ function updateZonePrice() {
 
   if (!providerData || !currentProvider) return;
   const providerInfo = providerData[currentProvider];
-  const prices = providerInfo?.single_trip?.adult?.['2nd_class'];
-  if (!prices) return;
+  const singleTripPrices = providerInfo?.single_trip?.adult?.['2nd_class'];
+  const networkPassPrices = providerInfo?.subscription_types?.networkpass?.adult?.['2nd_class'];
+  if (!singleTripPrices) return;
 
-  // Check specialPriceZones from configuration.json before falling back to weight-based key
+  // Determine key (weight‑based or special)
   let key = `${totalWeight}_zones`;
   for (const special of (currentProviderConfig?.specialPriceZones || [])) {
     if (special.condition === 'all_zones_within') {
@@ -1163,11 +1164,25 @@ function updateZonePrice() {
     }
   }
 
-  const priceInfo = prices[key] || prices['all_zones'];
-  if (priceInfo?.halbtax !== undefined) {
-    document.getElementById('tramPrice').value = priceInfo.halbtax.toFixed(2);
-    calculate();
+  // Update tram price
+  const tramInfo = singleTripPrices[key] || singleTripPrices['all_zones'];
+  if (tramInfo?.halbtax !== undefined) {
+    document.getElementById('tramPrice').value = tramInfo.halbtax.toFixed(2);
   }
+
+  // Update annual local pass price and description
+  if (networkPassPrices) {
+    const passInfo = networkPassPrices[key] || networkPassPrices['local'] || networkPassPrices['all_zones'];
+    if (passInfo?.annual !== undefined) {
+      document.getElementById('localPass').value = passInfo.annual;
+    }
+    const desc = document.getElementById('localPassDesc');
+    if (desc) {
+      desc.textContent = `Zones ${zoneList} yearly subscription`;
+    }
+  }
+
+  calculate();
 }
 
 // ── Zone map toggle ───────────────────────────

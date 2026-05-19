@@ -11,42 +11,84 @@
         "label": "Libero Abo",
         "adult": {
           "2nd_class": {
-            "local":     { "monthly": 82,  "annual": 738  },
             "1_zones": { "monthly": 82,  "annual": 738  },
             "2_zones": { "monthly": 82,  "annual": 738  },
-            "3_zones":   { "monthly": 118, "annual": 1062 },
-            "4_zones":   { "monthly": 152, "annual": 1368 },
-            "5_zones":   { "monthly": 182, "annual": 1638 },
-            "all_zones": { "monthly": 275, "annual": 2475 }
+            "3_zones":   { "monthly": 124, "annual": 1116 },
+            "4_zones":   { "monthly": 164, "annual": 1476 },
+            "5_zones":   { "monthly": 206, "annual": 1854 },
+            "6_zones":   { "monthly": 246, "annual": 2214 },
+            "7_zones":   { "monthly": 288, "annual": 2592 },
+            "8_zones":   { "monthly": 300, "annual": 2700 },
+            "9_zones":   { "monthly": 310, "annual": 2790 },
+            "all_zones": { "monthly": 315, "annual": 2835 }
           },
           "1st_class": {
-            "local":     { "monthly": 135, "annual": 1215 },
-            "1_zones": { "monthly": 135, "annual": 1215 },
-            "2_zones": { "monthly": 135, "annual": 1215 },
-            "3_zones":   { "monthly": 195, "annual": 1755 },
-            "4_zones":   { "monthly": 251, "annual": 2259 },
-            "5_zones":   { "monthly": 300, "annual": 2700 },
-            "all_zones": { "monthly": 454, "annual": 4086 }
+            "1_zones": { "monthly": 136, "annual": 1224 },
+            "2_zones": { "monthly": 136, "annual": 1224 },
+            "3_zones":   { "monthly": 205, "annual": 1845 },
+            "4_zones":   { "monthly": 271, "annual": 2439 },
+            "5_zones":   { "monthly": 340, "annual": 3060 },
+            "6_zones":   { "monthly": 406, "annual": 3654 },
+            "7_zones":   { "monthly": 476, "annual": 4284 },
+            "8_zones":   { "monthly": 495, "annual": 4455 },
+            "9_zones":   { "monthly": 512, "annual": 4608 },
+            "all_zones": { "monthly": 520, "annual": 4680 }
           }
         },
         "youth": {
           "2nd_class": {
-            "local":     { "monthly": 62,  "annual": 558  },
             "1_zones": { "monthly": 62,  "annual": 558  },
             "2_zones": { "monthly": 62,  "annual": 558  },
-            "3_zones":   { "monthly": 90,  "annual": 810  },
-            "4_zones":   { "monthly": 116, "annual": 1044 },
-            "5_zones":   { "monthly": 139, "annual": 1251 },
-            "all_zones": { "monthly": 210, "annual": 1890 }
+            "3_zones":   { "monthly": 93,  "annual": 837  },
+            "4_zones":   { "monthly": 123, "annual": 1107 },
+            "5_zones":   { "monthly": 155, "annual": 1395 },
+            "6_zones":   { "monthly": 185, "annual": 1665 },
+            "7_zones":   { "monthly": 216, "annual": 1944 },
+            "8_zones":   { "monthly": 225, "annual": 2025 },
+            "9_zones":   { "monthly": 233, "annual": 2097 },
+            "all_zones": { "monthly": 237, "annual": 2133 }
+          }
+        },
+        "biel-berner-jura-thun-berner-oberland": {
+          "adult": {
+            "2nd_class": {
+              "1_zones": { "monthly": 78,  "annual": 702  },
+              "2_zones": { "monthly": 78,  "annual": 702  },
+              "3_zones":   { "monthly": 117, "annual": 1053 },
+              "4_zones":   { "monthly": 155, "annual": 1395 },
+              "5_zones":   { "monthly": 194, "annual": 1746 },
+              "6_zones":   { "monthly": 232, "annual": 2088 },
+              "7_zones":   { "monthly": 252, "annual": 2268 },
+              "8_zones":   { "monthly": 268, "annual": 2412 },
+              "9_zones":   { "monthly": 284, "annual": 2556 },
+              "all_zones": { "monthly": 315, "annual": 2835 }
+            },
+            "1st_class": {
+              "1_zones": { "monthly": 129, "annual": 1161 },
+              "2_zones": { "monthly": 129, "annual": 1161 },
+              "3_zones":   { "monthly": 194, "annual": 1746 },
+              "4_zones":   { "monthly": 256, "annual": 2304 },
+              "5_zones":   { "monthly": 321, "annual": 2889 },
+              "6_zones":   { "monthly": 383, "annual": 3447 },
+              "7_zones":   { "monthly": 416, "annual": 3744 },
+              "8_zones":   { "monthly": 443, "annual": 3987 },
+              "9_zones":   { "monthly": 469, "annual": 4221 },
+              "all_zones": { "monthly": 520, "annual": 4680 }
+            }
           },
-          "1st_class": {
-            "local":     { "monthly": 102, "annual": 918  },
-            "1_zones": { "monthly": 102, "annual": 918  },
-            "2_zones": { "monthly": 102, "annual": 918  },
-            "3_zones":   { "monthly": 149, "annual": 1341 },
-            "4_zones":   { "monthly": 191, "annual": 1719 },
-            "5_zones":   { "monthly": 229, "annual": 2061 },
-            "all_zones": { "monthly": 347, "annual": 3123 }
+          "youth": {
+            "2nd_class": {
+              "1_zones": { "monthly": 59,  "annual": 531  },
+              "2_zones": { "monthly": 59,  "annual": 531  },
+              "3_zones":   { "monthly": 88,  "annual": 792  },
+              "4_zones":   { "monthly": 117, "annual": 1053 },
+              "5_zones":   { "monthly": 146, "annual": 1314 },
+              "6_zones":   { "monthly": 174, "annual": 1566 },
+              "7_zones":   { "monthly": 189, "annual": 1701 },
+              "8_zones":   { "monthly": 201, "annual": 1809 },
+              "9_zones":   { "monthly": 213, "annual": 1917 },
+              "all_zones": { "monthly": 237, "annual": 2133 }
+            }
           }
         }
       }
