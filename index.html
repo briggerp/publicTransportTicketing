@@ -163,6 +163,9 @@
       white-space: nowrap;
       min-width: 44px;
     }
+    .town-unit {
+      margin-left: auto;
+    }
 
     /* ── Autocomplete dropdown ──────────────── */
     .autocomplete-dropdown {
@@ -446,7 +449,7 @@
             <input type="text" id="homeTown" placeholder="i.e. Bern" />
             <div id="townDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
-          <span class="unit">Town</span>
+          <span class="unit town-unit">Town</span>
         </div>
       </div>
 
@@ -867,6 +870,18 @@ const townInput   = document.getElementById('homeTown');
 const plzDropdown  = document.getElementById('plzDropdown');
 const townDropdown = document.getElementById('townDropdown');
 
+// Keyboard state for the PLZ dropdown
+let plzItems = [];
+let plzOnSelect = null;
+let plzHighlight = -1;
+
+function setPlzHighlight(idx) {
+  plzHighlight = idx;
+  plzDropdown.querySelectorAll('.autocomplete-item').forEach((el, i) => {
+    el.classList.toggle('highlighted', i === idx);
+  });
+}
+
 // Keyboard state for the town dropdown
 let townItems = [];
 let townOnSelect = null;
@@ -893,7 +908,11 @@ function renderDropdown(dropdown, items, onSelect) {
       onSelect(el.dataset.zip, el.dataset.town);
     });
   });
-  // Store for keyboard access (town dropdown only)
+  if (dropdown === plzDropdown) {
+    plzItems = items;
+    plzOnSelect = onSelect;
+    plzHighlight = -1;
+  }
   if (dropdown === townDropdown) {
     townItems = items;
     townOnSelect = onSelect;
@@ -909,6 +928,7 @@ function escHtml(s) {
 function selectZipTown(zip, town) {
   plzInput.value  = zip;
   townInput.value = town;
+  fitTownInput(town);
   plzDropdown.style.display  = 'none';
   townDropdown.style.display = 'none';
   lookupProvider(zip);
@@ -918,7 +938,12 @@ function matchingByPlz(q) {
   if (!q) return [];
   return Object.entries(zipTownMap)
     .filter(([zip]) => zip.startsWith(q))
-    .map(([zip, town]) => ({ zip, town }))
+    .flatMap(([zip, town]) => {
+      if (Array.isArray(town)) {
+        return town.map(t => ({ zip, town: t }));
+      }
+      return [{ zip, town }];
+    })
     .sort((a, b) => a.zip.localeCompare(b.zip))
     .slice(0, 15);
 }
@@ -926,16 +951,21 @@ function matchingByPlz(q) {
 function matchingByTown(q) {
   if (q.length < 2) return [];
   const lq = q.toLowerCase();
-  const matches = Object.entries(zipTownMap)
-    .filter(([, town]) => town.toLowerCase().includes(lq))
-    .map(([zip, town]) => ({ zip, town }));
-  matches.sort((a, b) => {
+  const raw = Object.entries(zipTownMap)
+    .flatMap(([zip, town]) => {
+      if (Array.isArray(town)) {
+        return town.map(t => ({ zip, town: t }));
+      }
+      return [{ zip, town }];
+    })
+    .filter(({ town }) => town.toLowerCase().includes(lq));
+  raw.sort((a, b) => {
     const al = a.town.toLowerCase(), bl = b.town.toLowerCase();
     const as = al.startsWith(lq), bs = bl.startsWith(lq);
     if (as !== bs) return as ? -1 : 1;
     return a.town.localeCompare(b.town);
   });
-  return matches.slice(0, 20);
+  return raw.slice(0, 20);
 }
 
 let plzTimeout = null;
@@ -944,27 +974,61 @@ if (plzInput) {
     clearTimeout(plzTimeout);
     plzTimeout = setTimeout(() => {
       const q = plzInput.value.trim();
-      if (zipTownMap[q]) {
-        // Exact 4-digit match → fill town immediately, no dropdown
-        townInput.value = zipTownMap[q];
-        plzDropdown.style.display = 'none';
-        lookupProvider(q);
-      } else {
-        const items = matchingByPlz(q);
-        renderDropdown(plzDropdown, items, (zip, town) => {
-          selectZipTown(zip, town);
-        });
-      }
+      renderDropdown(plzDropdown, matchingByPlz(q), (zip, town) => selectZipTown(zip, town));
     }, 150);
   });
+
+  plzInput.addEventListener('keydown', e => {
+    const open = plzDropdown.style.display !== 'none' && plzItems.length > 0;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (open) setPlzHighlight(Math.min(plzHighlight + 1, plzItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (open) setPlzHighlight(Math.max(plzHighlight - 1, 0));
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      if (open) {
+        const pick = plzHighlight >= 0 ? plzItems[plzHighlight] : plzItems[0];
+        if (pick) {
+          if (e.key === 'Tab') e.preventDefault();
+          plzOnSelect(pick.zip, pick.town);
+        }
+      } else {
+        const q = plzInput.value.trim();
+        if (q.length >= 1) {
+          clearTimeout(plzTimeout);
+          const items = matchingByPlz(q);
+          if (items.length > 0) {
+            if (e.key === 'Tab') e.preventDefault();
+            selectZipTown(items[0].zip, items[0].town);
+          }
+        }
+      }
+    } else if (e.key === 'Escape') {
+      plzDropdown.style.display = 'none';
+    }
+  });
+
   plzInput.addEventListener('blur', () => {
     setTimeout(() => { plzDropdown.style.display = 'none'; }, 200);
   });
 }
 
+const _townSizer = document.createElement('span');
+_townSizer.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:16px -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;';
+document.body.appendChild(_townSizer);
+
+function fitTownInput(value) {
+  _townSizer.textContent = value;
+  // 22px padding (11px each side) + 3px border (1.5px each side) + 2px safety
+  townInput.style.width = Math.max(86, _townSizer.offsetWidth + 27) + 'px';
+}
+
 let townTimeout = null;
 if (townInput) {
+
   townInput.addEventListener('input', () => {
+    fitTownInput(townInput.value);
     clearTimeout(townTimeout);
     townTimeout = setTimeout(() => {
       const q = townInput.value.trim();
