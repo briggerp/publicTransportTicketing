@@ -545,7 +545,7 @@
       <div class="field">
         <div class="field-info">
           <span class="field-name">Annual local pass</span>
-          <span class="field-sub" id="localPassDesc">Zone 1–2 yearly subscription</span>
+          <span class="field-sub" id="localPassDesc"></span>
         </div>
         <div class="field-right">
           <input type="number" id="localPass" value="586" min="0" />
@@ -1196,6 +1196,8 @@ function updateZonePrice() {
   const summary = document.getElementById('zoneSelectionSummary');
   if (selectedZones.size === 0) {
     summary.textContent = 'Select your zones';
+        const desc = document.getElementById('localPassDesc');
+        if (desc) desc.textContent = '';
     return;
   }
 
@@ -1247,9 +1249,27 @@ function updateZonePrice() {
   }
 
   calculate();
+  maybeToggleMapButton();
 }
 
 // ── Zone map toggle ───────────────────────────
+function maybeToggleMapButton() {
+  const plzVal = plzInput.value.trim();
+  const townVal = townInput.value.trim();
+  const btn = document.getElementById('showMapBtn');
+  if (plzVal && townVal && selectedZones.size > 0) {
+    btn.style.display = '';
+  } else {
+    btn.style.display = 'none';
+    const container = document.getElementById('zoneMapContainer');
+    if (container) container.style.display = 'none';
+    btn.textContent = 'Show Zone Map';
+  }
+}
+
+// Initially hide the button
+document.getElementById('showMapBtn').style.display = 'none';
+
 document.getElementById('showMapBtn').addEventListener('click', () => {
   const container = document.getElementById('zoneMapContainer');
   const btn = document.getElementById('showMapBtn');
