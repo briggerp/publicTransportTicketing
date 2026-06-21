@@ -23,7 +23,7 @@
             "1_zones": { "monthly": 144, "annual": 1345 },
             "2_zones": { "monthly": 144, "annual": 1345 },
             "3_zones":   { "monthly": 212, "annual": 1971 },
-            "4_zones":   { "monthly": 283, "annual": 3203 },
+            "4_zones":   { "monthly": 283, "annual": 2613 },
             "5_zones":   { "monthly": 347, "annual": 3203 },
             "all_zones": { "monthly": 413, "annual": 3812 }
           }

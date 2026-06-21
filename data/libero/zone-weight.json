@@ -2,20 +2,515 @@
   "_meta": "placeholder - to be filled",
   "zones": [
         {
-        "zone_number": 30,
+        "zone_number": "100/101",
         "weight": 2
         },
         {
-        "zone_number": 31,
+        "zone_number": 112,
         "weight": 1
         },
         {
-        "zone_number": 32,
+        "zone_number": 113,
         "weight": 1
         },
         {
-        "zone_number": 33,
+        "zone_number": 114,
         "weight": 1
+        },
+        {
+        "zone_number": 115,
+        "weight": 1
+        },
+        {
+        "zone_number": 116,
+        "weight": 1
+        },
+        {
+        "zone_number": 124,
+        "weight": 1
+        },
+        {
+        "zone_number": 126,
+        "weight": 1
+        },
+        {
+        "zone_number": 130,
+        "weight": 1
+        },
+        {
+        "zone_number": 140,
+        "weight": 1
+        },
+        {
+        "zone_number": 141,
+        "weight": 1
+        },
+        {
+        "zone_number": 142,
+        "weight": 1
+        },
+        {
+        "zone_number": 143,
+        "weight": 1
+        },
+        {
+        "zone_number": 144,
+        "weight": 1
+        },
+        {
+        "zone_number": 145,
+        "weight": 1
+        },
+        {
+        "zone_number": 146,
+        "weight": 1
+        },
+        {
+        "zone_number": 147,
+        "weight": 1
+        },
+        {
+        "zone_number": 150,
+        "weight": 1
+        },
+        {
+        "zone_number": 151,
+        "weight": 1
+        },
+        {
+        "zone_number": 152,
+        "weight": 1
+        },
+        {
+        "zone_number": 153,
+        "weight": 1
+        },
+        {
+        "zone_number": 154,
+        "weight": 1
+        },
+        {
+        "zone_number": 155,
+        "weight": 1
+        },
+        {
+        "zone_number": 156,
+        "weight": 1
+        },
+        {
+        "zone_number": 157,
+        "weight": 1
+        },
+        {
+        "zone_number": 161,
+        "weight": 1
+        },
+        {
+        "zone_number": 162,
+        "weight": 1
+        },
+        {
+        "zone_number": 163,
+        "weight": 1
+        },
+        {
+        "zone_number": 164,
+        "weight": 1
+        },
+        {
+        "zone_number": 177,
+        "weight": 1
+        },
+        {
+        "zone_number": 180,
+        "weight": 1
+        },
+        {
+        "zone_number": 181,
+        "weight": 1
+        },
+        {
+        "zone_number": 190,
+        "weight": 1
+        },
+        {
+        "zone_number": 191,
+        "weight": 1
+        },
+        {
+        "zone_number": 192,
+        "weight": 1
+        },
+        {
+        "zone_number": 193,
+        "weight": 1
+        },
+        {
+        "zone_number": 194,
+        "weight": 1
+        },
+        {
+        "zone_number": 195,
+        "weight": 1
+        },
+        {
+        "zone_number": 196,
+        "weight": 1
+        },
+        {
+        "zone_number": "200/201",
+        "weight": 2
+        },
+        {
+        "zone_number": 215,
+        "weight": 1
+        },
+        {
+        "zone_number": 216,
+        "weight": 1
+        },
+        {
+        "zone_number": 217,
+        "weight": 1
+        },
+        {
+        "zone_number": 218,
+        "weight": 1
+        },
+        {
+        "zone_number": 228,
+        "weight": 1
+        },
+        {
+        "zone_number": 229,
+        "weight": 1
+        },
+        {
+        "zone_number": 250,
+        "weight": 1
+        },
+        {
+        "zone_number": 251,
+        "weight": 1
+        },
+        {
+        "zone_number": 252,
+        "weight": 1
+        },
+        {
+        "zone_number": 253,
+        "weight": 1
+        },
+        {
+        "zone_number": 279,
+        "weight": 1
+        },
+        {
+        "zone_number": 280,
+        "weight": 1
+        },
+        {
+        "zone_number": 281,
+        "weight": 1
+        },
+        {
+        "zone_number": 282,
+        "weight": 1
+        },
+        {
+        "zone_number": "300/301",
+        "weight": 2,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 310,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 311,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 312,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 313,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 314,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 315,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 321,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 322,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 323,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 324,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 325,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 331,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 341,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 342,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 343,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 344,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 345,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 351,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 352,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 353,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 446,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 447,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 626,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 627,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 628,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 696,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 697,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 698,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 699,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": "700/701",
+        "weight": 2,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 710,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 711,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 712,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 720,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 730,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 740,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 750,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 810,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 811,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 812,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 813,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 814,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 820,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 821,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 822,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 830,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 831,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 832,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 833,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 834,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 835,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 840,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 841,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 842,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 843,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 844,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 845,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
+        },
+        {
+        "zone_number": 846,
+        "weight": 1,
+        "biel-berner-jura-thun-berner-oberland": true
         }
   ]
 }

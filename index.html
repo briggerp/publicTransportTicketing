@@ -163,6 +163,9 @@
       white-space: nowrap;
       min-width: 44px;
     }
+    .town-unit {
+      margin-left: auto;
+    }
 
     /* ── Autocomplete dropdown ──────────────── */
     .autocomplete-dropdown {
@@ -430,7 +433,7 @@
         </div>
         <div class="field-right">
           <div style="position:relative;">
-            <input type="text" id="plzHome" placeholder="i.e. 8001" maxlength="4" />
+            <input type="text" id="plzHome" placeholder="i.e. 3004" maxlength="4" />
             <div id="plzDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
           <span class="unit">PLZ</span>
@@ -446,7 +449,7 @@
             <input type="text" id="homeTown" placeholder="i.e. Bern" />
             <div id="townDropdown" class="autocomplete-dropdown" style="display:none;min-width:220px;right:0;left:auto;"></div>
           </div>
-          <span class="unit">Town</span>
+          <span class="unit town-unit">Town</span>
         </div>
       </div>
 
@@ -542,7 +545,7 @@
       <div class="field">
         <div class="field-info">
           <span class="field-name">Annual local pass</span>
-          <span class="field-sub" id="localPassDesc">Zone 1–2 yearly subscription</span>
+          <span class="field-sub" id="localPassDesc"></span>
         </div>
         <div class="field-right">
           <input type="number" id="localPass" value="586" min="0" />
@@ -868,6 +871,18 @@ const townInput   = document.getElementById('homeTown');
 const plzDropdown  = document.getElementById('plzDropdown');
 const townDropdown = document.getElementById('townDropdown');
 
+// Keyboard state for the PLZ dropdown
+let plzItems = [];
+let plzOnSelect = null;
+let plzHighlight = -1;
+
+function setPlzHighlight(idx) {
+  plzHighlight = idx;
+  plzDropdown.querySelectorAll('.autocomplete-item').forEach((el, i) => {
+    el.classList.toggle('highlighted', i === idx);
+  });
+}
+
 // Keyboard state for the town dropdown
 let townItems = [];
 let townOnSelect = null;
@@ -894,7 +909,11 @@ function renderDropdown(dropdown, items, onSelect) {
       onSelect(el.dataset.zip, el.dataset.town);
     });
   });
-  // Store for keyboard access (town dropdown only)
+  if (dropdown === plzDropdown) {
+    plzItems = items;
+    plzOnSelect = onSelect;
+    plzHighlight = -1;
+  }
   if (dropdown === townDropdown) {
     townItems = items;
     townOnSelect = onSelect;
@@ -910,6 +929,7 @@ function escHtml(s) {
 function selectZipTown(zip, town) {
   plzInput.value  = zip;
   townInput.value = town;
+  fitTownInput(town);
   plzDropdown.style.display  = 'none';
   townDropdown.style.display = 'none';
   lookupProvider(zip);
@@ -919,7 +939,12 @@ function matchingByPlz(q) {
   if (!q) return [];
   return Object.entries(zipTownMap)
     .filter(([zip]) => zip.startsWith(q))
-    .map(([zip, town]) => ({ zip, town }))
+    .flatMap(([zip, town]) => {
+      if (Array.isArray(town)) {
+        return town.map(t => ({ zip, town: t }));
+      }
+      return [{ zip, town }];
+    })
     .sort((a, b) => a.zip.localeCompare(b.zip))
     .slice(0, 15);
 }
@@ -927,16 +952,21 @@ function matchingByPlz(q) {
 function matchingByTown(q) {
   if (q.length < 2) return [];
   const lq = q.toLowerCase();
-  const matches = Object.entries(zipTownMap)
-    .filter(([, town]) => town.toLowerCase().includes(lq))
-    .map(([zip, town]) => ({ zip, town }));
-  matches.sort((a, b) => {
+  const raw = Object.entries(zipTownMap)
+    .flatMap(([zip, town]) => {
+      if (Array.isArray(town)) {
+        return town.map(t => ({ zip, town: t }));
+      }
+      return [{ zip, town }];
+    })
+    .filter(({ town }) => town.toLowerCase().includes(lq));
+  raw.sort((a, b) => {
     const al = a.town.toLowerCase(), bl = b.town.toLowerCase();
     const as = al.startsWith(lq), bs = bl.startsWith(lq);
     if (as !== bs) return as ? -1 : 1;
     return a.town.localeCompare(b.town);
   });
-  return matches.slice(0, 20);
+  return raw.slice(0, 20);
 }
 
 let plzTimeout = null;
@@ -945,27 +975,61 @@ if (plzInput) {
     clearTimeout(plzTimeout);
     plzTimeout = setTimeout(() => {
       const q = plzInput.value.trim();
-      if (zipTownMap[q]) {
-        // Exact 4-digit match → fill town immediately, no dropdown
-        townInput.value = zipTownMap[q];
-        plzDropdown.style.display = 'none';
-        lookupProvider(q);
-      } else {
-        const items = matchingByPlz(q);
-        renderDropdown(plzDropdown, items, (zip, town) => {
-          selectZipTown(zip, town);
-        });
-      }
+      renderDropdown(plzDropdown, matchingByPlz(q), (zip, town) => selectZipTown(zip, town));
     }, 150);
   });
+
+  plzInput.addEventListener('keydown', e => {
+    const open = plzDropdown.style.display !== 'none' && plzItems.length > 0;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (open) setPlzHighlight(Math.min(plzHighlight + 1, plzItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (open) setPlzHighlight(Math.max(plzHighlight - 1, 0));
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      if (open) {
+        const pick = plzHighlight >= 0 ? plzItems[plzHighlight] : plzItems[0];
+        if (pick) {
+          if (e.key === 'Tab') e.preventDefault();
+          plzOnSelect(pick.zip, pick.town);
+        }
+      } else {
+        const q = plzInput.value.trim();
+        if (q.length >= 1) {
+          clearTimeout(plzTimeout);
+          const items = matchingByPlz(q);
+          if (items.length > 0) {
+            if (e.key === 'Tab') e.preventDefault();
+            selectZipTown(items[0].zip, items[0].town);
+          }
+        }
+      }
+    } else if (e.key === 'Escape') {
+      plzDropdown.style.display = 'none';
+    }
+  });
+
   plzInput.addEventListener('blur', () => {
     setTimeout(() => { plzDropdown.style.display = 'none'; }, 200);
   });
 }
 
+const _townSizer = document.createElement('span');
+_townSizer.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:16px -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;';
+document.body.appendChild(_townSizer);
+
+function fitTownInput(value) {
+  _townSizer.textContent = value;
+  // 22px padding (11px each side) + 3px border (1.5px each side) + 2px safety
+  townInput.style.width = Math.max(86, _townSizer.offsetWidth + 27) + 'px';
+}
+
 let townTimeout = null;
 if (townInput) {
+
   townInput.addEventListener('input', () => {
+    fitTownInput(townInput.value);
     clearTimeout(townTimeout);
     townTimeout = setTimeout(() => {
       const q = townInput.value.trim();
@@ -1133,6 +1197,8 @@ function updateZonePrice() {
   const summary = document.getElementById('zoneSelectionSummary');
   if (selectedZones.size === 0) {
     summary.textContent = 'Select your zones';
+        const desc = document.getElementById('localPassDesc');
+        if (desc) desc.textContent = '';
     return;
   }
 
@@ -1149,10 +1215,11 @@ function updateZonePrice() {
 
   if (!providerData || !currentProvider) return;
   const providerInfo = providerData[currentProvider];
-  const prices = providerInfo?.single_trip?.adult?.['2nd_class'];
-  if (!prices) return;
+  const singleTripPrices = providerInfo?.single_trip?.adult?.['2nd_class'];
+  const networkPassPrices = providerInfo?.subscription_types?.networkpass?.adult?.['2nd_class'];
+  if (!singleTripPrices) return;
 
-  // Check specialPriceZones from configuration.json before falling back to weight-based key
+  // Determine key (weight‑based or special)
   let key = `${totalWeight}_zones`;
   for (const special of (currentProviderConfig?.specialPriceZones || [])) {
     if (special.condition === 'all_zones_within') {
@@ -1164,14 +1231,46 @@ function updateZonePrice() {
     }
   }
 
-  const priceInfo = prices[key] || prices['all_zones'];
-  if (priceInfo?.halbtax !== undefined) {
-    document.getElementById('tramPrice').value = priceInfo.halbtax.toFixed(2);
-    calculate();
+  // Update tram price
+  const tramInfo = singleTripPrices[key] || singleTripPrices['all_zones'];
+  if (tramInfo?.halbtax !== undefined) {
+    document.getElementById('tramPrice').value = tramInfo.halbtax.toFixed(2);
   }
+
+  // Update annual local pass price and description
+  if (networkPassPrices) {
+    const passInfo = networkPassPrices[key] || networkPassPrices['local'] || networkPassPrices['all_zones'];
+    if (passInfo?.annual !== undefined) {
+      document.getElementById('localPass').value = passInfo.annual;
+    }
+    const desc = document.getElementById('localPassDesc');
+    if (desc) {
+      desc.textContent = `Zones ${zoneList} yearly subscription`;
+    }
+  }
+
+  calculate();
+  maybeToggleMapButton();
 }
 
 // ── Zone map toggle ───────────────────────────
+function maybeToggleMapButton() {
+  const plzVal = plzInput.value.trim();
+  const townVal = townInput.value.trim();
+  const btn = document.getElementById('showMapBtn');
+  if (plzVal && townVal && selectedZones.size > 0) {
+    btn.style.display = '';
+  } else {
+    btn.style.display = 'none';
+    const container = document.getElementById('zoneMapContainer');
+    if (container) container.style.display = 'none';
+    btn.textContent = 'Show Zone Map';
+  }
+}
+
+// Initially hide the button
+document.getElementById('showMapBtn').style.display = 'none';
+
 document.getElementById('showMapBtn').addEventListener('click', () => {
   const container = document.getElementById('zoneMapContainer');
   const btn = document.getElementById('showMapBtn');
