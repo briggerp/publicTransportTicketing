@@ -681,28 +681,32 @@
     return n.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
 
-  // ── Calculation logic (mirrors Python notebook) ────────
-  // Always assume the package is purchased; excess spend beyond creditTotal is paid individually.
+  // ── Calculation logic ────────────────────────────────────
+  // HT Plus refunds unused paid credit at year end (only the htCost portion, not the bonus).
   function calcTramAboHTPlus(localPass, gaNight, ht, htCost, htBonus, trainTrips, trainPrice) {
     const base        = localPass + gaNight + ht;
     const yearlyTrain = trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    const money       = base + htCost + Math.max(0, yearlyTrain - creditTotal);
+    const effectivePaid = Math.min(yearlyTrain, htCost);
+    const money       = base + effectivePaid + Math.max(0, yearlyTrain - creditTotal);
+    const refund      = htCost - effectivePaid;
     const bonusLeft   = yearlyTrain >= creditTotal ? 0
                       : yearlyTrain >= htCost      ? creditTotal - yearlyTrain
-                      : htBonus;
-    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTrain), creditTotal, htBonus];
+                      : 0;
+    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTrain), creditTotal, htBonus, Math.round(refund)];
   }
 
   function calcHTPlus(gaNight, ht, htCost, htBonus, tramTrips, tramPrice, trainTrips, trainPrice) {
     const base        = gaNight + ht;
     const yearlyTotal = tramTrips * 52 * tramPrice + trainTrips * 12 * trainPrice;
     const creditTotal = htCost + htBonus;
-    const money       = base + htCost + Math.max(0, yearlyTotal - creditTotal);
+    const effectivePaid = Math.min(yearlyTotal, htCost);
+    const money       = base + effectivePaid + Math.max(0, yearlyTotal - creditTotal);
+    const refund      = htCost - effectivePaid;
     const bonusLeft   = yearlyTotal >= creditTotal ? 0
                       : yearlyTotal >= htCost      ? creditTotal - yearlyTotal
-                      : htBonus;
-    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTotal), creditTotal, htBonus];
+                      : 0;
+    return [Math.round(money), Math.round(bonusLeft), Math.round(yearlyTotal), creditTotal, htBonus, Math.round(refund)];
   }
 
   // ── Main calculation ───────────────────────────────────
@@ -754,24 +758,21 @@
 
     const grid = document.getElementById('resultsGrid');
     grid.innerHTML = options.map(({ name, result }) => {
-      const [cost, bonusLeft, creditUsed, creditTotal, htBonus] = result;
+      const [cost, bonusLeft, creditUsed, creditTotal, htBonus, refund] = result;
       const isBest = cost === minCost;
 
       let bonusText, bonusDim;
       if (bonusLeft === Infinity) {
         bonusText = 'Unlimited travel included';
         bonusDim  = false;
-      } else if (bonusLeft === htBonus) {
-        // Full bonus untouched
-        bonusText = `CHF ${fmt(htBonus)} bonus available. CHF ${fmt(creditUsed)} of CHF ${fmt(creditTotal)} credit used.`;
+      } else if (refund > 0) {
+        bonusText = `CHF ${fmt(refund)} refunded — paid credit not fully used.`;
         bonusDim  = false;
       } else if (bonusLeft > 0) {
-        // Partial bonus remaining
-        bonusText = `CHF ${fmt(bonusLeft)} bonus still available.`;
+        bonusText = `CHF ${fmt(bonusLeft)} bonus not used.`;
         bonusDim  = false;
       } else {
-        // Bonus fully exhausted
-        bonusText = `No more bonus available. CHF ${fmt(creditUsed - creditTotal)} above total credit.`;
+        bonusText = `CHF ${fmt(creditUsed - creditTotal)} above credit limit.`;
         bonusDim  = true;
       }
 
